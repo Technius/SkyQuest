@@ -5,6 +5,7 @@ public class Objective
 	private ObjectiveType type;
 	private int objective;
 	private String label;
+	private int progress = 0;
 	public Objective(ObjectiveType type, int objective, String label)
 	{
 		this.type = type;
@@ -18,6 +19,14 @@ public class Objective
 	public String toString()
 	{
 		return (label + ":" + type.toString() + "," + objective);
+	}
+	public boolean isComplete()
+	{
+		switch (type)
+		{
+			case KILL:return progress >= objective;
+		}
+		return false;
 	}
 	public enum ObjectiveType
 	{

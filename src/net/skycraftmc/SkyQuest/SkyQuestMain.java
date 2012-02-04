@@ -9,11 +9,11 @@ public class SkyQuestMain extends JavaPlugin
 	ConfigManager cm = new ConfigManager(this);
 	public void onEnable() 
 	{
+		if(!cm.checkFiles())cm.createFiles(false);
 		log.info("Version " + getDescription().getVersion() + " enabled!");
 	}
 	public void onDisable() 
 	{
-		if(cm.checkFiles() == false)cm.createFiles(false);
 		log.info("Version " + getDescription().getVersion() + " disabled!");
 	}
 }
