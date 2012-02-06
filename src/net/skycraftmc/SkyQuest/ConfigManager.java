@@ -11,6 +11,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.skycraftmc.SkyQuest.quest.KillObjective;
+import net.skycraftmc.SkyQuest.quest.Objective;
+import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
+
 public class ConfigManager 
 {
 	public SkyQuestMain main;
@@ -60,11 +64,13 @@ public class ConfigManager
 			br.close();
 			for(File f:quests.listFiles())
 			{
+				List<Objective> objectives = new ArrayList<Objective>();
 				br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
-				int objective = 1;
+				String objective = null;
 				String name = null;
 				List<String> rewards = new ArrayList<String>();
 				String text = null;
+				ObjectiveType type = null;
 				while((l=br.readLine()) != null)
 				{
 					if(l.startsWith("#"))continue;
@@ -72,16 +78,38 @@ public class ConfigManager
 					if(tokens.length != 2)continue;
 					if(tokens[0].startsWith("objective"))
 					{
-						String[] tok = tokens[0].split("[ ]", 2);
-						if(tok.length == 2)
-						{
-							try{objective = Integer.parseInt(tok[1]);}catch(NumberFormatException nfe){}
-						}
+						objective = tokens[0];
+					}
+					else if(tokens[0].startsWith("label"))
+					{
 						name = tokens[1].trim();
 					}
-					if(name != null && text != null)
+					else if(tokens[0].equalsIgnoreCase("text"))
 					{
-						
+						text = tokens[1].trim();
+					}
+					else if(tokens[0].equalsIgnoreCase("reward"))
+					{
+						rewards.add(tokens[1].trim());
+					}
+					else if(tokens[0].equalsIgnoreCase("type"))
+					{
+						try
+						{
+							type = ObjectiveType.valueOf(tokens[1].trim().toUpperCase());
+						}catch(IllegalArgumentException iae){}
+					}
+					if(name != null && text != null && type != null && objective != null)
+					{
+						if(type == ObjectiveType.KILL)
+						{
+							Objective o = new KillObjective(objective, name, rewards, text);
+							objectives.add(o);
+						}
+						name = null;
+						text = null;
+						type = null;
+						objective = null;
 					}
 				}
 			}
