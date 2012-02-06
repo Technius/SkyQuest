@@ -1,5 +1,6 @@
 package net.skycraftmc.SkyQuest.quest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,6 +12,7 @@ public class QuestManager
 {
 	private SkyQuestMain p;
 	public static HashMap<Player, List<Quest>> quests = new HashMap<Player, List<Quest>>();
+	public static List<Quest> allquests = new ArrayList<Quest>();
 	public QuestManager(SkyQuestMain main)
 	{
 		p = main;

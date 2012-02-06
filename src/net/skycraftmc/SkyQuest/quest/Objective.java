@@ -1,32 +1,35 @@
 package net.skycraftmc.SkyQuest.quest;
 
-public class Objective 
+import java.util.List;
+
+public abstract class Objective 
 {
 	private ObjectiveType type;
-	private int objective;
+	private String objective;
 	private String label;
-	private int progress = 0;
-	public Objective(ObjectiveType type, int objective, String label)
+	private List<String> rewards;
+	private String text;
+	public Objective(ObjectiveType type, String objective, String label, List<String> rewards, String text)
 	{
 		this.type = type;
 		this.objective = objective;
 		this.label = label;
+		this.rewards = rewards;
+		this.text = text;
 	}
-	public ObjectiveType getType()
-	{
-		return type;
-	}
+	public abstract ObjectiveType getType();
+	public abstract boolean isComplete();
 	public String toString()
 	{
 		return (label + ":" + type.toString() + "," + objective);
 	}
-	public boolean isComplete()
+	public String getText()
 	{
-		switch (type)
-		{
-			case KILL:return progress >= objective;
-		}
-		return false;
+		return text;
+	}
+	public List<String> getRewards()
+	{
+		return rewards;
 	}
 	public enum ObjectiveType
 	{
