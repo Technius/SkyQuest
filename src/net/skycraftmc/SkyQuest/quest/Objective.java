@@ -5,7 +5,7 @@ import java.util.List;
 public abstract class Objective 
 {
 	private ObjectiveType type;
-	private String objective;
+	protected String objective;
 	private String label;
 	private List<String> rewards;
 	private String text;
@@ -17,7 +17,10 @@ public abstract class Objective
 		this.rewards = rewards;
 		this.text = text;
 	}
-	public abstract ObjectiveType getType();
+	public ObjectiveType getType()
+	{
+		return type;
+	}
 	public abstract boolean isComplete();
 	public String toString()
 	{

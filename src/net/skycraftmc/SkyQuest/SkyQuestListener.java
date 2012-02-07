@@ -1,9 +1,11 @@
 package net.skycraftmc.SkyQuest;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Creature;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 public class SkyQuestListener implements Listener
 {
@@ -23,5 +25,10 @@ public class SkyQuestListener implements Listener
 		{
 			event.setLine(0, ChatColor.GOLD + "[Finish Quest]");
 		}
+	}
+	@EventHandler
+	public void KillObjective(EntityDeathEvent event)
+	{
+		
 	}
 }
