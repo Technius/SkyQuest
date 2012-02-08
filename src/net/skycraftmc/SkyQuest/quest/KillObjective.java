@@ -32,4 +32,8 @@ public class KillObjective extends Objective
 	{
 		return progress;
 	}
+	public static KillObjective clone(KillObjective obj)
+	{
+		return new KillObjective(obj.getObjective(), obj.getLabel(), obj.getRewards(), obj.getText());
+	}
 }

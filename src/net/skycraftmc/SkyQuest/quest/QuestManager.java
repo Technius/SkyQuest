@@ -19,7 +19,7 @@ public class QuestManager
 	}
 	public void addQuest(Player player, Quest quest)
 	{
-		quests.get(player).add(quest);
+		quests.get(player).add(Quest.clone(quest));
 	}
 	public List<Quest> getQuests(Player player)
 	{

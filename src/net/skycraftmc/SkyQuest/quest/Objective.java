@@ -22,6 +22,14 @@ public abstract class Objective
 		return type;
 	}
 	public abstract boolean isComplete();
+	public String getObjective()
+	{
+		return objective;
+	}
+	public String getLabel()
+	{
+		return label;
+	}
 	public String toString()
 	{
 		return (label + ":" + type.toString() + "," + objective);
