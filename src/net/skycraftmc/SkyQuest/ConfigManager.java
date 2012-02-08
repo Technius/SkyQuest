@@ -14,6 +14,7 @@ import java.util.List;
 import net.skycraftmc.SkyQuest.quest.KillObjective;
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
+import net.skycraftmc.SkyQuest.quest.Quest;
 
 public class ConfigManager 
 {
@@ -64,7 +65,7 @@ public class ConfigManager
 			br.close();
 			for(File f:quests.listFiles())
 			{
-				List<Objective> objectives = new ArrayList<Objective>();
+				ArrayList<Objective> objectives = new ArrayList<Objective>();
 				br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 				String objective = null;
 				String name = null;
@@ -112,6 +113,7 @@ public class ConfigManager
 						objective = null;
 					}
 				}
+				Quest q = new Quest(null, objectives, f.getName());
 			}
 		}
 		catch(IOException ex)
