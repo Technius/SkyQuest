@@ -77,11 +77,11 @@ public class ConfigManager
 					if(l.startsWith("#"))continue;
 					String[] tokens = l.split("[:]", 2);
 					if(tokens.length != 2)continue;
-					if(tokens[0].startsWith("objective"))
+					if(tokens[0].equalsIgnoreCase("objective"))
 					{
-						objective = tokens[0];
+						objective = tokens[1];
 					}
-					else if(tokens[0].startsWith("label"))
+					else if(tokens[0].equalsIgnoreCase("label"))
 					{
 						name = tokens[1].trim();
 					}
@@ -114,6 +114,8 @@ public class ConfigManager
 					}
 				}
 				Quest q = new Quest(null, objectives, f.getName());
+				main.qm.addQuest(q);
+				main.log.info("Quest added: " + q.getName());
 			}
 		}
 		catch(IOException ex)

@@ -33,4 +33,8 @@ public class QuestManager
 		}
 		return null;
 	}
+	public void addQuest(Quest quest)
+	{
+		allquests.add(quest);
+	}
 }
