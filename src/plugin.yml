@@ -1,3 +1,8 @@
 name: SkyQuest
-version: 0.1.0
+version: 0.1.0a
 main: net.skycraftmc.SkyQuest.SkyQuestMain
+commands:
+    quest:
+        description: Quest menu
+        usage: /quest <action> <arguments>
+        

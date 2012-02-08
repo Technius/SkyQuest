@@ -27,6 +27,10 @@ public class QuestManager
 	}
 	public Quest getQuest(String quest)
 	{
+		for(Quest q:allquests)
+		{
+			if(q.getTitle().equals(quest))return q;
+		}
 		return null;
 	}
 }

@@ -1,5 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import net.skycraftmc.SkyQuest.quest.QuestManager;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,21 +15,13 @@ public class SkyQuestCmd implements CommandExecutor
 	{
 		this.plugin = plugin;
 	}
-	public void menu(Player p, int page)
+	public void menu(CommandSender sender, int page)
 	{
 		switch(page)
 		{
 		case 1:
-			if(p == null)
-			{
-				plugin.log.info(ChatColor.AQUA + "| - - - - {SkyQuest " + plugin.getDescription().getVersion() + "} - - - - |");
-				plugin.log.info(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest - Displays help menu. " + ChatColor.GOLD + " |");
-			}
-			else
-			{
-				p.sendMessage(ChatColor.AQUA + "| - - - - {SkyQuest " + plugin.getDescription().getVersion() + "} - - - - |");
-				p.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest - Displays help menu. " + ChatColor.GOLD + " |");
-			}
+			sender.sendMessage(ChatColor.AQUA + "| - - - - {SkyQuest " + plugin.getDescription().getVersion() + "} - - - - |");
+			sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest - Displays help menu. " + ChatColor.GOLD + " |");
 			return;
 		}
 	}
@@ -39,10 +33,39 @@ public class SkyQuestCmd implements CommandExecutor
 		{
 			if(args.length == 0)
 			{
-				menu(player, 0);
+				menu(sender, 1);
 			}
+			else if(args.length >= 3)
+			{
+				if(args[0].equalsIgnoreCase("give"))
+				{
+					Player target = plugin.getServer().getPlayer(args[1]);
+					if(target == null)sender.sendMessage(ChatColor.RED + "No such player!");
+					else
+					{
+						String s = args[2];
+						int a = 0;
+						for(String sa:args)
+						{
+							if(a < 3)
+							{
+								a = a + 1;
+								continue;
+							}
+							s = s + " " + sa;
+						}
+						if(plugin.qm.getQuest(s) != null)
+						{
+							
+						}
+						else sender.sendMessage(ChatColor.RED + "No such quest: " + s);
+					}
+				}
+				else menu(sender, 1);
+			}
+			else menu(sender, 1);
 			return true;
 		}
-		return false;
+		return true;
 	}
 }
