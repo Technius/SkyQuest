@@ -1,11 +1,48 @@
 package net.skycraftmc.SkyQuest.quest;
 
-public abstract class Quest 
+import java.util.ArrayList;
+
+import org.bukkit.entity.Player;
+
+public class Quest 
 {
-	public abstract boolean isComplete(int objective);
-	public abstract org.bukkit.entity.Player getPlayer();
-	public abstract void addObjective(Objective o);
-	public abstract java.util.List<Objective> getObjectives();
-	public abstract void completeObjective(int index);
-	public abstract Objective getCurrentObjective();
+	String title;
+	ArrayList<Objective>objectives;
+	ArrayList<Objective>completed = new ArrayList<Objective>();
+	public Quest(Player player, ArrayList<Objective> objectives, String title)
+	{
+		this.player = player;
+		this.objectives = objectives;
+		this.title = title;
+	}
+	private Player player;
+	public String getName()
+	{
+		return title;
+	}
+	public boolean isComplete(int objective)
+	{
+		if(completed.contains(objectives.get(objective)))return true;
+		return false;
+	}
+	public Player getPlayer()
+	{
+		return player;
+	}
+	public void addObjective(Objective o)
+	{
+		objectives.add(o);
+	}
+	public java.util.List<Objective> getObjectives()
+	{
+		return objectives;
+	}
+	public void completeObjective(int index)
+	{
+		completed.add(objectives.get(index - 1));
+	}
+	public Objective getCurrentObjective()
+	{
+		return objectives.get(completed.size() - 1);
+	}
 }
