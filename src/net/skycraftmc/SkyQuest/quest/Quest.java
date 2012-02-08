@@ -20,10 +20,18 @@ public class Quest
 	{
 		return title;
 	}
+	public static Quest clone(Quest quest)
+	{
+		return new Quest(quest.getPlayer(), quest.getObjectives(), quest.getTitle());
+	}
 	public boolean isComplete(int objective)
 	{
 		if(completed.contains(objectives.get(objective)))return true;
 		return false;
+	}
+	public String getTitle()
+	{
+		return title;
 	}
 	public Player getPlayer()
 	{
@@ -33,7 +41,7 @@ public class Quest
 	{
 		objectives.add(o);
 	}
-	public java.util.List<Objective> getObjectives()
+	public java.util.ArrayList<Objective> getObjectives()
 	{
 		return objectives;
 	}
