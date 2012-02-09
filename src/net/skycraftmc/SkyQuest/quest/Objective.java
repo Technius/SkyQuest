@@ -10,6 +10,7 @@ public abstract class Objective
 	private List<String> rewards;
 	private String text;
 	public abstract String getTarget();
+	public abstract String getProgressAsString();
 	public Objective(ObjectiveType type, String objective, String label, List<String> rewards, String text)
 	{
 		this.type = type;
