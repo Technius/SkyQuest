@@ -57,6 +57,7 @@ public class Quest
 	}
 	public Objective getCurrentObjective()
 	{
+		if(completed.size() == 0)return objectives.get(0);
 		return objectives.get(completed.size() - 1);
 	}
 }
