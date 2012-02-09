@@ -37,4 +37,17 @@ public class QuestManager
 	{
 		allquests.add(quest);
 	}
+	public void resetQuests(Player player)
+	{
+		quests.put(player, new ArrayList<Quest>());
+	}
+	public boolean hasQuest(Player player, String quest)
+	{
+		List<Quest> q = getQuests(player);
+		for(Quest qx:q)
+		{
+			if(qx.getName().equalsIgnoreCase(quest))return true;
+		}
+		return false;
+	}
 }

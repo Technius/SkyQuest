@@ -22,6 +22,12 @@ public class Quest
 	}
 	public static Quest clone(Quest quest)
 	{
+		ArrayList<Objective> obj = quest.getObjectives();
+		ArrayList<Objective> r = new ArrayList<Objective>();
+		for(Objective o:obj)
+		{
+			if(o instanceof KillObjective)r.add(KillObjective.clone((KillObjective)o));
+		}
 		return new Quest(quest.getPlayer(), quest.getObjectives(), quest.getTitle());
 	}
 	public boolean isComplete(int objective)
