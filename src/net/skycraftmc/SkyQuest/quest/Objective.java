@@ -9,6 +9,7 @@ public abstract class Objective
 	private String label;
 	private List<String> rewards;
 	private String text;
+	public abstract String getTarget();
 	public Objective(ObjectiveType type, String objective, String label, List<String> rewards, String text)
 	{
 		this.type = type;
@@ -26,6 +27,7 @@ public abstract class Objective
 	{
 		return objective;
 	}
+	public abstract String getParsedObjective();
 	public String getLabel()
 	{
 		return label;

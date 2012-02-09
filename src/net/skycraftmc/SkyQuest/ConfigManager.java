@@ -114,7 +114,7 @@ public class ConfigManager
 					if(tokens.length != 2)continue;
 					if(tokens[0].equalsIgnoreCase("objective"))
 					{
-						objective = tokens[1];
+						objective = tokens[1].trim();
 					}
 					else if(tokens[0].equalsIgnoreCase("label"))
 					{

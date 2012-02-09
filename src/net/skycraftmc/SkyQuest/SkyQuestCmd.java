@@ -91,6 +91,7 @@ public class SkyQuestCmd implements CommandExecutor
 								player.sendMessage(ChatColor.GOLD + "|===( Quest Info: " + ChatColor.RED + pq.getTitle() + " )===|");
 								player.sendMessage(ChatColor.AQUA + "Objective: " + ChatColor.GREEN + pq.getCurrentObjective().getLabel());
 								player.sendMessage(ChatColor.AQUA + "Description: " + ChatColor.GREEN + pq.getCurrentObjective().getText());
+								player.sendMessage(ChatColor.AQUA + "Target: " + ChatColor.GREEN + pq.getCurrentObjective().getTarget());
 							}
 							else player.sendMessage(ChatColor.RED + "No such quest: " + na[1]);
 						}
