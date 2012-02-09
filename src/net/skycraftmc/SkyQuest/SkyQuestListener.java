@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class SkyQuestListener implements Listener
 {
@@ -30,5 +31,10 @@ public class SkyQuestListener implements Listener
 	public void KillObjective(EntityDeathEvent event)
 	{
 		
+	}
+	@EventHandler
+	public void onPlayerJoin(PlayerJoinEvent event)
+	{
+		plugin.cm.loadData(event.getPlayer());
 	}
 }

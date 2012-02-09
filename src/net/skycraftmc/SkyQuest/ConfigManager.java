@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.entity.Player;
+
 import net.skycraftmc.SkyQuest.quest.KillObjective;
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
@@ -26,6 +28,9 @@ public class ConfigManager
 	public void createFiles(boolean refresh)
 	{
 		File dataFolder = new File(main.getDataFolder().getPath());
+		if(!dataFolder.exists())dataFolder.mkdir();
+		File players = new File(dataFolder.getPath() + File.separator + "Players");
+		if(!players.exists())players.mkdir();
 		if(!dataFolder.exists())dataFolder.mkdir();
 		File quests = new File(dataFolder.getPath() + File.separator + "Quests");
 		if(!quests.exists())quests.mkdir();
@@ -49,6 +54,34 @@ public class ConfigManager
 			main.log.severe("COULD NOT CREATE CONFIG! Expect errors.");
 		}
 	}
+	public void loadData(Player player)
+	{
+		File dataFolder = new File(main.getDataFolder().getPath());
+		if(!dataFolder.exists())dataFolder.mkdir();
+		File players = new File(dataFolder.getPath() + File.separator + "Players");
+		if(!players.exists())players.mkdir();
+		File data = new File(players.getPath() + File.separator + player.getName() + ".txt");
+		if(!data.exists())
+		{
+			main.qm.resetQuests(player);
+			return;
+		}
+		try
+		{
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(data)));
+			String l;
+			while((l=br.readLine()) != null)
+			{
+				if(l.startsWith("#"))continue;
+			}
+			br.close();
+		}
+		catch(IOException ioe)
+		{
+			main.log.severe("COULD NOT LOAD PLAYER DATA: " + player.getName());
+			main.qm.resetQuests(player);
+		}
+	}
 	public void loadFiles()
 	{
 		File dataFolder = new File(main.getDataFolder().getPath());
@@ -65,6 +98,8 @@ public class ConfigManager
 			br.close();
 			for(File f:quests.listFiles())
 			{
+				if(f.isDirectory())continue;
+				if(!f.getName().endsWith(".txt"))continue;
 				ArrayList<Objective> objectives = new ArrayList<Objective>();
 				br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 				String objective = null;
@@ -113,7 +148,7 @@ public class ConfigManager
 						objective = null;
 					}
 				}
-				Quest q = new Quest(null, objectives, f.getName());
+				Quest q = new Quest(null, objectives, f.getName().replaceAll(".txt", ""));
 				main.qm.addQuest(q);
 				main.log.info("Quest added: " + q.getName());
 			}
@@ -131,6 +166,8 @@ public class ConfigManager
 		if(!config.exists())return false;
 		File quests = new File(dataFolder.getPath() + File.separator + "Quests");
 		if(!quests.exists())return false;
+		File players = new File(dataFolder.getPath() + File.separator + "Players");
+		if(!players.exists())return false;
 		return true;
 	}
 }

@@ -17,6 +17,7 @@ public class SkyQuestMain extends JavaPlugin
 		log = this.getLogger();
 		if(!cm.checkFiles())cm.createFiles(false);
 		cm.loadFiles();
+		for(org.bukkit.entity.Player p: this.getServer().getOnlinePlayers())cm.loadData(p);
 		this.getServer().getPluginManager().registerEvents(l, this);
 		getCommand("quest").setExecutor(command);
 		log.info("Version " + getDescription().getVersion() + " enabled!");
