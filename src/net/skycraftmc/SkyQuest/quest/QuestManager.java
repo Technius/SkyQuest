@@ -33,6 +33,16 @@ public class QuestManager
 		}
 		return null;
 	}
+	public Quest getQuest(Player player, String quest)
+	{
+		if(!hasQuest(player, quest))return null;
+		List<Quest> q = getQuests(player);
+		for(Quest qx:q)
+		{
+			if(qx.getName().equalsIgnoreCase(quest))return qx;
+		}
+		return null;
+	}
 	public void addQuest(Quest quest)
 	{
 		allquests.add(quest);
