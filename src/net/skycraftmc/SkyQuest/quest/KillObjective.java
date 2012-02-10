@@ -9,9 +9,18 @@ import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
 public class KillObjective extends Objective
 {
 	private int progress = 0;
+	private boolean completed = false;
 	public KillObjective(String objective, String label, List<String> rewards, String text) 
 	{
 		super(ObjectiveType.KILL, objective, label, rewards, text);
+	}
+	public void setComplete(boolean complete)
+	{
+		completed = complete;
+	}
+	public boolean getComplete()
+	{
+		return completed;
 	}
 	public boolean isComplete()
 	{

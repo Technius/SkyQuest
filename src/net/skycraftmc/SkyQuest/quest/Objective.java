@@ -23,6 +23,8 @@ public abstract class Objective
 	{
 		return type;
 	}
+	public abstract void setComplete(boolean complete);
+	public abstract boolean getComplete();
 	public abstract boolean isComplete();
 	public String getObjective()
 	{
