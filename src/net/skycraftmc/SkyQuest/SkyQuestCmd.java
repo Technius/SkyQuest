@@ -25,7 +25,7 @@ public class SkyQuestCmd implements CommandExecutor
 		{
 		case 1:
 			sender.sendMessage(ChatColor.AQUA + "| - - - - {SkyQuest " + plugin.getDescription().getVersion() + "} - - - - |");
-			sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest - Displays help menu. " + ChatColor.GOLD + " |");
+			sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest give <player> - Gives a quest to a player " + ChatColor.GOLD + " |");
 			return;
 		}
 	}
