@@ -60,6 +60,7 @@ public class SkyQuestCmd implements CommandExecutor
 						}
 						if(plugin.qm.getQuest(s) != null)
 						{
+				
 							plugin.qm.addQuest(target, plugin.qm.getQuest(s));
 							sender.sendMessage(ChatColor.GREEN + s + " has been given to " + target.getName());
 						}
@@ -92,6 +93,7 @@ public class SkyQuestCmd implements CommandExecutor
 								player.sendMessage(ChatColor.AQUA + "Objective: " + ChatColor.GREEN + pq.getCurrentObjective().getLabel());
 								player.sendMessage(ChatColor.AQUA + "Description: " + ChatColor.GREEN + pq.getCurrentObjective().getText());
 								player.sendMessage(ChatColor.AQUA + "Target: " + ChatColor.GREEN + pq.getCurrentObjective().getTarget());
+								player.sendMessage(ChatColor.AQUA + "Progress: " + ChatColor.GREEN + pq.getCurrentObjective().getProgressAsString());
 							}
 							else player.sendMessage(ChatColor.RED + "No such quest: " + na[1]);
 						}
@@ -99,11 +101,19 @@ public class SkyQuestCmd implements CommandExecutor
 				}
 				else if(args[0].equalsIgnoreCase("list"))
 				{
-					if(player == null)sender.sendMessage("You cannot use this command!");
+					if(player == null)
+					{
+						ArrayList<Quest> q = (ArrayList<Quest>) QuestManager.allquests;
+						sender.sendMessage("|=====(All Quests)=====|");
+						for(Quest x:q)
+						{
+							sender.sendMessage(x.getName());
+						}
+					}
 					else
 					{
 						ArrayList<Quest> q = (ArrayList<Quest>) plugin.qm.getQuests(player);
-						player.sendMessage(ChatColor.GOLD + "|=====(Quest List)=====|");
+						player.sendMessage(ChatColor.GOLD + "|=====(Your Quests)=====|");
 						for(Quest qx: q)
 						{
 							player.sendMessage(ChatColor.RED + qx.getTitle());
