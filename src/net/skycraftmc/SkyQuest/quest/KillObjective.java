@@ -22,6 +22,13 @@ public class KillObjective extends Objective
 	{
 		return completed;
 	}
+	public CreatureType getTargetType()
+	{
+		String[] tokens = objective.split("[:]",2);
+		if(tokens.length != 2)return null;
+		CreatureType ct = SkyQuestUtil.getType(tokens[0]);
+		return ct;
+	}
 	public boolean isComplete()
 	{
 		String[] tokens = objective.split("[:]",2);
