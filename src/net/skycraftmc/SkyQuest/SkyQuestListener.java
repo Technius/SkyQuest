@@ -7,6 +7,7 @@ import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -58,14 +59,19 @@ public class SkyQuestListener implements Listener
 	@EventHandler
 	public void KillObjective(EntityDeathEvent event)
 	{
-		String s = SkyQuestUtil.getType(event.getEntity());
-		if(s == null)return;
-		CreatureType c = SkyQuestUtil.getType(s.toUpperCase());
+		CreatureType c = SkyQuestUtil.getTypeFromEntity(event.getEntity());
 		if(c == null)return;
 		if(event.getEntity().getLastDamageCause() == null)return;
 		if(!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent))return;
-		if((((EntityDamageByEntityEvent)event.getEntity().getLastDamageCause()).getDamager() instanceof Player))return;
-		Player player = (Player)((EntityDamageByEntityEvent)event.getEntity().getLastDamageCause()).getDamager();
+		EntityDamageByEntityEvent e = (EntityDamageByEntityEvent)event.getEntity().getLastDamageCause();
+		Player player = null;
+		if(e.getDamager() instanceof Arrow)
+		{
+			Arrow a = (Arrow)e.getDamager();
+			if(a.getShooter() instanceof Player)player = (Player)a.getShooter();
+		}
+		else if(e.getDamager()instanceof Player)player = (Player)e.getDamager();
+		else return;
 		for(Quest q:plugin.qm.getQuests(player))
 		{
 			if(q.getCurrentObjective().getType() != ObjectiveType.KILL)continue;
@@ -73,7 +79,7 @@ public class SkyQuestListener implements Listener
 			if(ko.isComplete())return;
 			if(ko.getTargetType() == null)return;
 			if(c != ko.getTargetType())return;
-			ko.setProgress(ko.getProgress() + 1);
+			((KillObjective)q.getCurrentObjective()).setProgress(ko.getProgress() + 1);
 			player.sendMessage(ko.getTarget());
 		}
 	}

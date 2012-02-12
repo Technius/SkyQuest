@@ -42,6 +42,17 @@ public class SkyQuestUtil
 		if(e instanceof Blaze)return "Blaze";
 		return null;
 	}
+	public static CreatureType getTypeFromEntity(Entity e)
+	{
+		if(e instanceof Creeper)return CreatureType.CREEPER;
+		if(e instanceof Zombie)return CreatureType.ZOMBIE;
+		if(e instanceof Skeleton)return CreatureType.SKELETON;
+		if(e instanceof Enderman)return CreatureType.ENDERMAN;
+		if(e instanceof Spider)return CreatureType.SPIDER;
+		if(e instanceof CaveSpider)return CreatureType.CAVE_SPIDER;
+		if(e instanceof Blaze)return CreatureType.BLAZE;
+		return null;
+	}
 	public static String[] argsWithQuotes(String[] args)
 	{
 		String s = "";
