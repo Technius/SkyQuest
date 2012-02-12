@@ -9,6 +9,7 @@ public class Quest
 	String title;
 	ArrayList<Objective>objectives;
 	ArrayList<Objective>completed = new ArrayList<Objective>();
+	boolean complete = false;
 	public Quest(Player player, ArrayList<Objective> objectives, String title)
 	{
 		this.player = player;
@@ -35,6 +36,14 @@ public class Quest
 		if(completed.contains(objectives.get(objective)))return true;
 		return false;
 	}
+	public void setComplete(boolean complete)
+	{
+		this.complete = complete;
+	}
+	public boolean isComplete()
+	{
+		return complete;
+	}
 	public String getTitle()
 	{
 		return title;
@@ -53,11 +62,14 @@ public class Quest
 	}
 	public void completeObjective(int index)
 	{
-		completed.add(objectives.get(index - 1));
+		completed.add(objectives.get(index));
+		if(completed.size() == objectives.size())
+		{
+			
+		}
 	}
 	public Objective getCurrentObjective()
 	{
-		if(completed.size() == 0)return objectives.get(0);
-		return objectives.get(completed.size() - 1);
+		return objectives.get(completed.size());
 	}
 }
