@@ -80,7 +80,11 @@ public class SkyQuestListener implements Listener
 			if(ko.getTargetType() == null)return;
 			if(c != ko.getTargetType())return;
 			((KillObjective)q.getCurrentObjective()).setProgress(ko.getProgress() + 1);
-			player.sendMessage(ko.getTarget());
+			player.sendMessage(ChatColor.GREEN + "Progress: " + ko.getProgressAsString());
+			if(ko.getProgress() > ko.getRawTarget())
+			{
+				((KillObjective)q.getCurrentObjective()).setComplete(true);
+			}
 		}
 	}
 	@EventHandler

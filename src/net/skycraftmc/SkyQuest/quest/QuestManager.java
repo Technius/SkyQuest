@@ -7,11 +7,13 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 import net.skycraftmc.SkyQuest.SkyQuestMain;
+import net.skycraftmc.SkyQuest.event.QuestCompleteEvent;
 
 public class QuestManager 
 {
 	private SkyQuestMain p;
 	public static HashMap<Player, List<Quest>> quests = new HashMap<Player, List<Quest>>();
+	public static HashMap<Player, List<Quest>>completed = new HashMap<Player, List<Quest>>();
 	public static List<Quest> allquests = new ArrayList<Quest>();
 	public QuestManager(SkyQuestMain main)
 	{
@@ -50,6 +52,7 @@ public class QuestManager
 	public void resetQuests(Player player)
 	{
 		quests.put(player, new ArrayList<Quest>());
+		completed.put(player, new ArrayList<Quest>());
 	}
 	public boolean hasQuest(Player player, String quest)
 	{
@@ -59,5 +62,10 @@ public class QuestManager
 			if(qx.getName().equalsIgnoreCase(quest))return true;
 		}
 		return false;
+	}
+	public void completeQuest(Player player, Quest quest)
+	{
+		QuestCompleteEvent event = new QuestCompleteEvent(player, quest);
+		p.getServer().getPluginManager().callEvent(event);
 	}
 }

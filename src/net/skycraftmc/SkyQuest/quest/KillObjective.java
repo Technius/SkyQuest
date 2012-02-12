@@ -45,7 +45,7 @@ public class KillObjective extends Objective
 		String[] tokens = getObjective().split("[:]", 2);
 		if(tokens.length != 2)return getObjective();
 		String[] st = tokens[0].split("[ ]+");
-		String m = Character.toUpperCase(st[0].charAt(0)) + st[0].substring(1).toUpperCase();
+		String m = Character.toUpperCase(st[0].charAt(0)) + st[0].substring(1).toLowerCase();
 		for(String x: st)
 		{
 			if(x.equalsIgnoreCase(st[0]))continue;
@@ -69,6 +69,14 @@ public class KillObjective extends Objective
 	public String getTarget() 
 	{
 		return "Kill " + getParsedObjective() + (getProgress() >= 1 ? "s" : "");
+	}
+	public int getRawTarget()
+	{
+		String tokens[] = getTarget().split("[ ]");
+		if(tokens.length <= 1)return 0;
+		int i = 0;
+		try{i = Integer.parseInt(tokens[1]);}catch(NumberFormatException nfe){return 0;}
+		return i;
 	}
 	public String getProgressAsString()
 	{

@@ -17,6 +17,7 @@ import net.skycraftmc.SkyQuest.quest.KillObjective;
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.Quest;
+import net.skycraftmc.SkyQuest.quest.QuestManager;
 
 public class ConfigManager 
 {
@@ -70,16 +71,68 @@ public class ConfigManager
 		{
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(data)));
 			String l;
+			ArrayList<Quest> complete = new ArrayList<Quest>();
+			ArrayList<Quest> assigned = new ArrayList<Quest>();
 			while((l=br.readLine()) != null)
 			{
 				if(l.startsWith("#"))continue;
+				String[] tokens = l.split("[:]", 2);
+				if(tokens.length != 2)continue;
+				if(tokens[0].equalsIgnoreCase("complete"))
+				{
+					Quest q = main.qm.getQuest(tokens[1].trim());
+					if(q != null)complete.add(q);
+				}
+				if(tokens[0].equalsIgnoreCase("assigned"))
+				{
+					Quest q = main.qm.getQuest(tokens[1].trim());
+					if(q != null)assigned.add(q);
+				}
 			}
+			QuestManager.quests.put(player, assigned);
+			QuestManager.completed.put(player, complete);
 			br.close();
 		}
 		catch(IOException ioe)
 		{
 			main.log.severe("COULD NOT LOAD PLAYER DATA: " + player.getName());
 			main.qm.resetQuests(player);
+		}
+	}
+	public void saveData(Player player)
+	{
+		File dataFolder = new File(main.getDataFolder().getPath());
+		if(!dataFolder.exists())dataFolder.mkdir();
+		File players = new File(dataFolder.getPath() + File.separator + "Players");
+		if(!players.exists())players.mkdir();
+		File data = new File(players.getPath() + File.separator + player.getName() + ".txt");
+		try
+		{
+			if(!data.exists())
+			{
+				FileOutputStream fos = new FileOutputStream(data);
+				fos.flush();
+				fos.close();
+			}
+			BufferedWriter bw = new BufferedWriter(new FileWriter(data));
+			bw.write("#Player data, edit at your own risk");
+			bw.newLine();
+			for(Quest q:QuestManager.quests.get(player))
+			{
+				bw.write("assigned: " + q.getName());
+				bw.newLine();
+			}
+			for(Quest q:QuestManager.completed.get(player))
+			{
+				bw.write("complete: " + q.getName());
+				bw.newLine();
+			}
+			bw.flush();
+			bw.close();
+		}
+		catch(IOException ioe)
+		{
+			main.log.severe("COULD NOT SAVE PLAYER DATA: " + player.getName());
 		}
 	}
 	public void loadFiles()

@@ -24,6 +24,7 @@ public class SkyQuestMain extends JavaPlugin
 	}
 	public void onDisable() 
 	{
+		for(org.bukkit.entity.Player p: this.getServer().getOnlinePlayers())cm.saveData(p);
 		log.info("Version " + getDescription().getVersion() + " disabled!");
 	}
 }
