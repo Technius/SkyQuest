@@ -6,13 +6,16 @@ import net.skycraftmc.SkyQuest.quest.KillObjective;
 import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class SkyQuestListener implements Listener
@@ -23,15 +26,33 @@ public class SkyQuestListener implements Listener
 		this.plugin = plugin;
 	}
 	@EventHandler
+	public void SignInteract(PlayerInteractEvent event)
+	{
+		if(event.getAction() == Action.LEFT_CLICK_BLOCK && SkyQuestUtil.isSign(event.getClickedBlock()))
+		{
+			
+		}
+	}
+	@EventHandler
 	public void onSignChange(SignChangeEvent event)
 	{
 		if(event.getLine(0).toLowerCase().equalsIgnoreCase("[accept quest]"))
 		{
 			event.setLine(0, ChatColor.GOLD + "[Accept Quest]");
+			if(!event.getPlayer().hasPermission("skyquest.createsign"))
+			{
+				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to create quest signs!");
+				event.setCancelled(true);
+			}
 		}
 		if(event.getLine(0).toLowerCase().equalsIgnoreCase("[finish quest]"))
 		{
 			event.setLine(0, ChatColor.GOLD + "[Finish Quest]");
+			if(!event.getPlayer().hasPermission("skyquest.createsign"))
+			{
+				event.getPlayer().sendMessage(ChatColor.RED + "You are not allowed to create quest signs!");
+				event.setCancelled(true);
+			}
 		}
 	}
 	@EventHandler
