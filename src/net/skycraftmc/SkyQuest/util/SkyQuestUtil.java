@@ -2,6 +2,8 @@ package net.skycraftmc.SkyQuest.util;
 
 import java.util.ArrayList;
 
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
 import org.bukkit.entity.CreatureType;
@@ -58,5 +60,13 @@ public class SkyQuestUtil
 			if(!in)sa.add(x);
 		}
 		return sa.toArray(new String[sa.size()]);
+	}
+	public static boolean isSign(Block b)
+	{
+		return(b.getType() == Material.SIGN || b.getType() == Material.SIGN_POST || b.getType() == Material.WALL_SIGN);
+	}
+	public static boolean isSign(Material m)
+	{
+		return(m == Material.SIGN || m == Material.SIGN_POST || m == Material.WALL_SIGN);
 	}
 }
