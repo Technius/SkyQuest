@@ -1,5 +1,6 @@
 package net.skycraftmc.SkyQuest;
 
+import net.skycraftmc.SkyQuest.event.ObjectiveCompleteEvent;
 import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.Quest;
 import net.skycraftmc.SkyQuest.quest.KillObjective;
@@ -18,6 +19,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+
+import com.sun.swing.internal.plaf.metal.resources.metal;
 
 public class SkyQuestListener implements Listener
 {
@@ -83,7 +86,9 @@ public class SkyQuestListener implements Listener
 			player.sendMessage(ChatColor.GREEN + "Progress: " + ko.getProgressAsString());
 			if(ko.getProgress() > ko.getRawTarget())
 			{
+				ObjectiveCompleteEvent oce = new ObjectiveCompleteEvent(player, q, q.getCurrentObjective());
 				((KillObjective)q.getCurrentObjective()).setComplete(true);
+				plugin.getServer().getPluginManager().callEvent(oce);
 			}
 		}
 	}
