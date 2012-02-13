@@ -199,6 +199,7 @@ public class ConfigManager
 						text = null;
 						type = null;
 						objective = null;
+						rewards = new ArrayList<String>();
 					}
 				}
 				Quest q = new Quest(null, objectives, f.getName().replaceAll(".txt", ""));
