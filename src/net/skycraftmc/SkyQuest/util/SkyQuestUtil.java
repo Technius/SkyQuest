@@ -10,6 +10,7 @@ import org.bukkit.entity.CreatureType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Pig;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Spider;
@@ -51,6 +52,7 @@ public class SkyQuestUtil
 		if(e instanceof Spider)return CreatureType.SPIDER;
 		if(e instanceof CaveSpider)return CreatureType.CAVE_SPIDER;
 		if(e instanceof Blaze)return CreatureType.BLAZE;
+		if(e instanceof Pig)return CreatureType.PIG;
 		return null;
 	}
 	public static String[] argsWithQuotes(String[] args)
