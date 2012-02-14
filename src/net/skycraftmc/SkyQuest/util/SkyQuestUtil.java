@@ -15,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Spider;
 import org.bukkit.entity.Zombie;
+import org.bukkit.inventory.ItemStack;
 
 public class SkyQuestUtil 
 {
@@ -81,5 +82,24 @@ public class SkyQuestUtil
 	public static boolean isSign(Material m)
 	{
 		return(m == Material.SIGN || m == Material.SIGN_POST || m == Material.WALL_SIGN);
+	}
+	public static ItemStack parseItemReward(String s)
+	{
+		String[] tokens = s.split("[ ]+");
+		if(tokens.length != 2)return null;
+		String[] amount = s.split("[#]");
+		if(amount.length != 2)return null;
+		int id = 1;
+		int a = 1;
+		short dur = 0;
+		String[] dura = amount[0].split("[:]");
+		if(dura.length != 2 && dura.length != 1)return null;
+		if(dura.length == 2)
+		{
+			try{dur = Short.parseShort(dura[1]);}catch(NumberFormatException nfe){}
+		}
+		try{a = Integer.parseInt(amount[1]);}catch(NumberFormatException nfe){}
+		try{id = Integer.parseInt(dura[0]);}catch(NumberFormatException nfe){return null;}
+		return new ItemStack(id, a, dur);
 	}
 }

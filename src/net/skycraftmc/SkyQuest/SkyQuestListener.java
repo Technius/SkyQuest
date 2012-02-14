@@ -1,5 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import java.util.List;
+
 import net.skycraftmc.SkyQuest.event.ObjectiveCompleteEvent;
 import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.Quest;
@@ -19,6 +21,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.ItemStack;
 
 import com.sun.swing.internal.plaf.metal.resources.metal;
 
@@ -93,8 +97,24 @@ public class SkyQuestListener implements Listener
 		}
 	}
 	@EventHandler
+	public void ObjectiveComplete(ObjectiveCompleteEvent event)
+	{
+		Player player = event.getPlayer();
+		List<String> reward = event.getObjective().getRewards();
+		for(String s:reward)
+		{
+			
+		}
+		player.getInventory().addItem();
+	}
+	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
 		plugin.cm.loadData(event.getPlayer());
+	}
+	@EventHandler
+	public void onPlayerLeave(PlayerQuitEvent event)
+	{
+		plugin.cm.saveData(event.getPlayer());
 	}
 }
