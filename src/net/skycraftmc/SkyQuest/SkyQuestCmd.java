@@ -2,6 +2,7 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 
+import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.Quest;
 import net.skycraftmc.SkyQuest.quest.QuestManager;
 import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
@@ -25,7 +26,9 @@ public class SkyQuestCmd implements CommandExecutor
 		{
 		case 1:
 			sender.sendMessage(ChatColor.AQUA + "| - - - - {SkyQuest " + plugin.getDescription().getVersion() + "} - - - - |");
-			sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest give <player> - Gives a quest to a player " + ChatColor.GOLD + " |");
+			if(sender.hasPermission("skyquest.give"))sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest give <player> - Gives a quest to a player " + ChatColor.GOLD + " |");
+			sender.sendMessage(ChatColor.AQUA + "|" + ChatColor.GOLD + "/quest info <quest> - Shows summerized info about a quest " + " |");
+			sender.sendMessage(ChatColor.AQUA + "|" + ChatColor.GOLD + "/quest list - Lists your currently assigned quests(all if console)" + " |");
 			return;
 		}
 	}
@@ -39,10 +42,15 @@ public class SkyQuestCmd implements CommandExecutor
 			{
 				menu(sender, 1);
 			}
-			else if(args.length >= 3)
+			else if(args.length >= 2)
 			{
 				if(args[0].equalsIgnoreCase("give"))
 				{
+					if(args.length <= 2)sender.sendMessage(ChatColor.RED + "Usage: /quest give <player> <quest>");
+					if(player != null)
+					{
+						if(!player.hasPermission("skyquest.give"))player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+					}
 					Player target = plugin.getServer().getPlayer(args[1]);
 					if(target == null)sender.sendMessage(ChatColor.RED + "No such player!");
 					else
@@ -66,6 +74,28 @@ public class SkyQuestCmd implements CommandExecutor
 						}
 						else sender.sendMessage(ChatColor.RED + "No such quest: " + s);
 					}
+				}
+				else if(args[0].equalsIgnoreCase("create"))
+				{
+					if(player != null)
+					{
+						if(!player.hasPermission("skyquest.create"))player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+					}
+					String s = args[1];
+					int a = 0;
+					for(String sa:args)
+					{
+						if(a < 3)
+						{
+							a = a + 1;
+							continue;
+						}
+						s = s + " " + sa;
+					}
+					Quest q = new Quest(null, new ArrayList<Objective>(), s);
+					plugin.qm.addQuest(q);
+					sender.sendMessage(ChatColor.GREEN + "Quest created: " + s);
+					if(player != null)plugin.log.info(player.getName() + " created quest: " + s);
 				}
 				else menu(sender, 1);
 			}
