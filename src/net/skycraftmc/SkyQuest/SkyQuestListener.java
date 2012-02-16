@@ -1,5 +1,6 @@
 package net.skycraftmc.SkyQuest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.skycraftmc.SkyQuest.event.ObjectiveCompleteEvent;
@@ -75,6 +76,7 @@ public class SkyQuestListener implements Listener
 		if(e.getDamager() instanceof Arrow)
 		{
 			Arrow a = (Arrow)e.getDamager();
+			if(a.getShooter() == null)return;
 			if(a.getShooter() instanceof Player)player = (Player)a.getShooter();
 		}
 		else if(e.getDamager()instanceof Player)player = (Player)e.getDamager();
@@ -101,11 +103,13 @@ public class SkyQuestListener implements Listener
 	{
 		Player player = event.getPlayer();
 		List<String> reward = event.getObjective().getRewards();
+		ArrayList<ItemStack>r = new ArrayList<ItemStack>();
 		for(String s:reward)
 		{
-			
+			ItemStack i = SkyQuestUtil.parseItemReward(s);
+			if(i != null)r.add(i);
 		}
-		player.getInventory().addItem();
+		for(ItemStack i:r)player.getInventory().addItem(i);
 	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event)
