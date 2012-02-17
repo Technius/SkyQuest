@@ -3,6 +3,7 @@ package net.skycraftmc.SkyQuest.event;
 import net.skycraftmc.SkyQuest.quest.Quest;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 public class QuestCompleteEvent extends org.bukkit.event.Event
 {
@@ -25,4 +26,12 @@ public class QuestCompleteEvent extends org.bukkit.event.Event
 	{
 		return player;
 	}
+	private static final HandlerList handlers = new HandlerList();
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+ 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }

@@ -81,6 +81,7 @@ public class SkyQuestListener implements Listener
 		}
 		else if(e.getDamager()instanceof Player)player = (Player)e.getDamager();
 		else return;
+		if(plugin.qm.getQuests(player) == null)return;
 		for(Quest q:plugin.qm.getQuests(player))
 		{
 			if(q.getCurrentObjective().getType() != ObjectiveType.KILL)continue;

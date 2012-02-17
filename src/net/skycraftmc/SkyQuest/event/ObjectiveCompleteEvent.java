@@ -4,6 +4,7 @@ import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.Quest;
 
 import org.bukkit.entity.Player;
+import org.bukkit.event.HandlerList;
 
 public class ObjectiveCompleteEvent extends org.bukkit.event.Event
 {
@@ -32,4 +33,12 @@ public class ObjectiveCompleteEvent extends org.bukkit.event.Event
 	{
 		return objective;
 	}
+	private static final HandlerList handlers = new HandlerList();
+    public HandlerList getHandlers() {
+        return handlers;
+    }
+ 
+    public static HandlerList getHandlerList() {
+        return handlers;
+    }
 }
