@@ -25,8 +25,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.sun.swing.internal.plaf.metal.resources.metal;
-
 public class SkyQuestListener implements Listener
 {
 	private SkyQuestMain plugin;
@@ -96,21 +94,17 @@ public class SkyQuestListener implements Listener
 				ObjectiveCompleteEvent oce = new ObjectiveCompleteEvent(player, q, q.getCurrentObjective());
 				((KillObjective)q.getCurrentObjective()).setComplete(true);
 				plugin.getServer().getPluginManager().callEvent(oce);
+				List<String> reward = oce.getObjective().getRewards();
+				ArrayList<ItemStack>r = new ArrayList<ItemStack>();
+				for(String s:reward)
+				{
+					ItemStack i = SkyQuestUtil.parseItemReward(s);
+					if(i != null)r.add(i);
+				}
+				for(ItemStack i:r)player.getInventory().addItem(i);
+				player.sendMessage(ChatColor.GREEN + "Objective complete: " + oce.getObjective().getParsedObjective());
 			}
 		}
-	}
-	@EventHandler
-	public void ObjectiveComplete(ObjectiveCompleteEvent event)
-	{
-		Player player = event.getPlayer();
-		List<String> reward = event.getObjective().getRewards();
-		ArrayList<ItemStack>r = new ArrayList<ItemStack>();
-		for(String s:reward)
-		{
-			ItemStack i = SkyQuestUtil.parseItemReward(s);
-			if(i != null)r.add(i);
-		}
-		for(ItemStack i:r)player.getInventory().addItem(i);
 	}
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event)
