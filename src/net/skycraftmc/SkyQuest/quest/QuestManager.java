@@ -21,7 +21,12 @@ public class QuestManager
 	}
 	public void addQuest(Player player, Quest quest)
 	{
-		quests.get(player).add(Quest.clone(quest));
+		Quest q = Quest.clone(quest);
+		for(Objective o: q.getObjectives())
+		{
+			if(o instanceof MoveObjective)((MoveObjective)o).setPlayer(player);
+		}
+		quests.get(player).add(q);
 	}
 	public List<Quest> getQuests(Player player)
 	{

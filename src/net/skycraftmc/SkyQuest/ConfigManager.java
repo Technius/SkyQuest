@@ -11,9 +11,12 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 import net.skycraftmc.SkyQuest.quest.KillObjective;
+import net.skycraftmc.SkyQuest.quest.MoveObjective;
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.Objective.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.Quest;
@@ -193,6 +196,27 @@ public class ConfigManager
 						if(type == ObjectiveType.KILL)
 						{
 							Objective o = new KillObjective(objective, name, rewards, text);
+							objectives.add(o);
+						}
+						else if(type == ObjectiveType.TRAVEL)
+						{
+							String[] t = objective.replaceAll(" ", "").split("[,]", 5);
+							if(t.length != 5)continue;
+							int radius;
+							Location loc;
+							World w;
+							double x,y,z;
+							w = main.getServer().getWorld(t[0]);
+							if(w == null)continue;
+							try
+							{
+								radius = Integer.parseInt(t[4]);
+								x = Double.parseDouble(t[1]);
+								y = Double.parseDouble(t[2]);
+								z = Double.parseDouble(t[3]);
+							}catch(NumberFormatException nfe){continue;}
+							loc = new Location(w, x,y,z);
+							Objective o = new MoveObjective(null, objective, name, rewards, text, radius, loc);
 							objectives.add(o);
 						}
 						name = null;
