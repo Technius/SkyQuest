@@ -26,9 +26,10 @@ public class SkyQuestCmd implements CommandExecutor
 		{
 		case 1:
 			sender.sendMessage(ChatColor.AQUA + "| - - - - {SkyQuest " + plugin.getDescription().getVersion() + "} - - - - |");
-			if(sender.hasPermission("skyquest.give"))sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest give <player> - Gives a quest to a player " + ChatColor.GOLD + " |");
-			sender.sendMessage(ChatColor.AQUA + "|" + ChatColor.GOLD + "/quest info <quest> - Shows summerized info about a quest " + " |");
-			sender.sendMessage(ChatColor.AQUA + "|" + ChatColor.GOLD + "/quest list - Lists your currently assigned quests(all if console)" + " |");
+			if(sender.hasPermission("skyquest.give"))sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest give <player> - Gives a quest to a player");
+			if(sender.hasPermission("skyquest.create"))sender.sendMessage(ChatColor.AQUA + "|"+ ChatColor.GOLD + " /quest create <name> - Creates a quest with given name");
+			sender.sendMessage(ChatColor.AQUA + "|" + ChatColor.GOLD + "/quest info <quest> - Shows summerized info about a quest");
+			sender.sendMessage(ChatColor.AQUA + "|" + ChatColor.GOLD + "/quest list - Lists your currently assigned quests(all if console)");
 			return;
 		}
 	}
@@ -82,12 +83,12 @@ public class SkyQuestCmd implements CommandExecutor
 						if(!player.hasPermission("skyquest.create"))player.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
 					}
 					String s = args[1];
-					int a = 0;
+					boolean a = false;
 					for(String sa:args)
 					{
-						if(a < 3)
+						if(!a)
 						{
-							a = a + 1;
+							a = true;
 							continue;
 						}
 						s = s + " " + sa;
@@ -97,11 +98,7 @@ public class SkyQuestCmd implements CommandExecutor
 					sender.sendMessage(ChatColor.GREEN + "Quest created: " + s);
 					if(player != null)plugin.log.info(player.getName() + " created quest: " + s);
 				}
-				else menu(sender, 1);
-			}
-			else if(args.length >= 1)
-			{
-				if(args[0].equalsIgnoreCase("info"))
+				else if(args[0].equalsIgnoreCase("info"))
 				{
 					if(player == null)sender.sendMessage("You cannot use this command!");
 					else
@@ -129,7 +126,11 @@ public class SkyQuestCmd implements CommandExecutor
 						}
 					}
 				}
-				else if(args[0].equalsIgnoreCase("list"))
+				else menu(sender, 1);
+			}
+			else if(args.length >= 1)
+			{
+				if(args[0].equalsIgnoreCase("list"))
 				{
 					if(player == null)
 					{
