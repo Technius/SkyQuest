@@ -12,7 +12,7 @@ import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -65,7 +65,7 @@ public class SkyQuestListener implements Listener
 	@EventHandler
 	public void KillObjective(EntityDeathEvent event)
 	{
-		CreatureType c = SkyQuestUtil.getTypeFromEntity(event.getEntity());
+		EntityType c = SkyQuestUtil.getTypeFromEntity(event.getEntity());
 		if(c == null)return;
 		if(event.getEntity().getLastDamageCause() == null)return;
 		if(!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent))return;

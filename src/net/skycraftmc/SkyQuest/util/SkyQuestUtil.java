@@ -6,7 +6,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Blaze;
 import org.bukkit.entity.CaveSpider;
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Creeper;
 import org.bukkit.entity.Enderman;
 import org.bukkit.entity.Entity;
@@ -19,16 +19,16 @@ import org.bukkit.inventory.ItemStack;
 
 public class SkyQuestUtil 
 {
-	public static CreatureType getType(String s)
+	public static EntityType getType(String s)
 	{
-		CreatureType type = null;
+		EntityType type = null;
 		try
 		{
-			type = CreatureType.valueOf(s.replaceAll(" ", "_").toUpperCase());
+			type = EntityType.valueOf(s.replaceAll(" ", "_").toUpperCase());
 		}
 		catch(IllegalArgumentException iae)
 		{
-			if(s.toUpperCase().replaceAll("_", " ").equalsIgnoreCase("ZOMBIE PIGMAN"))return CreatureType.PIG_ZOMBIE;
+			if(s.toUpperCase().replaceAll("_", " ").equalsIgnoreCase("ZOMBIE PIGMAN"))return EntityType.PIG_ZOMBIE;
 		}
 		return type;
 	}
@@ -44,16 +44,16 @@ public class SkyQuestUtil
 		if(e instanceof Blaze)return "Blaze";
 		return null;
 	}
-	public static CreatureType getTypeFromEntity(Entity e)
+	public static EntityType getTypeFromEntity(Entity e)
 	{
-		if(e instanceof Creeper)return CreatureType.CREEPER;
-		if(e instanceof Zombie)return CreatureType.ZOMBIE;
-		if(e instanceof Skeleton)return CreatureType.SKELETON;
-		if(e instanceof Enderman)return CreatureType.ENDERMAN;
-		if(e instanceof Spider)return CreatureType.SPIDER;
-		if(e instanceof CaveSpider)return CreatureType.CAVE_SPIDER;
-		if(e instanceof Blaze)return CreatureType.BLAZE;
-		if(e instanceof Pig)return CreatureType.PIG;
+		if(e instanceof Creeper)return EntityType.CREEPER;
+		if(e instanceof Zombie)return EntityType.ZOMBIE;
+		if(e instanceof Skeleton)return EntityType.SKELETON;
+		if(e instanceof Enderman)return EntityType.ENDERMAN;
+		if(e instanceof Spider)return EntityType.SPIDER;
+		if(e instanceof CaveSpider)return EntityType.CAVE_SPIDER;
+		if(e instanceof Blaze)return EntityType.BLAZE;
+		if(e instanceof Pig)return EntityType.PIG;
 		return null;
 	}
 	public static String[] argsWithQuotes(String[] args)

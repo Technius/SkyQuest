@@ -2,7 +2,7 @@ package net.skycraftmc.SkyQuest.quest;
 
 import java.util.List;
 
-import org.bukkit.entity.CreatureType;
+import org.bukkit.entity.EntityType;
 
 import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
 
@@ -22,18 +22,18 @@ public class KillObjective extends Objective
 	{
 		return completed;
 	}
-	public CreatureType getTargetType()
+	public EntityType getTargetType()
 	{
 		String[] tokens = objective.split("[:]",2);
 		if(tokens.length != 2)return null;
-		CreatureType ct = SkyQuestUtil.getType(tokens[0]);
+		EntityType ct = SkyQuestUtil.getType(tokens[0]);
 		return ct;
 	}
 	public boolean isComplete()
 	{
 		String[] tokens = objective.split("[:]",2);
 		if(tokens.length != 2)return false;
-		CreatureType ct = SkyQuestUtil.getType(tokens[0]);
+		EntityType ct = SkyQuestUtil.getType(tokens[0]);
 		if(ct == null)return false;
 		int amount;
 		try{amount = Integer.parseInt(tokens[1].replaceAll(" ", ""));}catch(NumberFormatException nfe){return false;}
