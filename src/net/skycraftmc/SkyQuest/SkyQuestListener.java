@@ -89,7 +89,7 @@ public class SkyQuestListener implements Listener
 			if(c != ko.getTargetType())return;
 			((KillObjective)q.getCurrentObjective()).setProgress(ko.getProgress() + 1);
 			player.sendMessage(ChatColor.GREEN + "Progress: " + ko.getProgressAsString());
-			if(ko.getProgress() > ko.getRawTarget())
+			if(ko.getProgress() >= ko.getRawTarget())
 			{
 				ObjectiveCompleteEvent oce = new ObjectiveCompleteEvent(player, q, q.getCurrentObjective());
 				((KillObjective)q.getCurrentObjective()).setComplete(true);
@@ -103,6 +103,7 @@ public class SkyQuestListener implements Listener
 				}
 				for(ItemStack i:r)player.getInventory().addItem(i);
 				player.sendMessage(ChatColor.GREEN + "Objective complete: " + oce.getObjective().getParsedObjective());
+				oce.getObjective().setComplete(true);
 			}
 		}
 	}

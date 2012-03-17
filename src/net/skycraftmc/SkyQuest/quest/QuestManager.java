@@ -72,5 +72,7 @@ public class QuestManager
 	{
 		QuestCompleteEvent event = new QuestCompleteEvent(player, quest);
 		p.getServer().getPluginManager().callEvent(event);
+		completed.get(player).add(quest);
+		quests.get(player).remove(quest);
 	}
 }

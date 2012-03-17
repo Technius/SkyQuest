@@ -87,7 +87,8 @@ public class SkyQuestUtil
 	{
 		String[] tokens = s.split("[ ]+");
 		if(tokens.length != 2)return null;
-		String[] amount = s.split("[#]");
+		if(!tokens[0].equalsIgnoreCase("i"))return null;
+		String[] amount = tokens[1].split("[#]");
 		if(amount.length != 2)return null;
 		int id = 1;
 		int a = 1;
