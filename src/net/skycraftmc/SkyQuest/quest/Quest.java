@@ -63,9 +63,12 @@ public class Quest
 	public void completeObjective(int index)
 	{
 		completed.add(objectives.get(index));
-		if(completed.size() == objectives.size())
+	}
+	public void completeObjective(Objective o)
+	{
+		for(Objective x:objectives)
 		{
-			
+			if(o == x && !completed.contains(o))completed.add(o);
 		}
 	}
 	public Objective getCurrentObjective()

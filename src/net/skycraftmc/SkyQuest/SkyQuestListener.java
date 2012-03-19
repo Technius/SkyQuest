@@ -104,6 +104,7 @@ public class SkyQuestListener implements Listener
 				for(ItemStack i:r)player.getInventory().addItem(i);
 				player.sendMessage(ChatColor.GREEN + "Objective complete: " + oce.getObjective().getParsedObjective());
 				oce.getObjective().setComplete(true);
+				oce.getQuest().completeObjective(oce.getObjective());
 			}
 		}
 	}
