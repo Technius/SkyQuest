@@ -93,7 +93,7 @@ public class SkyQuestCmd implements CommandExecutor
 						}
 						s = s + " " + sa;
 					}
-					Quest q = new Quest(null, new ArrayList<Objective>(), s);
+					Quest q = new Quest(null, new ArrayList<Objective>(), s, s);
 					plugin.qm.addQuest(q);
 					sender.sendMessage(ChatColor.GREEN + "Quest created: " + s);
 					if(player != null)plugin.log.info(player.getName() + " created quest: " + s);

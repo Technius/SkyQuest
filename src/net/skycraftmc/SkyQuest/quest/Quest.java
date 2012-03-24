@@ -10,16 +10,22 @@ public class Quest
 	ArrayList<Objective>objectives;
 	ArrayList<Objective>completed = new ArrayList<Objective>();
 	boolean complete = false;
-	public Quest(Player player, ArrayList<Objective> objectives, String title)
+	private String dm;
+	public Quest(Player player, ArrayList<Objective> objectives, String title, String display)
 	{
 		this.player = player;
 		this.objectives = objectives;
 		this.title = title;
+		dm = display;
 	}
 	private Player player;
 	public String getName()
 	{
 		return title;
+	}
+	public String getDisplayName()
+	{
+		return dm;
 	}
 	public static Quest clone(Quest quest)
 	{
@@ -29,7 +35,7 @@ public class Quest
 		{
 			if(o instanceof KillObjective)r.add(KillObjective.clone((KillObjective)o));
 		}
-		return new Quest(quest.getPlayer(), quest.getObjectives(), quest.getTitle());
+		return new Quest(quest.getPlayer(), quest.getObjectives(), quest.getTitle(), quest.getDisplayName());
 	}
 	public boolean isComplete(int objective)
 	{

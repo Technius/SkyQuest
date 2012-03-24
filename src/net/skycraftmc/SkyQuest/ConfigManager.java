@@ -160,6 +160,7 @@ public class ConfigManager
 				br = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 				String objective = null;
 				String name = null;
+				String displayname = null;
 				List<String> rewards = new ArrayList<String>();
 				String text = null;
 				ObjectiveType type = null;
@@ -168,7 +169,8 @@ public class ConfigManager
 					if(l.startsWith("#"))continue;
 					String[] tokens = l.split("[:]", 2);
 					if(tokens.length != 2)continue;
-					if(tokens[0].equalsIgnoreCase("objective"))
+					if(tokens[0].equalsIgnoreCase("displayname"))displayname = tokens[1].trim();
+					else if(tokens[0].equalsIgnoreCase("objective"))
 					{
 						objective = tokens[1].trim();
 					}
@@ -226,7 +228,9 @@ public class ConfigManager
 						rewards = new ArrayList<String>();
 					}
 				}
-				Quest q = new Quest(null, objectives, f.getName().replaceAll(".txt", ""));
+				String qname = f.getName().substring(0, f.getName().length() - 3);
+				if(displayname == null)displayname = qname;
+				Quest q = new Quest(null, objectives, qname, displayname);
 				main.qm.addQuest(q);
 				main.log.info("Quest added: " + q.getName());
 			}
