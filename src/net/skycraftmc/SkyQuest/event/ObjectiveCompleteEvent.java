@@ -8,10 +8,6 @@ import org.bukkit.event.HandlerList;
 
 public class ObjectiveCompleteEvent extends org.bukkit.event.Event
 {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 2147366048805027422L;
 	private Player player;
 	private Quest quest;
 	private Objective objective;

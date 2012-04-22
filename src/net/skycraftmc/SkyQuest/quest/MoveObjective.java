@@ -3,7 +3,6 @@ package net.skycraftmc.SkyQuest.quest;
 import java.util.List;
 
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class MoveObjective extends Objective
