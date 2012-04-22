@@ -58,22 +58,51 @@ public class SkyQuestUtil
 	}
 	public static String[] argsWithQuotes(String[] args)
 	{
-		String s = "";
-		boolean in = false;
-		ArrayList<String> sa = new ArrayList<String>();
-		for(String x:args)
+		String a = null;
+		for(String s:args)
 		{
-			if(x.startsWith("\""))in = true;
-			if(in)s = s + x;
-			if(x.endsWith("\""))
-			{
-				in = false;
-				sa.add(s.replaceAll("\"", ""));
-				s = "";
-			}
-			if(!in)sa.add(x);
+			if(a == null)a = s;
+			else a = a + " " + s;
 		}
-		return sa.toArray(new String[sa.size()]);
+		if(a == null)return new String[0];
+		return argsWithQuotes(a);
+	}
+	public static String[] argsWithQuotes(String args)
+	{
+		ArrayList<String>r = new ArrayList<String>();
+		String builder = "";
+		String ebuilder = "";
+		boolean build = false;
+		for(char c:args.toCharArray())
+		{
+			if(c == '\"')
+			{
+				if(!build)
+				{
+					build = true;
+					if(!ebuilder.isEmpty())r.add(ebuilder);
+					ebuilder = "";
+				}
+				else
+				{
+					build = false;
+					if(!builder.isEmpty())r.add(builder);
+					builder = "";
+				}
+				continue;
+			}
+			if(build)builder += c;
+			else if(c == ' ')
+			{
+				if(!ebuilder.isEmpty())r.add(ebuilder);
+				ebuilder = "";
+			}
+			else if(c != ' ')ebuilder += c;
+		}
+		if(!ebuilder.isEmpty())r.add(ebuilder);
+		ebuilder = "";
+		builder = "";
+		return r.toArray(new String[r.size()]);
 	}
 	public static boolean isSign(Block b)
 	{
