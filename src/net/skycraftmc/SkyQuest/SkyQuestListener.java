@@ -64,7 +64,7 @@ public class SkyQuestListener implements Listener
 	@EventHandler
 	public void KillObjective(EntityDeathEvent event)
 	{
-		EntityType c = SkyQuestUtil.getTypeFromEntity(event.getEntity());
+		EntityType c = event.getEntityType();
 		if(c == null)return;
 		if(event.getEntity().getLastDamageCause() == null)return;
 		if(!(event.getEntity().getLastDamageCause() instanceof EntityDamageByEntityEvent))return;
