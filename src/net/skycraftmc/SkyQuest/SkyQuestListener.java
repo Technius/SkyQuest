@@ -13,6 +13,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 public class SkyQuestListener implements Listener
 {
@@ -45,5 +47,16 @@ public class SkyQuestListener implements Listener
 				player.sendMessage("Progress-" + o.getName() + ": " + p + "/" + t[1]);
 			}
 		}
+	}
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void playerJoin(PlayerJoinEvent event)
+	{
+		if(!event.getPlayer().isOnline())return;
+		plugin.getQuestManager().addData(event.getPlayer());
+	}
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void playerLeave(PlayerQuitEvent event)
+	{
+		plugin.getQuestManager().removeData(event.getPlayer());
 	}
 }
