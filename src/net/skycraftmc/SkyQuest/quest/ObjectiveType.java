@@ -7,4 +7,9 @@ public enum ObjectiveType
 	{
 		
 	}
+	public String toString()
+	{
+		String a = name();
+		return a.charAt(0) + a.substring(1).toLowerCase();
+	}
 }

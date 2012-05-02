@@ -2,14 +2,22 @@ package net.skycraftmc.SkyQuest.quest;
 
 import java.util.ArrayList;
 
-public abstract class Objective 
+public class Objective 
 {
 	private ArrayList<String>rewards = new ArrayList<String>();
-	private boolean optional;
+	private boolean optional = false;
 	private ObjectiveType type;
 	private ArrayList<String>description = new ArrayList<String>();
 	private String name;
 	private String target;
+	public Objective(String name, String target, ArrayList<String>description, ArrayList<String> rewards, ObjectiveType type, boolean optional)
+	{
+		this.name = name;
+		this.target = target;
+		this.description = description;
+		this.rewards = rewards;
+		this.type = type;
+	}
 	public void setType(ObjectiveType type)
 	{
 		this.type = type;
@@ -41,5 +49,9 @@ public abstract class Objective
 	public String[] getDescription()
 	{
 		return description.toArray(new String[description.size()]);
+	}
+	public Objective clone()
+	{
+		return new Objective(name, target, description, rewards, type, optional);
 	}
 }
