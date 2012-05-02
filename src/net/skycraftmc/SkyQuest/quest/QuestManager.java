@@ -23,6 +23,14 @@ public class QuestManager
 		}
 		pdata.add(new PlayerQuestData(player));
 	}
+	public PlayerQuestData getData(Player player)
+	{
+		for(PlayerQuestData a:pdata)
+		{
+			if(a.getPlayer() == player)return a;
+		}
+		return null;
+	}
 	public void removeData(Player player)
 	{
 		for(PlayerQuestData a:pdata)
