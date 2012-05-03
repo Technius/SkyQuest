@@ -19,6 +19,8 @@ public class Quest
 	}
 	public Quest clone()
 	{
+		ArrayList<Objective>o = new ArrayList<Objective>();
+		for(Objective oa:this.o)o.add(oa.clone());
 		return new Quest(name, o, next);
 	}
 	public Objective[] getObjectives()

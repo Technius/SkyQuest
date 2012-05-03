@@ -41,7 +41,7 @@ public class PlayerQuestData
 		{
 			if(q.getName().equalsIgnoreCase(quest.getName()))return;
 		}
-		quests.add(quest);
+		quests.add(quest.clone());
 	}
 	public boolean hasQuest(Quest quest)
 	{

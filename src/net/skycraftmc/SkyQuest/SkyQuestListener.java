@@ -69,6 +69,7 @@ public class SkyQuestListener implements Listener
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void playerLeave(PlayerQuitEvent event)
 	{
+		plugin.getDataManager().saveData(event.getPlayer());
 		plugin.getQuestManager().removeData(event.getPlayer());
 	}
 }

@@ -28,4 +28,8 @@ public class SkyQuestMain extends JavaPlugin
 	{
 		return qm;
 	}
+	public SkyQuestData getDataManager()
+	{
+		return files;
+	}
 }
