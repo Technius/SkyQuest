@@ -6,17 +6,12 @@ import org.bukkit.entity.Player;
 
 public class Quest 
 {
-	private Player player;
+	private ArrayList<String>next = new ArrayList<String>();
 	private ArrayList<Objective>o = new ArrayList<Objective>();
-	public Quest(Player player, String name)
+	public Quest(String name, ArrayList<Objective> objectives, ArrayList<String> next)
 	{
-		this.player = player;
 		this.name = name;
-	}
-	public Quest(Player player, String name, ArrayList<Objective> objectives)
-	{
-		this.player = player;
-		this.name = name;
+		this.next = next;
 		o = objectives;
 	}
 	private String name;
@@ -24,13 +19,9 @@ public class Quest
 	{
 		return name;
 	}
-	public Player getPlayer()
-	{
-		return player;
-	}
 	public Quest clone()
 	{
-		return new Quest(player, name, o);
+		return new Quest(name, o, next);
 	}
 	public Objective[] getObjectives()
 	{
