@@ -3,6 +3,7 @@ package net.skycraftmc.SkyQuest;
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.Quest;
+import net.skycraftmc.SkyQuest.util.SkyQuestUtil;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
@@ -37,6 +38,7 @@ public class SkyQuestListener implements Listener
 			for(Objective o:quest.getObjectives())
 			{
 				if(o.getType() != ObjectiveType.KILL)continue;
+				if(o.isComplete())continue;
 				int p = Integer.parseInt(o.getProgress());
 				String[] t = o.getTarget().split("[ ]+", 2);
 				if(t.length != 2)continue;
@@ -45,6 +47,16 @@ public class SkyQuestListener implements Listener
 				if(event.getEntity().getType() != type)continue;
 				o.setProgress("" + (p + 1));
 				player.sendMessage("Progress-" + o.getName() + ": " + p + "/" + t[1]);
+				if(o.isComplete())
+				{
+					player.sendMessage("Objective Completed: " + o.getName());
+					SkyQuestUtil.applyRewards(player, o);
+					if(quest.checkComplete())
+					{
+						player.sendMessage("Quest complete: " + quest.getName());
+						plugin.getQuestManager().getData(player).removeQuest(quest);
+					}
+				}
 			}
 		}
 	}

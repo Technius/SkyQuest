@@ -27,6 +27,14 @@ public class PlayerQuestData
 		Objective[] obj = quest.getObjectives();
 		if(obj.length > 0);//open up the book GUI when 1.3 is released
 	}
+	public void removeQuest(Quest quest)
+	{
+		for(Quest q:quests)
+		{
+			if(q.getName().equalsIgnoreCase(quest.getName()))quests.remove(q);
+			else if(q == quest)quests.remove(q);
+		}
+	}
 	public void addQuest(Quest quest)
 	{
 		for(Quest q:quests)

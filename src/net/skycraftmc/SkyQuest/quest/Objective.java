@@ -11,6 +11,7 @@ public class Objective
 	private String name;
 	private String target;
 	private int progress;
+	private boolean complete;
 	public Objective(String name, String target, ArrayList<String>description, ArrayList<String> rewards, ObjectiveType type, boolean optional)
 	{
 		this.name = name;
@@ -63,5 +64,23 @@ public class Objective
 			try{this.progress = Integer.parseInt(progress);}
 			catch(Exception e){throw new IllegalArgumentException("Type=KILL, so progress must be an integer");}
 		}
+	}
+	public boolean isComplete()
+	{
+		return complete;
+	}
+	public boolean checkComplete()
+	{
+		if(type == ObjectiveType.KILL)
+		{
+			String[] t = target.split("[ ]", 2);
+			int i = Integer.parseInt(t[1]);
+			if(progress >= i)complete = true;
+		}
+		return isComplete();
+	}
+	public void setComplete(boolean complete)
+	{
+		this.complete = complete;
 	}
 }

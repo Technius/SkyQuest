@@ -36,4 +36,12 @@ public class Quest
 	{
 		return o.toArray(new Objective[o.size()]);
 	}
+	public boolean checkComplete()
+	{
+		for(Objective o:this.o)
+		{
+			if(!o.isComplete())return false;
+		}
+		return true;
+	}
 }
