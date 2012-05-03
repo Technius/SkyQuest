@@ -2,10 +2,13 @@ package net.skycraftmc.SkyQuest.util;
 
 import java.util.ArrayList;
 
+import net.skycraftmc.SkyQuest.quest.Objective;
+
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class SkyQuestUtil 
@@ -83,24 +86,63 @@ public class SkyQuestUtil
 	{
 		return(m == Material.SIGN || m == Material.SIGN_POST || m == Material.WALL_SIGN);
 	}
-	public static ItemStack parseItemReward(String s)
+	public static void applyRewards(Player player, Objective o)
 	{
-		String[] tokens = s.split("[ ]+");
-		if(tokens.length != 2)return null;
-		if(!tokens[0].equalsIgnoreCase("i"))return null;
-		String[] amount = tokens[1].split("[#]");
-		if(amount.length != 2)return null;
-		int id = 1;
-		int a = 1;
-		short dur = 0;
-		String[] dura = amount[0].split("[:]");
-		if(dura.length != 2 && dura.length != 1)return null;
-		if(dura.length == 2)
+		for(String s:o.getRewards())
 		{
-			try{dur = Short.parseShort(dura[1]);}catch(NumberFormatException nfe){}
+			String[] tokens = s.split("[:]", 2);
+			if(tokens.length != 2)continue;
+			if(tokens[0].equalsIgnoreCase("i"))
+			{
+				int t;
+				Material type;
+				short dur = 0;
+				int a;
+				String[] d = tokens[1].replaceAll(" ", "").split("[:#]", 3);
+				if(d.length != 2 && d.length != 3)continue;
+				try{t=Integer.parseInt(d[0]);
+				type = Material.getMaterial(t);}
+				catch(NumberFormatException nfe){type = Material.getMaterial(d[0]);}
+				if(type == null)continue;
+				try
+				{
+					if(d.length == 2)
+					{
+						dur = Short.parseShort(d[1]);
+						a = Integer.parseInt(d[2]);
+					}
+					else a = Integer.parseInt(d[1]);
+				}catch(NumberFormatException nfe){continue;}
+				ItemStack i = new ItemStack(type, a, dur);
+				player.getInventory().addItem(i);
+			}
 		}
-		try{a = Integer.parseInt(amount[1]);}catch(NumberFormatException nfe){}
-		try{id = Integer.parseInt(dura[0]);}catch(NumberFormatException nfe){return null;}
-		return new ItemStack(id, a, dur);
+	}
+	public boolean rewardSyntax(String s)
+	{
+		String[] tokens = s.split("[:]", 2);
+		if(tokens.length != 2)return false;
+		if(tokens[0].equalsIgnoreCase("i"))
+		{
+			int t;
+			Material type;
+			String[] d = tokens[1].replaceAll(" ", "").split("[:#]", 3);
+			if(d.length != 2 && d.length != 3)return false;
+			try{t=Integer.parseInt(d[0]);
+			type = Material.getMaterial(t);}
+			catch(NumberFormatException nfe){type = Material.getMaterial(d[0]);}
+			if(type == null)return false;
+			try
+			{
+				if(d.length == 2)
+				{
+					Short.parseShort(d[1]);
+					Integer.parseInt(d[2]);
+				}
+				else Integer.parseInt(d[1]);
+			}catch(NumberFormatException nfe){return false;}
+			return true;
+		}
+		else return false;
 	}
 }
