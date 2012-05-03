@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 public class Objective 
 {
-	private ArrayList<String>rewards = new ArrayList<String>();
+	private ArrayList<String>rewards;
 	private boolean optional = false;
 	private ObjectiveType type;
-	private ArrayList<String>description = new ArrayList<String>();
+	private ArrayList<String>description;
 	private String name;
 	private String target;
 	private int progress;

@@ -2,8 +2,6 @@ package net.skycraftmc.SkyQuest.quest;
 
 import java.util.ArrayList;
 
-import org.bukkit.entity.Player;
-
 public class Quest 
 {
 	private ArrayList<String>next = new ArrayList<String>();

@@ -11,11 +11,13 @@ public class SkyQuestMain extends JavaPlugin
 	//public SkyQuestListener l = new SkyQuestListener(this);
 	//public ConfigManager cm = new ConfigManager(this);
 	private final QuestManager qm = new QuestManager(this);
+	private final SkyQuestData files = new SkyQuestData(this);
 	public SkyQuestCmd command = new SkyQuestCmd(this);
 	public void onEnable() 
 	{
 		log = this.getLogger();
 		getCommand("quest").setExecutor(command);
+		files.loadQuests();
 		log.info("Version " + getDescription().getVersion() + " enabled!");
 	}
 	public void onDisable() 

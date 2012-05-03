@@ -145,4 +145,17 @@ public class SkyQuestUtil
 		}
 		else return false;
 	}
+	public static String combine(String[] s, int begin)
+	{
+		int i = -1;
+		String a = "";
+		for(String sx:s)
+		{
+			i++;
+			if(i < begin)continue;
+			if(i == begin)a = sx;
+			else a += " " + sx;
+		}
+		return a;
+	}
 }

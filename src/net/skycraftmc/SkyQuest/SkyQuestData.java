@@ -33,7 +33,7 @@ public class SkyQuestData
 		{
 			if(!f.getName().endsWith(".txt"))continue;
 			if(f.getName().length() <= 4)continue;
-			String qname = f.getName().substring(0, f.getName().length() - 3);
+			String qname = f.getName().substring(0, f.getName().length() - 4);
 			try
 			{
 				BufferedReader br = new BufferedReader(new FileReader(f));
@@ -57,7 +57,7 @@ public class SkyQuestData
 							desc = false;
 							continue;
 						}
-						d.add(l);
+						d.add(l.trim());
 					}
 					else if(obj)
 					{
@@ -66,7 +66,11 @@ public class SkyQuestData
 						if(t.equalsIgnoreCase("rewards"))rewards = tokens[1].trim();
 						else if(t.equalsIgnoreCase("type"))type = ObjectiveType.getType(tokens[1]);
 						else if(t.equalsIgnoreCase("target"))target = tokens[1].trim();
-						else if(t.equalsIgnoreCase("description"))desc = true;
+						else if(t.equalsIgnoreCase("description"))
+						{
+							desc = true;
+							d.add(tokens[1].trim());
+						}
 						else if(t.equalsIgnoreCase("optional"))opt = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
 						else if(tokens[0].replaceAll(" ", "").equalsIgnoreCase("endobjective"))
 						{
@@ -82,16 +86,22 @@ public class SkyQuestData
 								objs.add(o);
 							}
 							d.clear();
+							type = null;
 							name = null;
 							target = null;
 							rewards = null;
+							opt = false;
 						}
 					}
 					else
 					{
 						String[] tokens = l.split("[:]",2);
 						if(tokens.length != 2)continue;
-						if(tokens[0].startsWith("objective"))name = tokens[1].trim();
+						if(tokens[0].startsWith("objective"))
+						{
+							name = tokens[1].trim();
+							obj = true;
+						}
 						if(tokens[0].equalsIgnoreCase("next"))next.add(tokens[1].trim());
 					}
 				}
@@ -100,6 +110,7 @@ public class SkyQuestData
 				for(String x:next)n.add(x);
 				Quest q = new Quest(qname, objs, n);
 				plugin.getQuestManager().addQuest(q);
+				System.out.println("Loaded quest: " + q.getName());
 			}
 			catch(IOException ioe)
 			{
