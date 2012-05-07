@@ -3,6 +3,7 @@ package net.skycraftmc.SkyQuest;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,12 +27,17 @@ public class SkyQuestData
 	{
 		File file = plugin.getDataFolder();
 		if(!file.exists())file.mkdir();
-		File quests = new File(file.getPath() + File.separator + "Quests");
-		if(!quests.exists())quests.mkdir();
-		File data = new File(quests.getPath() + File.separator + player.getName() + ".txt");
-		if(!data.exists())data.mkdir();
+		File f = new File(file.getPath() + File.separator + "Players");
+		if(!f.exists())f.mkdir();
+		File data = new File(f.getPath() + File.separator + player.getName() + ".txt");
 		try
 		{
+			if(!data.exists())
+			{
+				FileOutputStream fos = new FileOutputStream(data);
+				fos.flush();
+				fos.close();
+			}
 			BufferedWriter bw= new BufferedWriter(new FileWriter(data));
 			bw.write("#Player data, DO NOT EDIT AT ANY COST");
 			bw.newLine();
@@ -49,10 +55,12 @@ public class SkyQuestData
 				bw.write("end quest");
 				bw.newLine();
 			}
+			bw.flush();
+			bw.close();
 		}
 		catch(IOException ioe)
 		{
-			plugin.log.severe("Failed to load \"" + player.getName() + "\"'s name: " + ioe.getMessage());
+			plugin.log.severe("Failed to save \"" + player.getName() + "\"'s data: " + ioe.getMessage());
 		}
 	}
 	public void loadData(Player player)

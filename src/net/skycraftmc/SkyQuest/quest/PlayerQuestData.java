@@ -22,6 +22,7 @@ public class PlayerQuestData
 	}
 	public void grantQuest(Quest quest)
 	{
+		if(quest == null)return;
 		addQuest(quest);
 		player.sendMessage("Started: " + quest.getName());
 		Objective[] obj = quest.getObjectives();
@@ -29,6 +30,7 @@ public class PlayerQuestData
 	}
 	public void removeQuest(Quest quest)
 	{
+		if(quest == null)return;
 		for(Quest q:quests)
 		{
 			if(q.getName().equalsIgnoreCase(quest.getName()))quests.remove(q);
@@ -37,6 +39,7 @@ public class PlayerQuestData
 	}
 	public void addQuest(Quest quest)
 	{
+		if(quest == null)return;
 		for(Quest q:quests)
 		{
 			if(q.getName().equalsIgnoreCase(quest.getName()))return;
@@ -45,10 +48,12 @@ public class PlayerQuestData
 	}
 	public boolean hasQuest(Quest quest)
 	{
+		if(quest == null)return true;
 		return hasQuest(quest.getName());
 	}
 	public boolean hasQuest(String quest)
 	{
+		if(quest == null)return true;
 		for(Quest q:quests)
 		{
 			if(q.getName().equalsIgnoreCase(quest))return true;

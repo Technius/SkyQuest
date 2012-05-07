@@ -54,6 +54,18 @@ public class SkyQuestCmd implements CommandExecutor
 					}
 				}
 			}
+			else if(args[0].equalsIgnoreCase("grant"))
+			{
+				if(args.length == 1 || args.length == 2)return usage(sender, "/quest grant <player> <quest>");
+				Player p = sender.getServer().getPlayer(args[1]);
+				if(p == null)msgret(sender, ChatColor.RED + "No such player:" + args[1]);
+				String q = SkyQuestUtil.combine(args, 2);
+				Quest quest = plugin.getQuestManager().getQuest(q);
+				if(quest == null)return msgret(sender, ChatColor.RED + "No such quest: " + q);
+				if(plugin.getQuestManager().getData(p).hasQuest(quest))return msgret(sender, ChatColor.RED + p.getName() + " already has " + quest.getName() + "!");
+				plugin.getQuestManager().getData(p).grantQuest(quest);
+				sender.sendMessage(ChatColor.GREEN + p.getName() + " has receieved the quest " + q);
+			}
 		}
 		return true;
 	}
@@ -65,6 +77,11 @@ public class SkyQuestCmd implements CommandExecutor
 	public boolean msgret(CommandSender sender, String message)
 	{
 		sender.sendMessage(message);
+		return true;
+	}
+	public boolean noperm(CommandSender sender)
+	{
+		sender.sendMessage(ChatColor.RED + "You do not have the permissions to use this command!");
 		return true;
 	}
 }

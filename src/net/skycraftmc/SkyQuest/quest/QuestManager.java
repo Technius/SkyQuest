@@ -15,36 +15,53 @@ public class QuestManager
 	{
 		this.plugin = plugin;
 	}
+	private final Object lock = new Object();
 	public void addData(Player player)
 	{
-		for(PlayerQuestData a:pdata)
+		synchronized(lock)
 		{
-			if(a.getPlayer() == player)return;
+			for(PlayerQuestData a:pdata)
+			{
+				if(a.getPlayer() == player)pdata.remove(a);
+			}
+			pdata.add(new PlayerQuestData(player));
 		}
-		pdata.add(new PlayerQuestData(player));
 	}
 	public PlayerQuestData getData(Player player)
 	{
-		for(PlayerQuestData a:pdata)
+		synchronized(lock)
 		{
-			if(a.getPlayer() == player)return a;
+			for(PlayerQuestData a:pdata)
+			{
+				if(a.getPlayer() == player)return a;
+			}
+			return null;
 		}
-		return null;
+	}
+	public void clearData()
+	{
+		synchronized(lock) {pdata.clear();}
 	}
 	public void removeData(Player player)
 	{
-		for(PlayerQuestData a:pdata)
+		synchronized(lock)
 		{
-			if(a.getPlayer() == player)pdata.remove(a);
+			for(PlayerQuestData a:pdata)
+			{
+				if(a.getPlayer() == player)pdata.remove(a);
+			}
 		}
 	}
 	public boolean containsData(Player player)
 	{
-		for(PlayerQuestData a:pdata)
+		synchronized(lock)
 		{
-			if(a.getPlayer() == player)return true;
+			for(PlayerQuestData a:pdata)
+			{
+				if(a.getPlayer() == player)return true;
+			}
+			return false;
 		}
-		return false;
 	}
 	public void addQuest(Quest quest)
 	{

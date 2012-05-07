@@ -65,11 +65,11 @@ public class SkyQuestListener implements Listener
 	{
 		if(!event.getPlayer().isOnline())return;
 		plugin.getQuestManager().addData(event.getPlayer());
+		plugin.getDataManager().loadData(event.getPlayer());
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void playerLeave(PlayerQuitEvent event)
 	{
 		plugin.getDataManager().saveData(event.getPlayer());
-		plugin.getQuestManager().removeData(event.getPlayer());
 	}
 }
