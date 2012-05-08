@@ -140,6 +140,9 @@ public class SkyQuestData
 				String l;
 				boolean obj = false;
 				boolean desc = false;
+				boolean def = true;
+				ArrayList<Integer>onext = new ArrayList<Integer>();
+				boolean onextb = false;
 				String name = null;
 				ArrayList<String>d = new ArrayList<String>();
 				ArrayList<String>next = new ArrayList<String>();
@@ -159,9 +162,23 @@ public class SkyQuestData
 						}
 						d.add(l.trim());
 					}
+					else if(onextb)
+					{
+						if(l.replaceAll(" ", "").equalsIgnoreCase("endnext"))
+						{
+							onextb = false;
+							continue;
+						}
+						int i;
+						String[] tokens = l.split("[:]" ,2);
+						if(tokens.length != 2)continue;
+						try{i = Integer.parseInt(tokens[1].replaceAll(" ", ""));}catch(NumberFormatException nfe){continue;}
+						if(onext.contains(i))onext.add(i);
+					}
 					else if(obj)
 					{
 						String[] tokens = l.split("[:]" ,2);
+						if(tokens.length != 2)continue;
 						String t = tokens[0].trim();
 						if(t.equalsIgnoreCase("rewards"))rewards = tokens[1].trim();
 						else if(t.equalsIgnoreCase("type"))type = ObjectiveType.getType(tokens[1]);
@@ -171,7 +188,9 @@ public class SkyQuestData
 							desc = true;
 							d.add(tokens[1].trim());
 						}
+						else if(t.equalsIgnoreCase("next"))onextb = true;
 						else if(t.equalsIgnoreCase("optional"))opt = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
+						else if(t.equalsIgnoreCase("default"))def = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
 						else if(tokens[0].replaceAll(" ", "").equalsIgnoreCase("endobjective"))
 						{
 							obj = false;
@@ -182,7 +201,9 @@ public class SkyQuestData
 								for(String x:r)ra.add(x);
 								ArrayList<String>da = new ArrayList<String>();
 								for(String x:d)da.add(x);
-								Objective o = new Objective(name, target, da, ra, type, opt);
+								ArrayList<Integer>na = new ArrayList<Integer>();
+								for(int i:onext)na.add(i);
+								Objective o = new Objective(name, target, da, ra, na, type, opt, def);
 								objs.add(o);
 							}
 							d.clear();
@@ -191,6 +212,8 @@ public class SkyQuestData
 							target = null;
 							rewards = null;
 							opt = false;
+							def = true;
+							onext.clear();
 						}
 					}
 					else

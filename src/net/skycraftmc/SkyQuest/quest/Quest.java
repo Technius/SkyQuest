@@ -35,4 +35,23 @@ public class Quest
 		}
 		return true;
 	}
+	public String[] getNextQuests()
+	{
+		return next.toArray(new String[next.size()]);
+	}
+	public Objective[] getUnlocked()
+	{
+		ArrayList<Objective>a = new ArrayList<Objective>();
+		for(Objective o: this.o)
+		{
+			if(!o.isComplete())continue;
+			if(o.isDefault())a.add(o);
+			for(int i:o.getNext())
+			{
+				if(i >= this.o.size())continue;
+				if(!a.contains(o))a.add(o);
+			}
+		}
+		return a.toArray(new Objective[a.size()]);
+	}
 }

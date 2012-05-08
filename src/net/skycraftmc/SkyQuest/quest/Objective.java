@@ -5,20 +5,24 @@ import java.util.ArrayList;
 public class Objective 
 {
 	private ArrayList<String>rewards;
+	private ArrayList<Integer>next;
 	private boolean optional = false;
+	private boolean begin = false;
 	private ObjectiveType type;
 	private ArrayList<String>description;
 	private String name;
 	private String target;
-	private int progress;
+	private int progress = 0;
 	private boolean complete;
-	public Objective(String name, String target, ArrayList<String>description, ArrayList<String> rewards, ObjectiveType type, boolean optional)
+	public Objective(String name, String target, ArrayList<String>description, ArrayList<String> rewards, ArrayList<Integer> next, ObjectiveType type, boolean optional, boolean begin)
 	{
 		this.name = name;
 		this.target = target;
 		this.description = description;
 		this.rewards = rewards;
 		this.type = type;
+		this.next = next;
+		this.begin = begin;
 	}
 	public boolean isOptional()
 	{
@@ -55,7 +59,7 @@ public class Objective
 	}
 	public Objective clone()
 	{
-		return new Objective(name, target, description, rewards, type, optional);
+		return new Objective(name, target, description, rewards, next, type, optional, begin);
 	}
 	public void setProgress(String progress)
 	{
@@ -82,5 +86,13 @@ public class Objective
 	public void setComplete(boolean complete)
 	{
 		this.complete = complete;
+	}
+	public Integer[] getNext()
+	{
+		return next.toArray(new Integer[next.size()]);
+	}
+	public boolean isDefault()
+	{
+		return begin;
 	}
 }

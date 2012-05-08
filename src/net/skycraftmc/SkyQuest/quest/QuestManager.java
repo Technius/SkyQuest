@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest.quest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.bukkit.entity.Player;
 
@@ -20,10 +21,7 @@ public class QuestManager
 	{
 		synchronized(lock)
 		{
-			for(PlayerQuestData a:pdata)
-			{
-				if(a.getPlayer() == player)pdata.remove(a);
-			}
+			removeData(player);
 			pdata.add(new PlayerQuestData(player));
 		}
 	}
@@ -46,9 +44,11 @@ public class QuestManager
 	{
 		synchronized(lock)
 		{
-			for(PlayerQuestData a:pdata)
+			Iterator<PlayerQuestData> iter = pdata.iterator();
+			while (iter.hasNext())
 			{
-				if(a.getPlayer() == player)pdata.remove(a);
+			  PlayerQuestData a = iter.next();
+			  if(a.getPlayer() == player)iter.remove();
 			}
 		}
 	}

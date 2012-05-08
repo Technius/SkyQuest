@@ -35,14 +35,14 @@ public class SkyQuestListener implements Listener
 		Player player = (Player)event.getDamager();
 		for(Quest quest: plugin.getQuestManager().getData(player).getQuests())
 		{
-			for(Objective o:quest.getObjectives())
+			for(Objective o:quest.getUnlocked())
 			{
 				if(o.getType() != ObjectiveType.KILL)continue;
 				if(o.isComplete())continue;
 				int p = Integer.parseInt(o.getProgress());
 				String[] t = o.getTarget().split("[ ]+", 2);
 				if(t.length != 2)continue;
-				EntityType type = EntityType.fromName(t[0].replaceAll(" ", ""));
+				EntityType type = EntityType.fromName(t[0].toUpperCase());
 				if(type == null)continue;
 				if(event.getEntity().getType() != type)continue;
 				o.setProgress("" + (p + 1));
@@ -71,5 +71,6 @@ public class SkyQuestListener implements Listener
 	public void playerLeave(PlayerQuitEvent event)
 	{
 		plugin.getDataManager().saveData(event.getPlayer());
+		plugin.getQuestManager().removeData(event.getPlayer());
 	}
 }

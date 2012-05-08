@@ -19,6 +19,11 @@ public class SkyQuestMain extends JavaPlugin
 		log = this.getLogger();
 		getCommand("quest").setExecutor(command);
 		files.loadQuests();
+		for(Player player:getServer().getOnlinePlayers())
+		{
+			qm.addData(player);
+			files.loadData(player);
+		}
 		getServer().getPluginManager().registerEvents(new SkyQuestListener(this), this);
 		log.info("Version " + getDescription().getVersion() + " enabled!");
 	}
