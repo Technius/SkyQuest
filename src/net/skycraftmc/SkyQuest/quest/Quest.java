@@ -44,12 +44,12 @@ public class Quest
 		ArrayList<Objective>a = new ArrayList<Objective>();
 		for(Objective o: this.o)
 		{
-			if(!o.isComplete())continue;
 			if(o.isDefault())a.add(o);
 			for(int i:o.getNext())
 			{
-				if(i >= this.o.size())continue;
-				if(!a.contains(o))a.add(o);
+				if(i - 1 >= this.o.size())continue;
+				Objective oa = a.get(i);
+				if(!a.contains(oa))a.add(oa);
 			}
 		}
 		return a.toArray(new Objective[a.size()]);

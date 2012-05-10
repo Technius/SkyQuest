@@ -170,28 +170,13 @@ public class SkyQuestData
 							continue;
 						}
 						int i;
-						String[] tokens = l.split("[:]" ,2);
-						if(tokens.length != 2)continue;
-						try{i = Integer.parseInt(tokens[1].replaceAll(" ", ""));}catch(NumberFormatException nfe){continue;}
-						if(onext.contains(i))onext.add(i);
+						try{i = Integer.parseInt(l.replaceAll(" ", ""));}catch(NumberFormatException nfe){continue;}
+						if(!onext.contains(i))onext.add(i);
 					}
 					else if(obj)
 					{
 						String[] tokens = l.split("[:]" ,2);
-						if(tokens.length != 2)continue;
-						String t = tokens[0].trim();
-						if(t.equalsIgnoreCase("rewards"))rewards = tokens[1].trim();
-						else if(t.equalsIgnoreCase("type"))type = ObjectiveType.getType(tokens[1]);
-						else if(t.equalsIgnoreCase("target"))target = tokens[1].trim();
-						else if(t.equalsIgnoreCase("description"))
-						{
-							desc = true;
-							d.add(tokens[1].trim());
-						}
-						else if(t.equalsIgnoreCase("next"))onextb = true;
-						else if(t.equalsIgnoreCase("optional"))opt = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
-						else if(t.equalsIgnoreCase("default"))def = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
-						else if(tokens[0].replaceAll(" ", "").equalsIgnoreCase("endobjective"))
+						if(tokens.length != 2 && tokens[0].replaceAll(" ", "").equalsIgnoreCase("endobjective"))
 						{
 							obj = false;
 							if(rewards != null && type != null && target != null)
@@ -215,6 +200,21 @@ public class SkyQuestData
 							def = true;
 							onext.clear();
 						}
+						else continue;
+						String t = tokens[0].trim();
+						System.out.println(t);
+						if(t.equalsIgnoreCase("rewards"))rewards = tokens[1].trim();
+						else if(t.equalsIgnoreCase("type"))type = ObjectiveType.getType(tokens[1].toUpperCase());
+						else if(t.equalsIgnoreCase("target"))target = tokens[1].trim();
+						else if(t.equalsIgnoreCase("description"))
+						{
+							desc = true;
+							d.add(tokens[1].trim());
+						}
+						else if(t.equalsIgnoreCase("next"))onextb = true;
+						else if(t.equalsIgnoreCase("optional"))opt = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
+						else if(t.equalsIgnoreCase("default"))def = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
+
 					}
 					else
 					{
@@ -225,7 +225,7 @@ public class SkyQuestData
 							name = tokens[1].trim();
 							obj = true;
 						}
-						if(tokens[0].equalsIgnoreCase("next"))next.add(tokens[1].trim());
+						else if(tokens[0].equalsIgnoreCase("next"))next.add(tokens[1].trim());
 					}
 				}
 				br.close();

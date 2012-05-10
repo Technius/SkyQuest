@@ -23,9 +23,9 @@ public class PlayerQuestData
 	public void grantQuest(Quest quest)
 	{
 		if(quest == null)return;
-		addQuest(quest);
-		player.sendMessage("Started: " + quest.getName());
 		Objective[] obj = quest.getObjectives();
+		addQuest(quest.clone());
+		player.sendMessage("Started: " + quest.getName());
 		if(obj.length > 0);//open up the book GUI when 1.3 is released
 	}
 	public void removeQuest(Quest quest)
@@ -36,6 +36,14 @@ public class PlayerQuestData
 			if(q.getName().equalsIgnoreCase(quest.getName()))quests.remove(q);
 			else if(q == quest)quests.remove(q);
 		}
+	}
+	public Quest getQuest(String quest)
+	{
+		for(Quest q:quests)
+		{
+			if(q.getName().equalsIgnoreCase(quest))return q;
+		}
+		return null;
 	}
 	public void addQuest(Quest quest)
 	{

@@ -35,12 +35,15 @@ public class SkyQuestListener implements Listener
 		Player player = (Player)event.getDamager();
 		for(Quest quest: plugin.getQuestManager().getData(player).getQuests())
 		{
+			System.out.println("Quest: " + quest.getName());
 			for(Objective o:quest.getUnlocked())
 			{
+				System.out.println("Objective: " + o.getName());
 				if(o.getType() != ObjectiveType.KILL)continue;
 				if(o.isComplete())continue;
 				int p = Integer.parseInt(o.getProgress());
 				String[] t = o.getTarget().split("[ ]+", 2);
+				System.out.println("Parsing objective");
 				if(t.length != 2)continue;
 				EntityType type = EntityType.fromName(t[0].toUpperCase());
 				if(type == null)continue;

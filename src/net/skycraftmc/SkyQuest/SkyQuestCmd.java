@@ -29,30 +29,29 @@ public class SkyQuestCmd implements CommandExecutor
 				String s = SkyQuestUtil.combine(args, 1);
 				Quest quest;
 				if((quest=plugin.getQuestManager().getQuest(s)) == null)return msgret(sender, ChatColor.RED + "No such quest: " + s);
-				if(player == null)
+				sender.sendMessage("Quest info: " + quest.getName());
+				Objective[] oa = quest.getObjectives();
+				int num = 1;
+				for(Objective o:oa)
 				{
-					sender.sendMessage("Quest info: " + quest.getName());
-					Objective[] oa = quest.getObjectives();
-					int num = 1;
-					for(Objective o:oa)
+					sender.sendMessage("Objective " + num + ":" + o.getName());
+					sender.sendMessage("Type: " + o.getType().toString());
+					sender.sendMessage("Target: " + o.getTarget());
+					boolean a = false;
+					for(String l:o.getDescription())
 					{
-						sender.sendMessage("Objective " + num + ":" + o.getName());
-						sender.sendMessage("Type: " + o.getType().toString());
-						sender.sendMessage("Target: " + o.getTarget());
-						boolean a = false;
-						for(String l:o.getDescription())
+						if(!a)
 						{
-							if(!a)
-							{
-								sender.sendMessage("Description: " + l);
-								a = true;
-							}
-							else sender.sendMessage("    " + l);
+							sender.sendMessage("Description: " + l);
+							a = true;
 						}
-						sender.sendMessage("Optional: " + o.isOptional());
-						num ++;
+						else sender.sendMessage("    " + l);
 					}
+					sender.sendMessage("Optional: " + o.isOptional());
+					num ++;
 				}
+				sender.sendMessage("Next Quests: ");
+				for(String sa:quest.getNextQuests())sender.sendMessage("    " + sa);
 			}
 			else if(args[0].equalsIgnoreCase("grant"))
 			{
@@ -65,6 +64,35 @@ public class SkyQuestCmd implements CommandExecutor
 				if(plugin.getQuestManager().getData(p).hasQuest(quest))return msgret(sender, ChatColor.RED + p.getName() + " already has " + quest.getName() + "!");
 				plugin.getQuestManager().getData(p).grantQuest(quest);
 				sender.sendMessage(ChatColor.GREEN + p.getName() + " has receieved the quest " + q);
+			}
+			else if(args[0].equalsIgnoreCase("view"))
+			{
+				if(args.length == 1)return usage(sender, "/quest view <quest>");
+				if(player == null)msgret(sender, "Console cannot use this command");
+				String s = SkyQuestUtil.combine(args, 1);
+				Quest quest;
+				if((quest = plugin.getQuestManager().getData(player).getQuest(s)) == null)return msgret(sender, ChatColor.RED + "You don't have the quest: " + s);
+				sender.sendMessage("Quest: " + quest.getName());
+				Objective[] oa = quest.getUnlocked();
+				int num = 1;
+				for(Objective o:oa)
+				{
+					sender.sendMessage("Objective " + num + ":" + o.getName());
+					sender.sendMessage("Type: " + o.getType().toString());
+					sender.sendMessage("Target: " + o.getTarget());
+					boolean a = false;
+					for(String l:o.getDescription())
+					{
+						if(!a)
+						{
+							sender.sendMessage("Description: " + l);
+							a = true;
+						}
+						else sender.sendMessage("    " + l);
+					}
+					sender.sendMessage("Optional: " + o.isOptional());
+					num ++;
+				}
 			}
 		}
 		return true;
