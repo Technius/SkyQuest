@@ -67,7 +67,6 @@ public class SkyQuestListener implements Listener
 	public void playerJoin(PlayerJoinEvent event)
 	{
 		if(!event.getPlayer().isOnline())return;
-		plugin.getQuestManager().addData(event.getPlayer());
 		plugin.getDataManager().loadData(event.getPlayer());
 	}
 	@EventHandler(priority = EventPriority.MONITOR)

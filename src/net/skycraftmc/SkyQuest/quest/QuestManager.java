@@ -25,6 +25,14 @@ public class QuestManager
 			pdata.add(new PlayerQuestData(player));
 		}
 	}
+	public void addData(PlayerQuestData data)
+	{
+		synchronized(lock)
+		{
+			removeData(data.getPlayer());
+			pdata.add(data);
+		}
+	}
 	public PlayerQuestData getData(Player player)
 	{
 		synchronized(lock)

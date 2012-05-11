@@ -117,10 +117,12 @@ public class SkyQuestData
 					}
 				}
 			}
+			br.close();
+			plugin.getQuestManager().addData(d);
 		}
 		catch(IOException ioe)
 		{
-			
+			plugin.log.severe("Failed to load player data of " + player.getName() + ": " + ioe.getMessage());
 		}
 	}
 	public void loadQuests()
@@ -199,10 +201,9 @@ public class SkyQuestData
 							opt = false;
 							def = true;
 							onext.clear();
+							continue;
 						}
-						else continue;
 						String t = tokens[0].trim();
-						System.out.println(t);
 						if(t.equalsIgnoreCase("rewards"))rewards = tokens[1].trim();
 						else if(t.equalsIgnoreCase("type"))type = ObjectiveType.getType(tokens[1].toUpperCase());
 						else if(t.equalsIgnoreCase("target"))target = tokens[1].trim();
