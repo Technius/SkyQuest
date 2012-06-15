@@ -8,11 +8,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.PlayerQuestData;
 import net.skycraftmc.SkyQuest.quest.Quest;
+import net.skycraftmc.SkyQuest.util.SkyQuestDataLoader;
 
 import org.bukkit.entity.Player;
 
@@ -125,121 +127,20 @@ public class SkyQuestData
 			plugin.log.severe("Failed to load player data of " + player.getName() + ": " + ioe.getMessage());
 		}
 	}
+	@SuppressWarnings("unchecked")
 	public void loadQuests()
 	{
-		File file = plugin.getDataFolder();
-		if(!file.exists())file.mkdir();
-		File quests = new File(file.getPath() + File.separator + "Quests");
-		if(!quests.exists())quests.mkdir();
-		for(File f:quests.listFiles())
+		ArrayList<HashMap<String, Object>> maps = new SkyQuestDataLoader(plugin.getDataFolder()).loadQuests();
+		for(HashMap<String, Object> map: maps)
 		{
-			if(!f.getName().endsWith(".txt"))continue;
-			if(f.getName().length() <= 4)continue;
-			String qname = f.getName().substring(0, f.getName().length() - 4);
-			try
-			{
-				BufferedReader br = new BufferedReader(new FileReader(f));
-				String l;
-				boolean obj = false;
-				boolean desc = false;
-				boolean def = true;
-				ArrayList<Integer>onext = new ArrayList<Integer>();
-				boolean onextb = false;
-				String name = null;
-				ArrayList<String>d = new ArrayList<String>();
-				ArrayList<String>next = new ArrayList<String>();
-				String rewards = null;
-				boolean opt = false;
-				ObjectiveType type = null;
-				String target = null;
-				ArrayList<Objective> objs = new ArrayList<Objective>();
-				while((l=br.readLine()) != null)
-				{
-					if(desc)
-					{
-						if(l.replaceAll(" ", "").equalsIgnoreCase("enddescription"))
-						{
-							desc = false;
-							continue;
-						}
-						d.add(l.trim());
-					}
-					else if(onextb)
-					{
-						if(l.replaceAll(" ", "").equalsIgnoreCase("endnext"))
-						{
-							onextb = false;
-							continue;
-						}
-						int i;
-						try{i = Integer.parseInt(l.replaceAll(" ", ""));}catch(NumberFormatException nfe){continue;}
-						if(!onext.contains(i))onext.add(i);
-					}
-					else if(obj)
-					{
-						String[] tokens = l.split("[:]" ,2);
-						if(tokens.length != 2 && tokens[0].replaceAll(" ", "").equalsIgnoreCase("endobjective"))
-						{
-							obj = false;
-							if(rewards != null && type != null && target != null)
-							{
-								String[] r = rewards.split("[;]");
-								ArrayList<String>ra = new ArrayList<String>();
-								for(String x:r)ra.add(x);
-								ArrayList<String>da = new ArrayList<String>();
-								for(String x:d)da.add(x);
-								ArrayList<Integer>na = new ArrayList<Integer>();
-								for(int i:onext)na.add(i);
-								Objective o = new Objective(name, target, da, ra, na, type, opt, def);
-								objs.add(o);
-							}
-							d.clear();
-							type = null;
-							name = null;
-							target = null;
-							rewards = null;
-							opt = false;
-							def = true;
-							onext.clear();
-							continue;
-						}
-						String t = tokens[0].trim();
-						if(t.equalsIgnoreCase("rewards"))rewards = tokens[1].trim();
-						else if(t.equalsIgnoreCase("type"))type = ObjectiveType.getType(tokens[1].toUpperCase());
-						else if(t.equalsIgnoreCase("target"))target = tokens[1].trim();
-						else if(t.equalsIgnoreCase("description"))
-						{
-							desc = true;
-							d.add(tokens[1].trim());
-						}
-						else if(t.equalsIgnoreCase("next"))onextb = true;
-						else if(t.equalsIgnoreCase("optional"))opt = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
-						else if(t.equalsIgnoreCase("default"))def = tokens[1].replaceAll(" ", "").equalsIgnoreCase("true");
-
-					}
-					else
-					{
-						String[] tokens = l.split("[:]",2);
-						if(tokens.length != 2)continue;
-						if(tokens[0].startsWith("objective"))
-						{
-							name = tokens[1].trim();
-							obj = true;
-						}
-						else if(tokens[0].equalsIgnoreCase("next"))next.add(tokens[1].trim());
-					}
-				}
-				br.close();
-				ArrayList<String>n = new ArrayList<String>();
-				for(String x:next)n.add(x);
-				Quest q = new Quest(qname, objs, n);
-				plugin.getQuestManager().addQuest(q);
-				System.out.println("Loaded quest: " + q.getName());
-			}
-			catch(IOException ioe)
-			{
-				plugin.log.severe("Failed to load quest \"" + qname + "\":" + ioe.getMessage());
-			}
+			if(!map.containsKey("name"))continue;
+			if(!map.containsKey("objectives"))continue;
+			if(!map.containsKey("next"))continue;
+			String name = (String)map.get("name");
+			ArrayList<Objective> obj = (ArrayList<Objective>)map.get("objectives");
+			ArrayList<String>next = (ArrayList<String>)map.get("next");
+			Quest quest = new Quest(name, obj, next);
+			plugin.getQuestManager().addQuest(quest);
 		}
 	}
 }
