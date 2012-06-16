@@ -27,6 +27,16 @@ public class SQMQList extends JList implements ListSelectionListener
 	{
 		return model;
 	}
+	public void refresh()
+	{
+		model.clear();
+		removeAll();
+		for(HashMap<String, Object> o: frame.getQuests())
+		{
+			String name = (String) o.get("name");
+			if(name != null)model.addElement(name);
+		}
+	}
 	public void valueChanged(ListSelectionEvent arg0) 
 	{
 		int sel = getSelectedIndex();

@@ -40,6 +40,7 @@ public class SQMFrame extends JFrame implements WindowListener, ActionListener
 	private JLabel loadstatus = new JLabel("Click browse to find the SkyQuest folder");
 	private SkyQuestDataLoader loader = null;
 	private TextArea qinfo;
+	private File file;
 	public SQMFrame()
 	{
 		super("SkyQuest Quest Utility");
@@ -101,9 +102,8 @@ public class SQMFrame extends JFrame implements WindowListener, ActionListener
 		qinfo.setEditable(false);
 		JTabbedPane qtab = new JTabbedPane();
 		Panel qlistp = new Panel();
-		Panel qmaker = new Panel();
+		SQMQuestMaker qmaker = new SQMQuestMaker(this);
 		qlistp.setLayout(new BorderLayout());
-		qmaker.setLayout(new BorderLayout());
 		qlistp.add("West", qlist);
 		qlistp.add("Center", qinfo);
 		qtab.add("Quest Data", qlistp);
@@ -168,22 +168,17 @@ public class SQMFrame extends JFrame implements WindowListener, ActionListener
 		}
 		else if(arg0.getSource() == load)
 		{
-			File f = new File(datapath.getText());
-			if(!f.exists())loadstatus.setText("File does not exist!");
-			else if(!f.canRead())loadstatus.setText("This file cannot be read!");
-			else if(!f.isDirectory())loadstatus.setText("This file must be a folder!");
-			else if(!f.getName().equalsIgnoreCase("SkyQUest"))loadstatus.setText("This folder must be named \"SkyQuest\"");
+			file = new File(datapath.getText());
+			if(!file.exists())loadstatus.setText("File does not exist!");
+			else if(!file.canRead())loadstatus.setText("This file cannot be read!");
+			else if(!file.isDirectory())loadstatus.setText("This file must be a folder!");
+			else if(!file.getName().equalsIgnoreCase("SkyQUest"))loadstatus.setText("This folder must be named \"SkyQuest\"");
 			else
 			{
 				loadstatus.setText("Loading data...");
-				loader = new SkyQuestDataLoader(f);
+				loader = new SkyQuestDataLoader(file);
 				questdata = loader.loadQuests();
-				qlist.removeAll();
-				for(HashMap<String, Object> o:questdata)
-				{
-					String name = (String) o.get("name");
-					if(name != null)qlist.getModel().addElement(name);
-				}
+				qlist.refresh();
 				loadstatus.setText("Data loaded successfully!");
 			}
 		}
@@ -216,5 +211,22 @@ public class SQMFrame extends JFrame implements WindowListener, ActionListener
 	public TextArea getQuestArea()
 	{
 		return qinfo;
+	}
+	public File getFile()
+	{
+		return file;
+	}
+	public SQMQList getQuestList()
+	{
+		return qlist;
+	}
+	public boolean hasQuest(String quest)
+	{
+		for(HashMap<String, Object> q:questdata)
+		{
+			if(!q.containsKey("name"))continue;
+			if(((String)q.get("name")).equalsIgnoreCase(quest))return true;
+		}
+		return false;
 	}
 }
