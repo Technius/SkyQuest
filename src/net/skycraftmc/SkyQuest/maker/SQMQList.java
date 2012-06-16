@@ -46,7 +46,20 @@ public class SQMQList extends JList implements ListSelectionListener
 		{
 			qinfo.append(tab + o.getName() + ":" + nl);
 			qinfo.append(tab + tab + "Objective: " + o.getTarget() + nl);
-			qinfo.append(tab + tab + "Description: " + nl);
+			String d = null;
+			for(String s: o.getDescription())
+			{
+				if(d == null)d = s;
+				else d = d + nl + tab + tab + tab + s;
+			}
+			String r = null;
+			for(String s: o.getRewards())
+			{
+				if(r == null)r = s;
+				else r = r + nl + tab + tab + tab + s;
+			}
+			qinfo.append(tab + tab + "Description: " + d + nl);
+			if(r != null)qinfo.append(tab + tab + "Rewards: " + r + nl);
 		}
 	}
 }

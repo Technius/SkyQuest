@@ -189,7 +189,7 @@ public class SQMFrame extends JFrame implements WindowListener, ActionListener
 		}
 		else if(arg0.getSource() == browse)
 		{
-			JFileChooser fc = new JFileChooser();
+			JFileChooser fc = new JFileChooser(System.getProperty("user.dir"));
 			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			fc.setApproveButtonText("Choose");
 			int v = fc.showOpenDialog(this);

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.skycraftmc.SkyQuest.quest.Objective;
-import net.skycraftmc.SkyQuest.quest.ObjectiveType;
 import net.skycraftmc.SkyQuest.quest.PlayerQuestData;
 import net.skycraftmc.SkyQuest.quest.Quest;
 import net.skycraftmc.SkyQuest.util.SkyQuestDataLoader;
