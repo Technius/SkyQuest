@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JList;
+
 import net.skycraftmc.SkyQuest.quest.Objective;
 import net.skycraftmc.SkyQuest.quest.ObjectiveType;
 
@@ -31,6 +33,7 @@ public class SQMQuestMaker extends Panel implements ActionListener
 	private Choice optional = new Choice();
 	private Choice def = new Choice();
 	private Choice type = new Choice();
+	private JList<String> objlist = new JList<String>();
 	public SQMQuestMaker(SQMFrame frame)
 	{
 		this.frame = frame;
@@ -38,6 +41,7 @@ public class SQMQuestMaker extends Panel implements ActionListener
 		optional.add("False");
 		def.add("True");
 		def.add("False");
+		objlist.setPreferredSize(new java.awt.Dimension(getWidth()/10, getHeight()/10));
 		for(ObjectiveType t: ObjectiveType.values())type.add(t.toString());
 		setLayout(new BorderLayout());
 		Panel o = new Panel();
@@ -47,12 +51,14 @@ public class SQMQuestMaker extends Panel implements ActionListener
 		Panel c = new Panel();
 		Panel c1 = new Panel();
 		Panel t = new Panel();
+		Panel objcreate = new Panel();
 		i.setLayout(new BorderLayout());
 		o.setLayout(new BorderLayout());
 		otf.setLayout(new BorderLayout());
 		nf.setLayout(new BorderLayout());
 		t.setLayout(new BorderLayout());
 		c1.setLayout(new BorderLayout());
+		objcreate.setLayout(new BorderLayout());
 		i.add("North", namef);
 		i.add("Center", create);
 		//objectives
@@ -75,8 +81,10 @@ public class SQMQuestMaker extends Panel implements ActionListener
 		o.add("South", createob);
 		o.add("East", c1);
 		//
-		add("North", i);
-		add("West", o);
+		objcreate.add("North", i);
+		objcreate.add("West", o);
+		add("Center", objcreate);
+		add("East", objlist);
 		add("South", status);
 		create.addActionListener(this);
 		createob.addActionListener(this);
