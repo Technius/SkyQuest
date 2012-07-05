@@ -129,6 +129,7 @@ public class SkyQuestData
 	@SuppressWarnings("unchecked")
 	public void loadQuests()
 	{
+		if(!plugin.getDataFolder().exists())plugin.getDataFolder().mkdir();
 		ArrayList<HashMap<String, Object>> maps = new SkyQuestDataLoader(plugin.getDataFolder()).loadQuests();
 		for(HashMap<String, Object> map: maps)
 		{
