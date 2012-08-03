@@ -169,7 +169,7 @@ public class SQMFrame extends JFrame implements WindowListener, ActionListener
 			home.loadstatus.setText("Loading data...");
 			loader = new SkyQuestDataLoader(file);
 			questdata = loader.loadQuests();
-			quests.getQuestList().refresh();
+			quests.getQuestList();
 			home.loadstatus.setText("Data loaded successfully!");
 		}
 	}

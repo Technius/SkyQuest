@@ -10,14 +10,14 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class QuestPanel extends JPanel
 {
-	private SQMQList qlist;
+	private SQMOList qlist;
 	private SQMFrame frame;
 	private SQMOList olist;
 	public QuestPanel(SQMFrame frame)
 	{
 		this.frame = frame;
 		setLayout(new BorderLayout());
-		qlist = new SQMQList(this);
+		qlist = new SQMOList(this);
 		qlist.setPreferredSize(new Dimension(frame.getWidth()/4, frame.getHeight()));
 		olist = new SQMOList(this);
 		olist.setPreferredSize(new Dimension(frame.getWidth()/4, frame.getHeight()));
@@ -36,7 +36,7 @@ public class QuestPanel extends JPanel
 		lists.add(b);
 		add("West", lists);
 	}
-	public SQMQList getQuestList()
+	public SQMOList getQuestList()
 	{
 		return qlist;
 	}
