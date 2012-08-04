@@ -2,20 +2,15 @@ package net.skycraftmc.SkyQuest.quest;
 
 import java.util.ArrayList;
 
-public class Quest 
+public class Quest extends RawQuestData
 {
-	private ArrayList<String>next = new ArrayList<String>();
 	private ArrayList<Objective>o = new ArrayList<Objective>();
 	public Quest(String name, ArrayList<Objective> objectives, ArrayList<String> next)
 	{
+		super(name);
 		this.name = name;
 		this.next = next;
 		o = objectives;
-	}
-	private String name;
-	public String getName()
-	{
-		return name;
 	}
 	public Quest clone()
 	{
