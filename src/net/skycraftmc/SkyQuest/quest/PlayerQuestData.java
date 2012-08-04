@@ -26,7 +26,8 @@ public class PlayerQuestData
 		Objective[] obj = quest.getObjectives();
 		addQuest(quest.clone());
 		player.sendMessage("Started: " + quest.getName());
-		if(obj.length > 0);//open up the book GUI when 1.3 is released
+		if(obj.length <= 0)return;//open up the book GUI when 1.3 is released
+		
 	}
 	public void removeQuest(Quest quest)
 	{

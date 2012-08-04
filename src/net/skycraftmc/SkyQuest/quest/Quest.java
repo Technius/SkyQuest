@@ -22,6 +22,14 @@ public class Quest extends RawQuestData
 	{
 		return o.toArray(new Objective[o.size()]);
 	}
+	public Objective getObjective(String name)
+	{
+		for(Objective o:this.o)
+		{
+			if(o.getName().equals(name))return o;
+		}
+		return null;
+	}
 	public boolean checkComplete()
 	{
 		for(Objective o:this.o)

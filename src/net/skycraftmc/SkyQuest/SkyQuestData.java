@@ -46,12 +46,10 @@ public class SkyQuestData
 			{
 				bw.write("quest: " + quest.getName());
 				bw.newLine();
-				int i = 1;
 				for(Objective o:quest.getObjectives())
 				{
-					bw.write("    objective " + i + ": " + (o.isComplete() ? "Complete" : o.getProgress()));
+					bw.write("    objective " + o.getName() + ": " + (o.isComplete() ? "Complete" : o.getProgress()));
 					bw.newLine();
-					i ++;
 				}
 				bw.write("end quest");
 				bw.newLine();
@@ -111,10 +109,8 @@ public class SkyQuestData
 					if(s.length != 2)continue;
 					if(s[0].equalsIgnoreCase("objective"))
 					{
-						int objn;
-						try{objn = Integer.parseInt(s[1]);
-						}catch(NumberFormatException nfe){continue;}
-						quest.getObjectives()[objn - 1].setProgress(tokens[1].trim());
+						Objective o = quest.getObjective(s[1]);
+						if(o != null)o.setProgress(tokens[1].trim());
 					}
 				}
 			}

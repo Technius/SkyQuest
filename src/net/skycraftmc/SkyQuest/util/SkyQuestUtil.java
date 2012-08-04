@@ -106,7 +106,7 @@ public class SkyQuestUtil
 				if(type == null)continue;
 				try
 				{
-					if(d.length == 2)
+					if(d.length == 3)
 					{
 						dur = Short.parseShort(d[1]);
 						a = Integer.parseInt(d[2]);

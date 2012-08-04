@@ -25,32 +25,25 @@ public class SkyQuestListener implements Listener
 		this.plugin = plugin;
 	}
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void killObjective(EntityDeathEvent e)
+	public void killObjective(EntityDeathEvent event)
 	{
-		if(!(e instanceof LivingEntity))return;
-		EntityDamageEvent ea = e.getEntity().getLastDamageCause();
-		if(!(ea instanceof EntityDamageByEntityEvent))return;
-		EntityDamageByEntityEvent event = (EntityDamageByEntityEvent)ea;
-		if(!(event.getDamager() instanceof Player))return;
-		Player player = (Player)event.getDamager();
+		Player player = event.getEntity().getKiller();
+		if(player == null)return;
 		for(Quest quest: plugin.getQuestManager().getData(player).getQuests())
 		{
-			System.out.println("Quest: " + quest.getName());
 			for(Objective o:quest.getUnlocked())
 			{
-				System.out.println("Objective: " + o.getName());
 				if(o.getType() != ObjectiveType.KILL)continue;
 				if(o.isComplete())continue;
-				int p = Integer.parseInt(o.getProgress());
+				int p = Integer.parseInt(o.getProgress().replaceAll(" ", ""));
 				String[] t = o.getTarget().split("[ ]+", 2);
-				System.out.println("Parsing objective");
 				if(t.length != 2)continue;
 				EntityType type = EntityType.fromName(t[0].toUpperCase());
 				if(type == null)continue;
 				if(event.getEntity().getType() != type)continue;
 				o.setProgress("" + (p + 1));
-				player.sendMessage("Progress-" + o.getName() + ": " + p + "/" + t[1]);
-				if(o.isComplete())
+				player.sendMessage(o.getName() + "(" + o.getProgress() + "/" + t[1] + ")");
+				if(o.checkComplete())
 				{
 					player.sendMessage("Objective Completed: " + o.getName());
 					SkyQuestUtil.applyRewards(player, o);
