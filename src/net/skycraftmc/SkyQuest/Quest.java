@@ -8,9 +8,13 @@ public class Quest
 	private String id;
 	private ArrayList<Objective>obj = new ArrayList<Objective>();
 	private ArrayList<Stage>stages = new ArrayList<Stage>();
-	public Quest(String name, String id)
+	private Stage firststage;
+	public Quest(String id, String name, Stage firststage)
 	{
 		this.name = name;
+		this.id = id;
+		stages.add(firststage);
+		this.firststage = firststage;
 	}
 	public String getName()
 	{
@@ -67,5 +71,9 @@ public class Quest
 	public Objective[] getObjectives()
 	{
 		return obj.toArray(new Objective[obj.size()]);
+	}
+	public Stage getFirstStage()
+	{
+		return firststage;
 	}
 }

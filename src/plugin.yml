@@ -1,6 +1,6 @@
 name: SkyQuest
 version: 0.0.1a-Early-Alpha
-main: net.skycraftmc.SkyQuest.SkyQuestMain
+main: net.skycraftmc.SkyQuest.SkyQuestPlugin
 commands:
     quest:
         description: Quest menu

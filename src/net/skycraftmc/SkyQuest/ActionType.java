@@ -2,6 +2,8 @@ package net.skycraftmc.SkyQuest;
 
 public abstract class ActionType 
 {
+	public static final AssignObjectiveAction ASSIGN_OBJECTIVE = new AssignObjectiveAction();
+	public static final SetStageAction SET_STAGE = new SetStageAction();
 	public abstract boolean apply(String player, String action);
 	/**
 	 * Applies this action.
@@ -14,4 +16,5 @@ public abstract class ActionType
 	}
 	public abstract boolean isValid(String action);
 	public abstract String getName();
+	public abstract boolean requiresPlayer();
 }

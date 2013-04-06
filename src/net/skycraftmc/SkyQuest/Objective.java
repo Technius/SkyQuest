@@ -6,11 +6,12 @@ public class Objective
 {
 	private String name;
 	private String id;
-	private ArrayList<Reward>rewards = new ArrayList<Reward>();
+	private ArrayList<QuestAction>rewards = new ArrayList<QuestAction>();
 	private ObjectiveType type;
 	private String target;
 	private boolean optional = false;
-	public Objective(String name, String id, ObjectiveType type, String target)
+	private boolean visible = true;
+	public Objective(String id, String name, ObjectiveType type, String target)
 	{
 		if(!type.isValid(target))
 			throw new IllegalArgumentException("target is not valid for type " + type.getName());
@@ -59,5 +60,17 @@ public class Objective
 	public void setOptional(boolean optional)
 	{
 		this.optional = optional;
+	}
+	public boolean isVisible()
+	{
+		return visible;
+	}
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
+	}
+	public QuestAction[] getRewards()
+	{
+		return rewards.toArray(new QuestAction[rewards.size()]);
 	}
 }

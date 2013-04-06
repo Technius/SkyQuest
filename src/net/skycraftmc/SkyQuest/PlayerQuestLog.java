@@ -1,11 +1,16 @@
 package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 public class PlayerQuestLog 
 {
 	private String player;
 	private ArrayList<QuestData>assigned = new ArrayList<QuestData>();
+	private HashMap<String, Integer>completed = new HashMap<String, Integer>();
 	public PlayerQuestLog(String player)
 	{
 		this.player = player;
@@ -17,13 +22,20 @@ public class PlayerQuestLog
 	public void assign(Quest quest)
 	{
 		if(isAssigned(quest))return;
-		assigned.add(new QuestData(player, quest));
+		QuestData qd = new QuestData(this, quest);
+		assigned.add(qd);
+		if(SkyQuest.isOnServer())
+		{
+			Player p = Bukkit.getServer().getPlayerExact(player);
+			if(p != null)p.sendMessage("Started: "  + quest.getName());
+		}
+		qd.setStage(quest.getFirstStage().getID());
 	}
 	public boolean isAssigned(Quest quest)
 	{
 		for(QuestData qd:assigned)
 		{
-			if(qd.getQuest() == quest)return true;
+			if(qd.getQuest().getID().equals(quest.getID()))return true;
 		}
 		return false;
 	}
@@ -42,8 +54,17 @@ public class PlayerQuestLog
 	{
 		for(QuestData qd:assigned)
 		{
-			if(qd.getQuest() == quest)return qd;
+			if(qd.getQuest().getID().equals(quest.getID()))return qd;
 		}
 		return null;
+	}
+	public boolean hasCompleted(Quest quest)
+	{
+		return completed.containsKey(quest.getID());
+	}
+	public int getTimesCompleted(Quest quest)
+	{
+		if(!completed.containsKey(quest.getID()))return 0;
+		else return completed.get(quest.getID());
 	}
 }

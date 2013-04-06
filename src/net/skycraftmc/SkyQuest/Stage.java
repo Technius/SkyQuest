@@ -42,4 +42,8 @@ public class Stage
 			throw new ArrayIndexOutOfBoundsException("index is out of bounds");
 		actions.remove(index);
 	}
+	public QuestAction[] getActions()
+	{
+		return actions.toArray(new QuestAction[actions.size()]);
+	}
 }

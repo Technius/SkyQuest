@@ -1,5 +1,6 @@
 package net.skycraftmc.SkyQuest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.bukkit.Bukkit;
@@ -10,19 +11,33 @@ public class QuestData
 {
 	private Quest q;
 	private String stage;
+	private ArrayList<String> unassigned = new ArrayList<String>();
 	private HashMap<String, String> objprog = new HashMap<String, String>();
 	private String player;
-	public QuestData(String player, Quest quest)
+	private PlayerQuestLog log;
+	private boolean settingstage = false;
+	private String lateststage;
+	protected QuestData(PlayerQuestLog log, Quest quest)
 	{
 		q = quest;
+		this.log = log;
+		player = log.getPlayer();
+		for(Objective o:q.getObjectives())unassigned.add(o.getID());
 	}
-	public String getStage()
+	public void assign(String oid)
 	{
-		return stage;
-	}
-	public void setStage(String stage)
-	{
-		this.stage = stage;
+		if(unassigned.contains(oid))
+		{
+			unassigned.remove(oid);
+			Objective o = q.getObjective(oid);
+			ObjectiveType type = o.getType();
+			objprog.put(oid, type.createProgress(type.getData(o.getTarget())));
+			if(SkyQuest.isOnServer())
+			{
+				Player p = Bukkit.getServer().getPlayerExact(player);
+				if(p != null)p.sendMessage(o.getName());
+			}
+		}
 	}
 	public String getProgress(String oid)
 	{
@@ -45,8 +60,8 @@ public class QuestData
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
 				if(p != null)p.sendMessage(ChatColor.GREEN + "Objective completed: " + o.getName());
+				for(QuestAction r:o.getRewards())r.apply(player);
 			}
-			//TODO Objective rewards
 		}
 		else objprog.put(oid, progress);
 		if(isComplete())
@@ -55,7 +70,7 @@ public class QuestData
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
 				if(p != null)p.sendMessage(ChatColor.GREEN + "Quest completed: " + q.getName());
-				//TODO Quest rewards
+				//TODO Remove from log, etc.
 			}
 		}
 	}
@@ -72,6 +87,37 @@ public class QuestData
 	}
 	public boolean isComplete()
 	{
-		return objprog.size() == 0;
+		return objprog.size() == 0 && unassigned.size() == 0;
+	}
+	public boolean isAssigned(String oid)
+	{
+		return objprog.containsKey(oid);
+	}
+	public void setStage(String id)
+	{
+		Stage s = q.getStage(id);
+		if(s == null)
+			throw new IllegalArgumentException("No such stage: " + id);
+		if(settingstage)
+		{
+			lateststage = id;
+			return;
+		}
+		settingstage = true;
+		for(QuestAction a:s.getActions())
+		{
+			a.apply(player);
+		}
+		settingstage = false;
+		if(lateststage != null)
+		{
+			final String lstage = lateststage;
+			lateststage = null;
+			setStage(lstage);
+		}
+	}
+	public String getStage()
+	{
+		return stage;
 	}
 }

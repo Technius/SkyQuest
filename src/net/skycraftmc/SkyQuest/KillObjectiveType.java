@@ -39,7 +39,7 @@ public class KillObjectiveType extends ObjectiveType
 		if(tokens.length != 2)return false;
 		try
 		{
-			if(Integer.parseInt(tokens[0]) < 1)return false;
+			if(Integer.parseInt(tokens[0]) < 0)return false;
 		}catch(NumberFormatException nfe)
 		{
 			return false;
@@ -48,8 +48,7 @@ public class KillObjectiveType extends ObjectiveType
 		{
 			EntityType et = EntityType.fromName(tokens[1].toUpperCase());
 			if(et == null)return false;
-			else if(et.isAlive())return true;
-			else return false;
+			return et.isAlive();
 		}
 		return true;
 	}
@@ -57,6 +56,18 @@ public class KillObjectiveType extends ObjectiveType
 	public String getName() 
 	{
 		return "Kill";
+	}
+	
+	public String createProgress(String data)
+	{
+		return "0 " + data;
+	}
+	
+	public String getData(String progress)
+	{
+		if(!isValid(progress))
+			throw new IllegalArgumentException("progress is not valid");
+		return progress.split(" ", 2)[1];
 	}
 	
 }

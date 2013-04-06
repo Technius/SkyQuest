@@ -1,10 +1,12 @@
 package net.skycraftmc.SkyQuest;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class SkyQuestListener implements Listener
 {
@@ -28,13 +30,28 @@ public class SkyQuestListener implements Listener
 			for(Objective o:q.getObjectives())
 			{
 				if(o.getType() != ObjectiveType.KILL)continue;
+				if(!qd.isAssigned(o.getID()))continue;
 				String prog = qd.getProgress(o.getID());
 				String targ = o.getTarget();
 				if(!ObjectiveType.KILL.isSimilarType(targ, prog))continue;
 				int p = ObjectiveType.KILL.getKills(prog);
 				int t = ObjectiveType.KILL.getKills(targ);
+				player.sendMessage(ChatColor.GREEN + o.getName() + " (" + p + "/" + t + ")");
 				qd.setProgress(o.getID(), (p ++) + " " + ent.getType().name());
 			}
+		}
+	}
+	@EventHandler
+	public void join(PlayerJoinEvent event)
+	{
+		String name = event.getPlayer().getName();
+		if(qm.getQuestLog(name) == null)
+		{
+			PlayerQuestLog log = new PlayerQuestLog(name);
+			qm.addQuestLog(log);
+			
+			//Testing
+			log.assign(qm.getQuest("test"));
 		}
 	}
 }

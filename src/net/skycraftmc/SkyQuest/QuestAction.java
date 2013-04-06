@@ -19,4 +19,16 @@ public class QuestAction
 	{
 		return action;
 	}
+	public void apply(String player)
+	{
+		if(player == null && type.requiresPlayer())
+			throw new UnsupportedOperationException(type.getName() + " requires a player");
+		type.apply(player, action);
+	}
+	public void apply()
+	{
+		if(type.requiresPlayer())
+			throw new UnsupportedOperationException(type.getName() + " requires a player");
+		type.apply(action);
+	}
 }
