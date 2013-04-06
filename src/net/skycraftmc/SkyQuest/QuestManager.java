@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class QuestManager 
 {
 	private ArrayList<Quest>quests = new ArrayList<Quest>();
+	private ArrayList<PlayerQuestLog>qlogs = new ArrayList<PlayerQuestLog>();
 	private HashMap<String, ObjectiveType>regisObjType = new HashMap<String, ObjectiveType>();
 	public Quest getQuest(String id)
 	{
@@ -30,5 +31,13 @@ public class QuestManager
 			throw new java.lang.UnsupportedOperationException(type.getClass().getName() + " is already" +
 				" registered");
 		regisObjType.put(type.getClass().getName(), type);
+	}
+	public PlayerQuestLog getQuestLog(String player)
+	{
+		for(PlayerQuestLog q:qlogs)
+		{
+			if(q.getPlayer().equals(player))return q;
+		}
+		return null;
 	}
 }

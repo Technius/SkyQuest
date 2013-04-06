@@ -64,4 +64,8 @@ public class Quest
 		Stage s = getStage(id);
 		if(s != null)stages.remove(s);
 	}
+	public Objective[] getObjectives()
+	{
+		return obj.toArray(new Objective[obj.size()]);
+	}
 }
