@@ -26,6 +26,15 @@ public class QuestData
 			throw new IllegalArgumentException("Quest \"" + q.getName() + "\" has no such objective: " + qid);
 		return objprog.get(qid);
 	}
+	public void setProgress(String qid, String progress)
+	{
+		Objective o = q.getObjective(qid);
+		if(o == null)
+			throw new IllegalArgumentException("Quest \"" + q.getName() + "\" has no such objective: " + qid);
+		if(!o.getType().isValid(progress))
+			throw new IllegalArgumentException("progress is not valid for type " + o.getType().getName());
+		objprog.put(qid, progress);
+	}
 	public Quest getQuest()
 	{
 		return q;

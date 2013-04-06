@@ -4,4 +4,5 @@ public abstract class RewardType
 {
 	public abstract boolean reward(String player, String reward);
 	public abstract boolean isValid(String reward);
+	public abstract String getName();
 }
