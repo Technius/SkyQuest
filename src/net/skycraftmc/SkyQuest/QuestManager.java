@@ -15,6 +15,13 @@ public class QuestManager
 		}
 		return null;
 	}
+	public void addQuest(Quest quest)
+	{
+		if(quest == null)
+			throw new IllegalArgumentException("quest is null");
+		if(getQuest(quest.getID()) != null)return;
+		quests.add(quest);
+	}
 	public void registerObjectiveType(ObjectiveType type)
 	{
 		if(type == null)

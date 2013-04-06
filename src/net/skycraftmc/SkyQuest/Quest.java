@@ -7,6 +7,7 @@ public class Quest
 	private String name;
 	private String id;
 	private ArrayList<Objective>obj = new ArrayList<Objective>();
+	private ArrayList<Stage>stages = new ArrayList<Stage>();
 	public Quest(String name, String id)
 	{
 		this.name = name;
@@ -42,5 +43,25 @@ public class Quest
 	{
 		Objective o = getObjective(id);
 		if(o != null)obj.remove(o);
+	}
+	public Stage getStage(String id)
+	{
+		for(Stage s:stages)
+		{
+			if(s.getID().equals(id))return s;
+		}
+		return null;
+	}
+	public void addStage(Stage stage)
+	{
+		if(stage == null)
+			throw new IllegalArgumentException("stage is null");
+		if(getObjective(stage.getID()) != null)return;
+		stages.add(stage);
+	}
+	public void removeStage(String id)
+	{
+		Stage s = getStage(id);
+		if(s != null)stages.remove(s);
 	}
 }
