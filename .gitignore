@@ -1,1 +1,7 @@
 .classpath
+bin
+
+*.jar
+*.war
+*.class
+*.ear
