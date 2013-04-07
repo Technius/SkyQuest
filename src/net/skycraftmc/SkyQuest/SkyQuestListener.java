@@ -36,6 +36,7 @@ public class SkyQuestListener implements Listener
 				String prog = qd.getProgress(o.getID());
 				String targ = o.getTarget();
 				if(!ObjectiveType.KILL.isSimilarType(targ, prog))continue;
+				if(!ObjectiveType.KILL.getEntityType(targ).equals(ent.getType().name()))continue;
 				int p = ObjectiveType.KILL.getKills(prog) + 1;
 				int t = ObjectiveType.KILL.getKills(targ);
 				player.sendMessage(ChatColor.GREEN + o.getName() + " (" + p + "/" + t + ")");

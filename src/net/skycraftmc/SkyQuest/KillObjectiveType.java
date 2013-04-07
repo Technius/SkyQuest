@@ -33,6 +33,12 @@ public class KillObjectiveType extends ObjectiveType
 		String[] tokenst = target.split(" ", 2);
 		return tokenst[1].equals(tokensp[1]);
 	}
+	public String getEntityType(String data)
+	{
+		if(!isValid(data))
+			throw new IllegalArgumentException("data is not valid");
+		return data.split(" ", 2)[1];
+	}
 	public boolean isValid(String progress)
 	{
 		String[] tokens = progress.split(" ", 2);
