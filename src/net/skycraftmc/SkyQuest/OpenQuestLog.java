@@ -76,7 +76,7 @@ public class OpenQuestLog
 			ArrayList<Objective>n = new ArrayList<Objective>();
 			for(int i = 0; i < oao.length; i ++)
 			{
-				if(oao[i].isVisible())n.add(oao[i]);
+				if(oao[i].isVisible() && qd.isAssigned(oao[i].getID()))n.add(oao[i]);
 			}
 			Objective[] oa = n.toArray(new Objective[n.size()]);
 			for(int i = 0; i < oa.length && i < 27; i ++)

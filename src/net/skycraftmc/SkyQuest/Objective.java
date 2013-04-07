@@ -74,6 +74,24 @@ public class Objective
 	{
 		return rewards.toArray(new QuestAction[rewards.size()]);
 	}
+	public void addReward(QuestAction reward)
+	{
+		if(reward == null)
+			throw new IllegalArgumentException("reward is null");
+		rewards.add(reward);
+	}
+	public void addReward(QuestAction reward, int index)
+	{
+		if(index >= rewards.size() || index < 0)
+			throw new ArrayIndexOutOfBoundsException("index is out of bounds");
+		rewards.add(index, reward);
+	}
+	public void removeReward(int index)
+	{
+		if(index >= rewards.size() || index < 0)
+			throw new ArrayIndexOutOfBoundsException("index is out of bounds");
+		rewards.remove(index);
+	}
 	public int getItemIconId()
 	{
 		return itemico;

@@ -52,9 +52,15 @@ public class KillObjectiveType extends ObjectiveType
 		}
 		if(SkyQuest.isOnServer())
 		{
-			EntityType et = EntityType.fromName(tokens[1].toUpperCase());
-			if(et == null)return false;
-			return et.isAlive();
+			try
+			{
+				EntityType et = EntityType.valueOf(tokens[1].toUpperCase());
+				return et.isAlive();
+			}
+			catch(IllegalArgumentException iae)
+			{
+				return false;
+			}
 		}
 		return true;
 	}

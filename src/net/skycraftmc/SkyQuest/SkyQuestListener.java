@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class SkyQuestListener implements Listener
 {
@@ -61,7 +63,10 @@ public class SkyQuestListener implements Listener
 	public void interact(PlayerInteractEvent event)
 	{
 		if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)return;
-		//TODO: Add ItemStack check
+		ItemStack hand = event.getPlayer().getItemInHand();
+		if(hand == null)return;
+		if(hand.getType() != Material.ENCHANTED_BOOK)return;
+		//TODO: Finish ItemMeta check
 		plugin.getQuestLogManager().openQuestLog(event.getPlayer());
 	}
 }
