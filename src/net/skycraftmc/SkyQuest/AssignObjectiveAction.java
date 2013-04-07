@@ -28,7 +28,7 @@ public class AssignObjectiveAction extends ActionType
 
 	public String getName()
 	{
-		return "AssignObjective";
+		return "Assign Objective";
 	}
 
 	public boolean requiresPlayer() 

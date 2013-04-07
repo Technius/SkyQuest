@@ -26,7 +26,7 @@ public class SetStageAction extends ActionType
 	
 	public String getName() 
 	{
-		return "SetStage";
+		return "Set Stage";
 	}
 
 	public boolean requiresPlayer() 
