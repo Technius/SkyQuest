@@ -11,8 +11,8 @@ public class QuestData
 {
 	private Quest q;
 	private String stage;
-	private ArrayList<String> unassigned = new ArrayList<String>();
-	private HashMap<String, String> objprog = new HashMap<String, String>();
+	ArrayList<String> unassigned = new ArrayList<String>();
+	HashMap<String, String> objprog = new HashMap<String, String>();
 	private String player;
 	private PlayerQuestLog log;
 	private boolean settingstage = false;

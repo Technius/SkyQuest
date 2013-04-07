@@ -11,7 +11,7 @@ public class PlayerQuestLog
 {
 	private String player;
 	private ArrayList<QuestData>assigned = new ArrayList<QuestData>();
-	private HashMap<String, Integer>completed = new HashMap<String, Integer>();
+	private HashMap<CompletedQuestData, Integer>completed = new HashMap<CompletedQuestData, Integer>();
 	public PlayerQuestLog(String player)
 	{
 		this.player = player;
@@ -35,9 +35,11 @@ public class PlayerQuestLog
 	public void complete(Quest quest)
 	{
 		if(!isAssigned(quest))return;
-		assigned.remove(getProgress(quest));
-		if(!completed.containsKey(quest.getID()))completed.put(quest.getID(), 1);
-		else completed.put(quest.getID(), completed.get(quest.getID()) + 1);
+		QuestData qd = getProgress(quest);
+		assigned.remove(qd);
+		CompletedQuestData cqd = new CompletedQuestData(quest, qd.unassigned, qd.objprog);
+		if(!hasCompleted(quest))completed.put(cqd, 1);
+		else completed.put(cqd, completed.get(getCompletedData(quest)) + 1);
 	}
 	public boolean isAssigned(Quest quest)
 	{
@@ -68,16 +70,24 @@ public class PlayerQuestLog
 	}
 	public boolean hasCompleted(Quest quest)
 	{
-		return completed.containsKey(quest.getID());
+		return getCompletedData(quest) != null;
 	}
 	public int getTimesCompleted(Quest quest)
 	{
 		if(!completed.containsKey(quest.getID()))return 0;
 		else return completed.get(quest.getID());
 	}
-	public String[] getCompleted()
+	public CompletedQuestData getCompletedData(Quest quest)
 	{
-		Set<String>s = completed.keySet();
-		return s.toArray(new String[s.size()]);
+		for(CompletedQuestData c:completed.keySet())
+		{
+			if(c.getQuest() == quest)return c;
+		}
+		return null;
+	}
+	public CompletedQuestData[] getCompleted()
+	{
+		Set<CompletedQuestData>s = completed.keySet();
+		return s.toArray(new CompletedQuestData[s.size()]);
 	}
 }

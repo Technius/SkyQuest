@@ -34,7 +34,9 @@ public class OpenQuestLog
 	}
 	private void recalculateCompleted()
 	{
-		String[] ca = log.getCompleted();
+		CompletedQuestData[] cqd = log.getCompleted();
+		String[] ca = new String[cqd.length];
+		for(int i = 0; i < cqd.length; i ++)ca[i] = cqd[i].getQuest().getID();
 		QuestManager qm = SkyQuestPlugin.getPlugin().getQuestManager();
 		ArrayList<Quest>c = new ArrayList<Quest>();
 		for(int i = 0; i < ca.length; i ++)
@@ -98,6 +100,7 @@ public class OpenQuestLog
 		}
 		else if(viewcomp)
 		{
+			CompletedQuestData cqd = log.getCompletedData(selected);
 			Objective[] oao = selected.getObjectives();
 			ArrayList<Objective>n = new ArrayList<Objective>();
 			for(int i = 0; i < oao.length; i ++)
@@ -113,14 +116,28 @@ public class OpenQuestLog
 				if(m == null || m == Material.AIR)m = Material.WRITTEN_BOOK;
 				ItemStack ostack = new ItemStack(m);
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
-				String ps = o.getType().getProgressString(o.getTarget(), o.getTarget());
-				im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
-				im.setLore(Arrays.asList(new String[]{ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed"}));
+				String ps; 
+				ArrayList<String>lore = new ArrayList<String>();
+				if(o.isOptional())lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Optional");
+				ChatColor tcol;
+				if(cqd.isComplete(o.getID()))
+				{
+					lore.add(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed");
+					ps = o.getType().getProgressString(o.getTarget(), o.getTarget());
+					tcol = ChatColor.GREEN;
+				}
+				else
+				{
+					ps = o.getType().getProgressString(o.getTarget(), cqd.getProgress(o.getID()));
+					tcol = ChatColor.YELLOW;
+				}
+				im.setDisplayName(tcol + o.getName() + " " + ps);
+				im.setLore(lore);
 				ostack.setItemMeta(im);
 				inv.setItem(i, ostack);
 			}
-			ItemStack back = new ItemStack(Material.ARROW);
-			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.ARROW);
+			ItemStack back = new ItemStack(Material.BOOK_AND_QUILL);
+			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.BOOK_AND_QUILL);
 			bim.setDisplayName(ChatColor.YELLOW + "Back to quest log");
 			back.setItemMeta(bim);
 			inv.setItem(27, back);
@@ -145,25 +162,26 @@ public class OpenQuestLog
 				ItemStack ostack = new ItemStack(m);
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
 				boolean complete = qd.isComplete(o.getID());
+				ArrayList<String>lore = new ArrayList<String>();
+				if(o.isOptional())lore.add(ChatColor.GOLD + "" + 
+						ChatColor.ITALIC + "Optional");
 				if(complete)
 				{
 					String ps = o.getType().getProgressString(o.getTarget(), o.getTarget());
 					im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
-					im.setLore(Arrays.asList(new String[]{ChatColor.YELLOW + "" + 
-						ChatColor.ITALIC + "Completed"}));
+					lore.add(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed");
 				}
 				else
 				{
 					String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
 					im.setDisplayName(ChatColor.YELLOW + o.getName() + " " + ps);
-					if(o.isOptional())im.setLore(Arrays.asList(new String[]{ChatColor.GOLD + "" + 
-						ChatColor.ITALIC + "Optional"}));
 				}
+				im.setLore(lore);
 				ostack.setItemMeta(im);
 				inv.setItem(i, ostack);
 			}
-			ItemStack back = new ItemStack(Material.ARROW);
-			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.ARROW);
+			ItemStack back = new ItemStack(Material.BOOK_AND_QUILL);
+			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.BOOK_AND_QUILL);
 			bim.setDisplayName(ChatColor.YELLOW + "Back to quest log");
 			back.setItemMeta(bim);
 			inv.setItem(27, back);
