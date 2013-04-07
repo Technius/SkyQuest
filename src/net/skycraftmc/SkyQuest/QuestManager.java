@@ -11,6 +11,7 @@ public class QuestManager
 		registerObjectiveType(ObjectiveType.TRAVEL);
 		registerActionType(ActionType.ASSIGN_OBJECTIVE);
 		registerActionType(ActionType.SET_STAGE);
+		registerActionType(ActionType.MESSAGE);
 	}
 	private ArrayList<Quest>quests = new ArrayList<Quest>();
 	private ArrayList<PlayerQuestLog>qlogs = new ArrayList<PlayerQuestLog>();

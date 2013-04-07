@@ -4,6 +4,7 @@ public abstract class ActionType
 {
 	public static final AssignObjectiveAction ASSIGN_OBJECTIVE = new AssignObjectiveAction();
 	public static final SetStageAction SET_STAGE = new SetStageAction();
+	public static final MessageAction MESSAGE = new MessageAction();
 	public abstract boolean apply(String player, String action);
 	/**
 	 * Applies this action.

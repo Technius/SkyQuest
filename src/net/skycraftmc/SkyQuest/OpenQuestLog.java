@@ -2,7 +2,6 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
