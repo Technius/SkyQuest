@@ -72,7 +72,13 @@ public class OpenQuestLog
 		else
 		{
 			QuestData qd = log.getProgress(selected);
-			Objective[] oa = qd.getQuest().getObjectives();
+			Objective[] oao = qd.getQuest().getObjectives();
+			ArrayList<Objective>n = new ArrayList<Objective>();
+			for(int i = 0; i < oao.length; i ++)
+			{
+				if(oao[i].isVisible())n.add(oao[i]);
+			}
+			Objective[] oa = n.toArray(new Objective[n.size()]);
 			for(int i = 0; i < oa.length && i < 27; i ++)
 			{
 				Objective o = oa[i];
