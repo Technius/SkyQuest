@@ -157,6 +157,8 @@ public class OpenQuestLog
 				{
 					String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
 					im.setDisplayName(ChatColor.YELLOW + o.getName() + " " + ps);
+					if(o.isOptional())im.setLore(Arrays.asList(new String[]{ChatColor.GOLD + "" + 
+						ChatColor.ITALIC + "Optional"}));
 				}
 				ostack.setItemMeta(im);
 				inv.setItem(i, ostack);

@@ -96,4 +96,8 @@ public class Objective
 	{
 		return itemico;
 	}
+	public void setItemIconId(int itemid)
+	{
+		itemico = itemid;
+	}
 }

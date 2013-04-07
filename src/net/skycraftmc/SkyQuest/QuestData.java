@@ -41,7 +41,7 @@ public class QuestData
 			if(SkyQuest.isOnServer())
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
-				if(p != null)p.sendMessage(o.getName());
+				if(p != null)p.sendMessage(o.getName() + (o.isOptional() ? " (Optional)" : ""));
 			}
 		}
 	}
@@ -93,7 +93,24 @@ public class QuestData
 	}
 	public boolean isComplete()
 	{
-		return objprog.size() == 0 && unassigned.size() == 0;
+		if(objprog.size() == 0 && unassigned.size() == 0)return true;
+		for(String s:unassigned)
+		{
+			Objective o = q.getObjective(s);
+			if(o != null)
+			{
+				if(!o.isOptional())return false;
+			}
+		}
+		for(String s:objprog.keySet())
+		{
+			Objective o = q.getObjective(s);
+			if(o != null)
+			{
+				if(!o.isOptional())return false;
+			}
+		}
+		return true;
 	}
 	public boolean isAssigned(String oid)
 	{
