@@ -7,9 +7,10 @@ public class QuestManager
 {
 	public QuestManager()
 	{
-		registerObjectiveType(new KillObjectiveType());
-		registerActionType(new AssignObjectiveAction());
-		registerActionType(new SetStageAction());
+		registerObjectiveType(ObjectiveType.KILL);
+		registerObjectiveType(ObjectiveType.TRAVEL);
+		registerActionType(ActionType.ASSIGN_OBJECTIVE);
+		registerActionType(ActionType.SET_STAGE);
 	}
 	private ArrayList<Quest>quests = new ArrayList<Quest>();
 	private ArrayList<PlayerQuestLog>qlogs = new ArrayList<PlayerQuestLog>();

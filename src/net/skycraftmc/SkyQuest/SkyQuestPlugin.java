@@ -28,7 +28,10 @@ public class SkyQuestPlugin extends JavaPlugin
 		o2.addReward(new QuestAction(ActionType.ASSIGN_OBJECTIVE, "test obj3"));
 		q.addObjective(o2);
 		Objective o3 = new Objective("obj3", "Kill 3 zombie pigmen", ObjectiveType.KILL, "3 PIG_ZOMBIE");
+		o3.addReward(new QuestAction(ActionType.ASSIGN_OBJECTIVE, "test obj4"));
 		q.addObjective(o3);
+		Objective o4 = new Objective("obj4", "Go somewhere random", ObjectiveType.TRAVEL, "20 circle 264 222 world");
+		q.addObjective(o4);
 		qm.addQuest(q);
 	}
 	public QuestManager getQuestManager()

@@ -89,4 +89,10 @@ public class KillObjectiveType extends ObjectiveType
 		return "(" + p + "/" + t + ")";
 	}
 	
+	@Override
+	public int getItemIcon()
+	{
+		return 267;
+	}
+	
 }

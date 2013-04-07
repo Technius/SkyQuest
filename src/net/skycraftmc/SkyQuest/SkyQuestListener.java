@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -10,6 +11,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class SkyQuestListener implements Listener
@@ -43,6 +45,26 @@ public class SkyQuestListener implements Listener
 				int t = ObjectiveType.KILL.getKills(targ);
 				player.sendMessage(ChatColor.GREEN + o.getName() + " (" + p + "/" + t + ")");
 				qd.setProgress(o.getID(), p + " " + ent.getType().name());
+			}
+		}
+	}
+	@EventHandler
+	public void move(PlayerMoveEvent event)
+	{
+		Player player = event.getPlayer();
+		PlayerQuestLog log = qm.getQuestLog(player.getName());
+		for(Quest q:log.getAssigned())
+		{
+			QuestData qd = log.getProgress(q);
+			for(Objective o:q.getObjectives())
+			{
+				if(o.getType() != ObjectiveType.TRAVEL)continue;
+				if(!qd.isAssigned(o.getID()))continue;
+				String targ = o.getTarget();
+				Location loc = player.getLocation();
+				qd.setProgress(o.getID(), ObjectiveType.TRAVEL.getRadius(targ) + " " +
+					ObjectiveType.TRAVEL.getType(targ) + " " + loc.getX() + " " + loc.getZ() + " "
+					+ loc.getWorld().getName());
 			}
 		}
 	}
