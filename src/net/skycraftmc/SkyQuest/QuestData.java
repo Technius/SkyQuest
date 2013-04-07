@@ -66,11 +66,11 @@ public class QuestData
 		else objprog.put(oid, progress);
 		if(isComplete())
 		{
+			log.complete(q);
 			if(SkyQuest.isOnServer())
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
 				if(p != null)p.sendMessage(ChatColor.GREEN + "Quest completed: " + q.getName());
-				//TODO Remove from log, etc.
 			}
 		}
 	}

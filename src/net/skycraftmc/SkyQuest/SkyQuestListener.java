@@ -5,7 +5,9 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class SkyQuestListener implements Listener
@@ -34,10 +36,10 @@ public class SkyQuestListener implements Listener
 				String prog = qd.getProgress(o.getID());
 				String targ = o.getTarget();
 				if(!ObjectiveType.KILL.isSimilarType(targ, prog))continue;
-				int p = ObjectiveType.KILL.getKills(prog);
+				int p = ObjectiveType.KILL.getKills(prog) + 1;
 				int t = ObjectiveType.KILL.getKills(targ);
 				player.sendMessage(ChatColor.GREEN + o.getName() + " (" + p + "/" + t + ")");
-				qd.setProgress(o.getID(), (p ++) + " " + ent.getType().name());
+				qd.setProgress(o.getID(), p + " " + ent.getType().name());
 			}
 		}
 	}
@@ -53,5 +55,12 @@ public class SkyQuestListener implements Listener
 			//Testing
 			log.assign(qm.getQuest("test"));
 		}
+	}
+	@EventHandler
+	public void interact(PlayerInteractEvent event)
+	{
+		if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)return;
+		//TODO: Add ItemStack check
+		plugin.getQuestLogManager().openQuestLog(event.getPlayer());
 	}
 }

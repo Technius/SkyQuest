@@ -5,13 +5,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SkyQuestPlugin extends JavaPlugin
 {
 	private QuestManager qm;
+	private QuestLogManager qlm;
 	private static SkyQuestPlugin inst;
 	public void onEnable()
 	{
 		inst = this;
 		SkyQuest.onServer = true;
 		qm = new QuestManager();
+		qlm = new QuestLogManager(this);
 		getServer().getPluginManager().registerEvents(new SkyQuestListener(this), this);
+		getServer().getPluginManager().registerEvents(qlm, this);
 		
 		//Testing
 		Stage s1 = new Stage("stage1");
@@ -23,6 +26,10 @@ public class SkyQuestPlugin extends JavaPlugin
 	public QuestManager getQuestManager()
 	{
 		return qm;
+	}
+	public QuestLogManager getQuestLogManager()
+	{
+		return qlm;
 	}
 	public static SkyQuestPlugin getPlugin()
 	{

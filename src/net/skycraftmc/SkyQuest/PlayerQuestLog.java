@@ -31,6 +31,13 @@ public class PlayerQuestLog
 		}
 		qd.setStage(quest.getFirstStage().getID());
 	}
+	public void complete(Quest quest)
+	{
+		if(isAssigned(quest))return;
+		assigned.remove(getProgress(quest));
+		if(!completed.containsKey(quest.getID()))completed.put(quest.getID(), 1);
+		else completed.put(quest.getID(), completed.get(quest.getID()) + 1);
+	}
 	public boolean isAssigned(Quest quest)
 	{
 		for(QuestData qd:assigned)

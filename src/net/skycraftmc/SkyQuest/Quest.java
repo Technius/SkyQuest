@@ -9,6 +9,7 @@ public class Quest
 	private ArrayList<Objective>obj = new ArrayList<Objective>();
 	private ArrayList<Stage>stages = new ArrayList<Stage>();
 	private Stage firststage;
+	private int itemico = 387;
 	public Quest(String id, String name, Stage firststage)
 	{
 		this.name = name;
@@ -75,5 +76,9 @@ public class Quest
 	public Stage getFirstStage()
 	{
 		return firststage;
+	}
+	public int getItemIconId()
+	{
+		return itemico;
 	}
 }
