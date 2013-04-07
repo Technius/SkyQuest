@@ -75,5 +75,12 @@ public class KillObjectiveType extends ObjectiveType
 			throw new IllegalArgumentException("progress is not valid");
 		return progress.split(" ", 2)[1];
 	}
+
+	public String getProgressString(String target, String progress) 
+	{
+		int p = getKills(progress);
+		int t = getKills(target);
+		return "(" + p + "/" + t + ")";
+	}
 	
 }

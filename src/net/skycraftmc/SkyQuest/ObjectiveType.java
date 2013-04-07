@@ -8,4 +8,9 @@ public abstract class ObjectiveType
 	public abstract String getName();
 	public abstract String createProgress(String data);
 	public abstract String getData(String progress);
+	public abstract String getProgressString(String target, String progress);
+	public int getItemIcon()
+	{
+		return 387;
+	}
 }

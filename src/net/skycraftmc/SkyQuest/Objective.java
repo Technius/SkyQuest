@@ -11,6 +11,7 @@ public class Objective
 	private String target;
 	private boolean optional = false;
 	private boolean visible = true;
+	private int itemico = -1;
 	public Objective(String id, String name, ObjectiveType type, String target)
 	{
 		if(!type.isValid(target))
@@ -72,5 +73,9 @@ public class Objective
 	public QuestAction[] getRewards()
 	{
 		return rewards.toArray(new QuestAction[rewards.size()]);
+	}
+	public int getItemIconId()
+	{
+		return itemico;
 	}
 }

@@ -2,16 +2,12 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 public class QuestLogManager implements Listener
 {
@@ -53,12 +49,26 @@ public class QuestLogManager implements Listener
 		OpenQuestLog oql = getOpenQuestLog(player);
 		if(oql == null)return;
 		event.setCancelled(true);
-		if(event.getInventory() != oql.getInventory())return;
-		if(event.getCurrentItem() == null)return;
+		if(event.getView() != oql.getInventoryView())
+		{
+			player.updateInventory();
+			return;
+		}
+		if(event.getCurrentItem() == null)
+		{
+			player.updateInventory();
+			return;
+		}
 		Quest sel = oql.getSelected();
 		if(sel == null)
 		{
-			
+			int index = (oql.getPage() - 1)*27 + event.getSlot();
+			Quest[] q = oql.getCurrentQuestList();
+			if(index < q.length)
+			{
+				oql.setSelected(q[index]);
+				oql.update();
+			}
 		}
 		else if(event.getSlot() == 27)
 		{

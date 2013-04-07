@@ -18,6 +18,7 @@ public class OpenQuestLog
 	private Inventory inv;
 	private Quest[] curassigned;
 	private PlayerQuestLog log;
+	private int page = 1;
 	public OpenQuestLog(Player player, PlayerQuestLog log, Inventory inv)
 	{
 		this.log = log;
@@ -55,9 +56,9 @@ public class OpenQuestLog
 			Quest[] as = curassigned;
 			for(int i = 0; i < as.length && i < 27; i ++)
 			{
-				Quest q = as[i];
+				Quest q = as[i + (page - 1)*27];
 				Material m = Material.getMaterial(q.getItemIconId());
-				if(m == null || m == Material.AIR)m = Material.WRITTEN_BOOK;
+				if(m == null || m == Material.AIR)m = Material.BOOK_AND_QUILL;
 				ItemStack qstack = new ItemStack(m);
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
 				im.setDisplayName(ChatColor.GREEN + q.getName());
@@ -68,6 +69,41 @@ public class OpenQuestLog
 				inv.setItem(i, qstack);
 			}
 		}
+		else
+		{
+			QuestData qd = log.getProgress(selected);
+			Objective[] oa = qd.getQuest().getObjectives();
+			for(int i = 0; i < oa.length && i < 27; i ++)
+			{
+				Objective o = oa[i];
+				Material m = Material.getMaterial(o.getItemIconId());
+				if(m == null || m == Material.AIR)m = Material.getMaterial(o.getType().getItemIcon());
+				if(m == null || m == Material.AIR)m = Material.WRITTEN_BOOK;
+				ItemStack ostack = new ItemStack(m);
+				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
+				String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
+				im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
+				ostack.setItemMeta(im);
+				inv.setItem(i, ostack);
+			}
+			ItemStack back = new ItemStack(Material.ARROW);
+			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.ARROW);
+			bim.setDisplayName(ChatColor.YELLOW + "Back to quest log");
+			back.setItemMeta(bim);
+			inv.setItem(27, back);
+		}
 		curassigned = log.getAssigned();
+	}
+	public int getPage()
+	{
+		return page;
+	}
+	public void setPage(int page)
+	{
+		this.page = page;
+	}
+	public Quest[] getCurrentQuestList()
+	{
+		return curassigned;
 	}
 }
