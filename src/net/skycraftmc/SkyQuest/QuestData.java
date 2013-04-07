@@ -24,6 +24,12 @@ public class QuestData
 		player = log.getPlayer();
 		for(Objective o:q.getObjectives())unassigned.add(o.getID());
 	}
+	protected static QuestData createComplete(PlayerQuestLog log, Quest quest)
+	{
+		QuestData qd = new QuestData(log, quest);
+		qd.unassigned.clear();
+		return qd;
+	}
 	public void assign(String oid)
 	{
 		if(unassigned.contains(oid))

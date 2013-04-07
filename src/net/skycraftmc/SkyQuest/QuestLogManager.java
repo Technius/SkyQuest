@@ -62,12 +62,20 @@ public class QuestLogManager implements Listener
 		Quest sel = oql.getSelected();
 		if(sel == null)
 		{
-			int index = (oql.getPage() - 1)*27 + event.getSlot();
-			Quest[] q = oql.getCurrentQuestList();
-			if(index < q.length)
+			if(event.getSlot() == 27)
 			{
-				oql.setSelected(q[index]);
+				oql.setViewingCompleted(!oql.isViewingCompleted());
 				oql.update();
+			}
+			else
+			{
+				int index = (oql.getPage() - 1)*27 + event.getSlot();
+				Quest[] q = oql.isViewingCompleted() ? oql.getCurrentCompletedList() : oql.getCurrentQuestList();
+				if(index < q.length)
+				{
+					oql.setSelected(q[index]);
+					oql.update(); 
+				}
 			}
 		}
 		else if(event.getSlot() == 27)

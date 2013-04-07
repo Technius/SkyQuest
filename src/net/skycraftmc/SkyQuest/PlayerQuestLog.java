@@ -2,6 +2,7 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -73,5 +74,10 @@ public class PlayerQuestLog
 	{
 		if(!completed.containsKey(quest.getID()))return 0;
 		else return completed.get(quest.getID());
+	}
+	public String[] getCompleted()
+	{
+		Set<String>s = completed.keySet();
+		return s.toArray(new String[s.size()]);
 	}
 }
