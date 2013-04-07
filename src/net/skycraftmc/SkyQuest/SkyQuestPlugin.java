@@ -20,13 +20,14 @@ public class SkyQuestPlugin extends JavaPlugin
 		Stage s1 = new Stage("stage1");
 		s1.addAction(new QuestAction(ActionType.ASSIGN_OBJECTIVE, "test obj1"));
 		Quest q = new Quest("test", "Purge the unclean", s1);
-		Objective o1 = new Objective("obj1", "Kill a zombie", ObjectiveType.KILL, "1 ZOMBIE");
+		q.getDescription().add("They defile our holy grounds!  Purge them!");
+		Objective o1 = new Objective("obj1", "Kill 5 zombies", ObjectiveType.KILL, "5 ZOMBIE");
 		o1.addReward(new QuestAction(ActionType.ASSIGN_OBJECTIVE, "test obj2"));
 		q.addObjective(o1);
-		Objective o2 = new Objective("obj2", "Kill a skeleton", ObjectiveType.KILL, "1 SKELETON");
+		Objective o2 = new Objective("obj2", "Kill 5 skeletons", ObjectiveType.KILL, "5 SKELETON");
 		o2.addReward(new QuestAction(ActionType.ASSIGN_OBJECTIVE, "test obj3"));
 		q.addObjective(o2);
-		Objective o3 = new Objective("obj3", "Kill a zombie pigman", ObjectiveType.KILL, "1 PIG_ZOMBIE");
+		Objective o3 = new Objective("obj3", "Kill 3 zombie pigmen", ObjectiveType.KILL, "3 PIG_ZOMBIE");
 		q.addObjective(o3);
 		qm.addQuest(q);
 	}

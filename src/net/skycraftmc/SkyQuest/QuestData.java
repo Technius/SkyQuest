@@ -83,7 +83,7 @@ public class QuestData
 		Objective o = q.getObjective(oid);
 		if(o == null)
 			throw new IllegalArgumentException("Quest \"" + q.getName() + "\" has no such objective: " + oid);
-		return objprog.containsKey(o.getID());
+		return !objprog.containsKey(o.getID()) && !unassigned.contains(oid);
 	}
 	public boolean isComplete()
 	{

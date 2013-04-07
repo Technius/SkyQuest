@@ -1,6 +1,8 @@
 package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -63,6 +65,10 @@ public class OpenQuestLog
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
 				im.setDisplayName(ChatColor.GREEN + q.getName());
 				ArrayList<String>lore = new ArrayList<String>();
+				if(!q.getDescription().isEmpty())
+				{
+					for(String s:q.getDescription())lore.add(s);
+				}
 				lore.add(ChatColor.YELLOW + "Click for more information!");
 				im.setLore(lore);
 				qstack.setItemMeta(im);
@@ -76,7 +82,8 @@ public class OpenQuestLog
 			ArrayList<Objective>n = new ArrayList<Objective>();
 			for(int i = 0; i < oao.length; i ++)
 			{
-				if(oao[i].isVisible() && qd.isAssigned(oao[i].getID()))n.add(oao[i]);
+				if(oao[i].isVisible() && (qd.isAssigned(oao[i].getID()) || 
+						qd.isComplete(oao[i].getID())))n.add(oao[i]);
 			}
 			Objective[] oa = n.toArray(new Objective[n.size()]);
 			for(int i = 0; i < oa.length && i < 27; i ++)
@@ -87,8 +94,18 @@ public class OpenQuestLog
 				if(m == null || m == Material.AIR)m = Material.WRITTEN_BOOK;
 				ItemStack ostack = new ItemStack(m);
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
-				String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
-				im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
+				boolean complete = qd.isComplete(o.getID());
+				if(complete)
+				{
+					String ps = o.getType().getProgressString(o.getTarget(), o.getTarget());
+					im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
+					im.setLore(Arrays.asList(new String[]{ChatColor.YELLOW + "Complete"}));
+				}
+				else
+				{
+					String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
+					im.setDisplayName(ChatColor.YELLOW + o.getName() + " " + ps);
+				}
 				ostack.setItemMeta(im);
 				inv.setItem(i, ostack);
 			}

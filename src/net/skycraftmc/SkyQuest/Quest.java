@@ -8,6 +8,7 @@ public class Quest
 	private String id;
 	private ArrayList<Objective>obj = new ArrayList<Objective>();
 	private ArrayList<Stage>stages = new ArrayList<Stage>();
+	private ArrayList<String>description = new ArrayList<String>();
 	private Stage firststage;
 	private int itemico = 386;
 	public Quest(String id, String name, Stage firststage)
@@ -80,5 +81,9 @@ public class Quest
 	public int getItemIconId()
 	{
 		return itemico;
+	}
+	public ArrayList<String> getDescription()
+	{
+		return description;
 	}
 }
