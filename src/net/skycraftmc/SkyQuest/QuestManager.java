@@ -2,6 +2,7 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class QuestManager 
 {
@@ -51,6 +52,22 @@ public class QuestManager
 			throw new java.lang.UnsupportedOperationException(type.getClass().getName() + " is already" +
 				" registered");
 		regisActType.put(type.getClass().getName(), type);
+	}
+	public ObjectiveType getRegisteredObjectiveType(Class<? extends ObjectiveType>clazz)
+	{
+		for(Map.Entry<String, ObjectiveType>k:regisObjType.entrySet())
+		{
+			if(k.getKey().equals(clazz.getName()))return k.getValue();
+		}
+		return null;
+	}
+	public ActionType getRegisteredActionType(Class<? extends ActionType>clazz)
+	{
+		for(Map.Entry<String, ActionType>k:regisActType.entrySet())
+		{
+			if(k.getKey().equals(clazz.getName()))return k.getValue();
+		}
+		return null;
 	}
 	public PlayerQuestLog getQuestLog(String player)
 	{
