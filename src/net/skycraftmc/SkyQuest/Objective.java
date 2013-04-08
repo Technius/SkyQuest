@@ -2,6 +2,8 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 
+import net.skycraftmc.SkyQuest.objective.ObjectiveType;
+
 public class Objective 
 {
 	private String name;

@@ -3,6 +3,8 @@ package net.skycraftmc.SkyQuest;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import net.skycraftmc.SkyQuest.objective.ObjectiveType;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

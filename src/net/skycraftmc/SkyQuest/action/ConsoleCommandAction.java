@@ -1,4 +1,5 @@
-package net.skycraftmc.SkyQuest;
+package net.skycraftmc.SkyQuest.action;
+
 
 import org.bukkit.Bukkit;
 

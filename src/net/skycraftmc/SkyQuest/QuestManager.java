@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.skycraftmc.SkyQuest.action.ActionType;
+import net.skycraftmc.SkyQuest.objective.ObjectiveType;
+
 public class QuestManager 
 {
 	public QuestManager()

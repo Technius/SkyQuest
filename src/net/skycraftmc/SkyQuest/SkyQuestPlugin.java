@@ -1,5 +1,8 @@
 package net.skycraftmc.SkyQuest;
 
+import net.skycraftmc.SkyQuest.action.ActionType;
+import net.skycraftmc.SkyQuest.objective.ObjectiveType;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SkyQuestPlugin extends JavaPlugin

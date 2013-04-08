@@ -1,9 +1,15 @@
-package net.skycraftmc.SkyQuest;
+package net.skycraftmc.SkyQuest.action;
 
-public class AssignObjectiveAction extends ActionType
+import net.skycraftmc.SkyQuest.Objective;
+import net.skycraftmc.SkyQuest.PlayerQuestLog;
+import net.skycraftmc.SkyQuest.Quest;
+import net.skycraftmc.SkyQuest.QuestData;
+import net.skycraftmc.SkyQuest.SkyQuestPlugin;
+
+public class SetStageAction extends ActionType
 {
 
-	public boolean apply(String player, String action)
+	public boolean apply(String player, String action) 
 	{
 		if(!isValid(action))
 			throw new IllegalArgumentException("action is not valid");
@@ -15,20 +21,18 @@ public class AssignObjectiveAction extends ActionType
 		PlayerQuestLog log = SkyQuestPlugin.getPlugin().getQuestManager().getQuestLog(player);
 		if(!log.isAssigned(q))return false;
 		QuestData qd = log.getProgress(q);
-		if(qd.isComplete(o.getID()))return false;
-		if(qd.isAssigned(o.getID()))return false;
-		qd.assign(o.getID());
+		qd.setStage(q.getID());
 		return true;
 	}
 
 	public boolean isValid(String action) 
 	{
-		return action.split(" ").length == 2;
+		return action.split(" ", 2).length == 2;
 	}
-
-	public String getName()
+	
+	public String getName() 
 	{
-		return "Assign Objective";
+		return "Set Stage";
 	}
 
 	public boolean requiresPlayer() 

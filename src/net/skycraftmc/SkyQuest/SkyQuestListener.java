@@ -1,5 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import net.skycraftmc.SkyQuest.objective.ObjectiveType;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;

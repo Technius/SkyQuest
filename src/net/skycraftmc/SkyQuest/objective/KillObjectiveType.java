@@ -1,4 +1,6 @@
-package net.skycraftmc.SkyQuest;
+package net.skycraftmc.SkyQuest.objective;
+
+import net.skycraftmc.SkyQuest.SkyQuest;
 
 import org.bukkit.entity.EntityType;
 

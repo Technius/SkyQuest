@@ -1,5 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import net.skycraftmc.SkyQuest.action.ActionType;
+
 public class QuestAction
 {
 	private ActionType type;
