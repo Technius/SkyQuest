@@ -12,6 +12,8 @@ public class QuestManager
 		registerActionType(ActionType.ASSIGN_OBJECTIVE);
 		registerActionType(ActionType.SET_STAGE);
 		registerActionType(ActionType.MESSAGE);
+		registerActionType(ActionType.COMMAND);
+		registerActionType(ActionType.CONSOLE_COMMAND);
 	}
 	private ArrayList<Quest>quests = new ArrayList<Quest>();
 	private ArrayList<PlayerQuestLog>qlogs = new ArrayList<PlayerQuestLog>();
