@@ -1,7 +1,6 @@
 package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -211,5 +210,15 @@ public class OpenQuestLog
 	public void setViewingCompleted(boolean value)
 	{
 		viewcomp = value;
+	}
+	void dispose()
+	{
+		player = null;
+		curassigned = null;
+		curcompleted = null;
+		log = null;
+		selected = null;
+		view = null;
+		inv = null;
 	}
 }

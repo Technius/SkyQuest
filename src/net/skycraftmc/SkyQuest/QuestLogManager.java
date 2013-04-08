@@ -39,7 +39,11 @@ public class QuestLogManager implements Listener
 	{
 		Player player = (Player) event.getView().getPlayer();
 		OpenQuestLog oql = getOpenQuestLog(player);
-		if(oql != null)openlogs.remove(oql);
+		if(oql != null)
+		{
+			openlogs.remove(oql);
+			oql.dispose();
+		}
 	}
 	@SuppressWarnings("deprecation")
 	@EventHandler
