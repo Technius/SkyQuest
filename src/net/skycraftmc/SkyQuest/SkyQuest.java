@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
-public class SkyQuest 
+
+public final class SkyQuest 
 {
 	protected static boolean onServer;
 	public static boolean isOnServer()
