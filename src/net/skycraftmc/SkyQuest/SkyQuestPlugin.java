@@ -3,6 +3,7 @@ package net.skycraftmc.SkyQuest;
 import net.skycraftmc.SkyQuest.action.ActionType;
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SkyQuestPlugin extends JavaPlugin
@@ -18,6 +19,15 @@ public class SkyQuestPlugin extends JavaPlugin
 		qlm = new QuestLogManager(this);
 		getServer().getPluginManager().registerEvents(new SkyQuestListener(this), this);
 		getServer().getPluginManager().registerEvents(qlm, this);
+		for(Player p:getServer().getOnlinePlayers())
+		{
+			String name = p.getName();
+			if(qm.getQuestLog(name) == null)
+			{
+				PlayerQuestLog log = new PlayerQuestLog(name);
+				qm.addQuestLog(log);
+			}
+		}
 		
 		//Testing
 		Stage s1 = new Stage("stage1");
