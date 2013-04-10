@@ -1,5 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import java.io.IOException;
+
 import net.skycraftmc.SkyQuest.action.ActionType;
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
@@ -9,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SkyQuestPlugin extends JavaPlugin
 {
 	private QuestManager qm;
+	private FileManager fm;
 	private QuestLogManager qlm;
 	private static SkyQuestPlugin inst;
 	public void onEnable()
@@ -16,6 +19,7 @@ public class SkyQuestPlugin extends JavaPlugin
 		inst = this;
 		SkyQuest.onServer = true;
 		qm = new QuestManager();
+		fm = new FileManager();
 		qlm = new QuestLogManager(this);
 		getServer().getPluginManager().registerEvents(new SkyQuestListener(this), this);
 		getServer().getPluginManager().registerEvents(qlm, this);
@@ -56,6 +60,17 @@ public class SkyQuestPlugin extends JavaPlugin
 		o4.addReward(new QuestAction(ActionType.MESSAGE, "Great work!  Our holy grounds are pure again!"));
 		q.addObjective(o4);
 		qm.addQuest(q);
+	}
+	public void onDisable()
+	{
+		try 
+		{
+			fm.saveData(getDataFolder(), qm);
+		}
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	public QuestManager getQuestManager()
 	{

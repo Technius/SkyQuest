@@ -9,8 +9,10 @@ import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
 public class QuestManager 
 {
+	private static QuestManager inst = null;
 	public QuestManager()
 	{
+		if(inst != null)throw new UnsupportedOperationException("Quest manager already initialized");
 		registerObjectiveType(ObjectiveType.KILL);
 		registerObjectiveType(ObjectiveType.TRAVEL);
 		registerActionType(ActionType.ASSIGN_OBJECTIVE);
@@ -18,6 +20,11 @@ public class QuestManager
 		registerActionType(ActionType.MESSAGE);
 		registerActionType(ActionType.COMMAND);
 		registerActionType(ActionType.CONSOLE_COMMAND);
+		inst = this;
+	}
+	public static QuestManager getInstance()
+	{
+		return inst;
 	}
 	private ArrayList<Quest>quests = new ArrayList<Quest>();
 	private ArrayList<PlayerQuestLog>qlogs = new ArrayList<PlayerQuestLog>();
@@ -58,17 +65,25 @@ public class QuestManager
 	}
 	public ObjectiveType getRegisteredObjectiveType(Class<? extends ObjectiveType>clazz)
 	{
+		return getRegisteredObjectiveType(clazz.getName());
+	}
+	public ObjectiveType getRegisteredObjectiveType(String name)
+	{
 		for(Map.Entry<String, ObjectiveType>k:regisObjType.entrySet())
 		{
-			if(k.getKey().equals(clazz.getName()))return k.getValue();
+			if(k.getKey().equals(name))return k.getValue();
 		}
 		return null;
 	}
 	public ActionType getRegisteredActionType(Class<? extends ActionType>clazz)
 	{
+		return getRegisteredActionType(clazz.getName());
+	}
+	public ActionType getRegisteredActionType(String name)
+	{
 		for(Map.Entry<String, ActionType>k:regisActType.entrySet())
 		{
-			if(k.getKey().equals(clazz.getName()))return k.getValue();
+			if(k.getKey().equals(name))return k.getValue();
 		}
 		return null;
 	}
