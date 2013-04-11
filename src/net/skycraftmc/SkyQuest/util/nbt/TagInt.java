@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class TagInt extends TagBase 
 {
-	private int data;
+	public int data;
 	public TagInt(String name) {
 		super(name);
 	}
@@ -14,7 +14,6 @@ public class TagInt extends TagBase
 		super(name);
 		this.data = data;
 	}
-
 	@Override
 	public void load(DataInputStream in) throws IOException {
 		data = in.readInt();

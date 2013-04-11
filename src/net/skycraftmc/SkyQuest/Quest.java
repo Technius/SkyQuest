@@ -82,8 +82,20 @@ public class Quest
 	{
 		return itemico;
 	}
+	public void setItemIconId(int val)
+	{
+		itemico = val;
+	}
 	public ArrayList<String> getDescription()
 	{
 		return description;
+	}
+	public void setDescription(ArrayList<String>desc)
+	{
+		description = desc;
+	}
+	public Stage[] getStages()
+	{
+		return stages.toArray(new Stage[stages.size()]);
 	}
 }
