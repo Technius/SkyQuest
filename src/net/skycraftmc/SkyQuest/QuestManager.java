@@ -102,4 +102,8 @@ public class QuestManager
 		if(getQuestLog(log.getPlayer()) != null)return;
 		qlogs.add(log);
 	}
+	public Quest[] getQuests()
+	{
+		return quests.toArray(new Quest[quests.size()]);
+	}
 }

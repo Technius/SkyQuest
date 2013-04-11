@@ -26,9 +26,12 @@ public class TagList extends TagBase
 		}
 	}
 
-	@Override
 	public TagType getType() {
 		return TagType.LIST;
+	}
+	public TagType getListType()
+	{
+		return type;
 	}
 	public int size()
 	{
