@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 public class QuestData
 {
 	private Quest q;
-	private String stage;
+	String stage;
 	ArrayList<String> unassigned = new ArrayList<String>();
 	HashMap<String, String> objprog = new HashMap<String, String>();
 	private String player;
@@ -129,6 +129,7 @@ public class QuestData
 			return;
 		}
 		settingstage = true;
+		stage = s.getID();
 		for(QuestAction a:s.getActions())
 		{
 			a.apply(player);

@@ -9,8 +9,13 @@ public class TagList extends TagBase
 {
 	private TagType type = null;
 	private ArrayList<TagBase>tags = new ArrayList<TagBase>();
-	public TagList(String name) {
+	public TagList(String name)
+	{
 		super(name);
+	}
+	public TagList(String name, TagType type) {
+		super(name);
+		this.type = type;
 	}
 	
 	public void load(DataInputStream in) throws IOException 

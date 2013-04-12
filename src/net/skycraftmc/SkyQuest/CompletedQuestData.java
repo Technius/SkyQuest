@@ -6,8 +6,8 @@ import java.util.HashMap;
 public class CompletedQuestData 
 {
 	private Quest q;
-	private ArrayList<String> unassigned = new ArrayList<String>();
-	private HashMap<String, String> objprog = new HashMap<String, String>();
+	ArrayList<String> unassigned = new ArrayList<String>();
+	HashMap<String, String> objprog = new HashMap<String, String>();
 	public CompletedQuestData(Quest q, ArrayList<String> unassigned, HashMap<String, String>progress)
 	{
 		this.q = q;

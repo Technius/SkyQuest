@@ -56,7 +56,7 @@ public abstract class TagBase
 		}
 		return null;
 	}
-	protected enum TagType
+	public enum TagType
 	{
 		END(0),
 		BYTE(1),

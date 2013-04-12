@@ -1,9 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import java.io.File;
 import java.io.IOException;
-
-import net.skycraftmc.SkyQuest.action.ActionType;
-import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -33,6 +31,21 @@ public class SkyQuestPlugin extends JavaPlugin
 			}
 		}
 		fm.loadData(getDataFolder(), qm);
+		int ql = qm.getQuests().length;
+		getLogger().info("Loaded " + ql + " quest" + (ql != 1 ? "s" : ""));
+		int pl = qm.getQuestLogs().length;
+		getLogger().info("Loaded " + pl + " player" + (pl != 1 ? "s" : ""));
+	}
+	public void onDisable()
+	{
+		try
+		{
+			fm.savePlayerData(new File(getDataFolder(), "Players"));
+		}
+		catch(IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
 	}
 	public QuestManager getQuestManager()
 	{

@@ -10,8 +10,8 @@ import org.bukkit.entity.Player;
 public class PlayerQuestLog 
 {
 	private String player;
-	private ArrayList<QuestData>assigned = new ArrayList<QuestData>();
-	private HashMap<CompletedQuestData, Integer>completed = new HashMap<CompletedQuestData, Integer>();
+	ArrayList<QuestData>assigned = new ArrayList<QuestData>();
+	HashMap<CompletedQuestData, Integer>completed = new HashMap<CompletedQuestData, Integer>();
 	public PlayerQuestLog(String player)
 	{
 		this.player = player;
