@@ -32,11 +32,7 @@ public class SkyQuestPlugin extends JavaPlugin
 				qm.addQuestLog(log);
 			}
 		}
-		try {
-			fm.loadData(getDataFolder(), qm);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		fm.loadData(getDataFolder(), qm);
 	}
 	public QuestManager getQuestManager()
 	{

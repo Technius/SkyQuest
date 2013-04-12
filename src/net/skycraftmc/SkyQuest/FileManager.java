@@ -19,7 +19,90 @@ import net.skycraftmc.SkyQuest.util.nbt.TagString;
 
 public class FileManager 
 {
-	public void loadData(File file, QuestManager qm) throws IOException
+	public void saveQuest(File file, Quest q) throws IOException
+	{
+		TagCompound tag = new TagCompound();
+		tag.setTag("name", new TagString("name", q.getName()));
+		Stage fs = q.getFirstStage();
+		TagCompound fstage = saveStage(fs);
+		fstage.setName("firststage");
+		fstage.setTag("id", new TagString("id", fs.getID()));
+		tag.setTag("firststage", fstage);
+		TagCompound stages = new TagCompound("stages");
+		for(Stage s:q.getStages())stages.setTag(s.getID(), saveStage(s));
+		tag.setTag("stages", stages);
+		TagCompound objs = new TagCompound("objectives");
+		for(Objective o:q.getObjectives())objs.setTag(o.getID(), saveObjective(o));
+		tag.setTag("objectives", objs);
+		TagList desc = new TagList("description");
+		for(String s:q.getDescription())desc.add(new TagString("", s));
+		tag.setTag("description", desc);
+		tag.setTag("iconid", new TagInt("iconid", q.getItemIconId()));
+		File f = new File(file, q.getID() + ".dat");
+		DataOutputStream dos = new DataOutputStream(new FileOutputStream(f));
+		tag.saveTag(dos);
+		dos.flush();
+		dos.close();
+	}
+	public Quest loadQuest(File f, String id) throws IOException
+	{
+		DataInputStream dis = new DataInputStream(new FileInputStream(f));
+		TagBase btag = TagBase.loadTag(dis);
+		dis.close();
+		if(!(btag instanceof TagCompound))return null;
+		TagCompound tag = (TagCompound)btag;
+		TagBase tbname = tag.getTag("name");
+		if(!(tbname instanceof TagString))return null;
+		String name = ((TagString)tbname).data;
+		TagBase tbfstage = tag.getTag("firststage");
+		if(!(tbfstage instanceof TagCompound))return null;
+		TagCompound tfstage = (TagCompound)tbfstage;
+		TagBase tbfstageid = tfstage.getTag("id");
+		if(!(tbfstageid instanceof TagString))return null;
+		Stage s = loadStage(((TagString)tbfstageid).data, tfstage);
+		if(s == null)return null;
+		Quest q = new Quest(id, name, s);
+		TagBase tbstages = tag.getTag("stages");
+		if(tbstages instanceof TagCompound)
+		{
+			TagCompound stages = (TagCompound)tbstages;
+			for(TagBase tb:stages.getTags())
+			{
+				if(tb instanceof TagCompound)
+				{
+					Stage a = loadStage((TagCompound)tb);
+					if(a != null)q.addStage(a);
+				}
+			}
+		}
+		TagBase tbobj = tag.getTag("objectives");
+		if(tbobj instanceof TagCompound)
+		{
+			TagCompound obj = (TagCompound)tbobj;
+			for(TagBase b: obj.getTags())
+			{
+				if(!(b instanceof TagCompound))continue;
+				TagCompound c = (TagCompound)b;
+				Objective o = loadObjective(c);
+				if(o != null)q.addObjective(o);
+			}
+		}
+		TagBase tbitemico = tag.getTag("iconid");
+		if(tbitemico instanceof TagInt)q.setItemIconId(((TagInt)tbitemico).data);
+		TagBase tbdesc = tag.getTag("description");
+		ArrayList<String>desc = new ArrayList<String>();
+		if(tbdesc instanceof TagList)
+		{
+			TagList tdesc = (TagList)tbdesc;
+			for(TagBase b:tdesc.get())
+			{
+				if(b instanceof TagString)desc.add(((TagString)b).data);
+			}
+		}
+		q.setDescription(desc);
+		return q;
+	}
+	public void loadData(File file, QuestManager qm)
 	{
 		if(!file.exists())return;
 		File players = new File(file, "Players");
@@ -33,61 +116,8 @@ public class FileManager
 			String id = fname.substring(0, fname.length() - 4);
 			try
 			{
-				DataInputStream dis = new DataInputStream(new FileInputStream(f));
-				TagBase btag = TagBase.loadTag(dis);
-				dis.close();
-				if(!(btag instanceof TagCompound))continue;
-				TagCompound tag = (TagCompound)btag;
-				TagBase tbname = tag.getTag("name");
-				if(!(tbname instanceof TagString))continue;
-				String name = ((TagString)tbname).data;
-				TagBase tbfstage = tag.getTag("firststage");
-				if(!(tbfstage instanceof TagCompound))continue;
-				TagCompound tfstage = (TagCompound)tbfstage;
-				TagBase tbfstageid = tfstage.getTag("id");
-				if(!(tbfstageid instanceof TagString))continue;
-				Stage s = loadStage(((TagString)tbfstageid).data, tfstage);
-				if(s == null)continue;
-				Quest q = new Quest(id, name, s);
-				TagBase tbstages = tag.getTag("stages");
-				if(tbstages instanceof TagCompound)
-				{
-					TagCompound stages = (TagCompound)tbstages;
-					for(TagBase tb:stages.getTags())
-					{
-						if(tb instanceof TagCompound)
-						{
-							Stage a = loadStage((TagCompound)tb);
-							if(a != null)q.addStage(a);
-						}
-					}
-				}
-				TagBase tbobj = tag.getTag("objectives");
-				if(tbobj instanceof TagCompound)
-				{
-					TagCompound obj = (TagCompound)tbobj;
-					for(TagBase b: obj.getTags())
-					{
-						if(!(b instanceof TagCompound))continue;
-						TagCompound c = (TagCompound)b;
-						Objective o = loadObjective(c);
-						if(o != null)q.addObjective(o);
-					}
-				}
-				TagBase tbitemico = tag.getTag("iconid");
-				if(tbitemico instanceof TagInt)q.setItemIconId(((TagInt)tbitemico).data);
-				TagBase tbdesc = tag.getTag("description");
-				ArrayList<String>desc = new ArrayList<String>();
-				if(tbdesc instanceof TagList)
-				{
-					TagList tdesc = (TagList)tbdesc;
-					for(TagBase b:tdesc.get())
-					{
-						if(b instanceof TagString)desc.add(((TagString)b).data);
-					}
-				}
-				q.setDescription(desc);
-				QuestManager.getInstance().addQuest(q);
+				Quest q = loadQuest(f, id);
+				if(q != null)QuestManager.getInstance().addQuest(q);
 			}
 			catch(IOException ioe)
 			{
@@ -106,28 +136,8 @@ public class FileManager
 		{
 			try
 			{
-				TagCompound tag = new TagCompound();
-				tag.setTag("name", new TagString("name", q.getName()));
-				Stage fs = q.getFirstStage();
-				TagCompound fstage = saveStage(fs);
-				fstage.setName("firststage");
-				fstage.setTag("id", new TagString("id", fs.getID()));
-				tag.setTag("firststage", fstage);
-				TagCompound stages = new TagCompound("stages");
-				for(Stage s:q.getStages())stages.setTag(s.getID(), saveStage(s));
-				tag.setTag("stages", stages);
-				TagCompound objs = new TagCompound("objectives");
-				for(Objective o:q.getObjectives())objs.setTag(o.getID(), saveObjective(o));
-				tag.setTag("objectives", objs);
-				TagList desc = new TagList("description");
-				for(String s:q.getDescription())desc.add(new TagString("", s));
-				tag.setTag("description", desc);
-				tag.setTag("iconid", new TagInt("iconid", q.getItemIconId()));
 				File f = new File(file, q.getID() + ".dat");
-				DataOutputStream dos = new DataOutputStream(new FileOutputStream(f));
-				tag.saveTag(dos);
-				dos.flush();
-				dos.close();
+				saveQuest(f, q);
 			}
 			catch(IOException ioe)
 			{
