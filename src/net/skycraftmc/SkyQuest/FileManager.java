@@ -23,15 +23,6 @@ import net.skycraftmc.SkyQuest.util.nbt.TagString;
 
 public class FileManager 
 {
-	@SuppressWarnings("unused")
-	private final String[] bukkitDevEasterEgg = new String[]{
-		"NBT for good measure!",
-		"I need it so I can directly copy ItemStack tags.",
-		"I also can't store it easily in YAML, so why not?",
-		"I also don't plan on shading YAML libraries into this, so there.",
-		"",
-		"approvalstatus".equals("disapproved") ? "rage" : "smile"
-	};
 	public void saveQuest(File file, Quest q) throws IOException
 	{
 		TagCompound tag = new TagCompound();
