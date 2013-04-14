@@ -9,7 +9,7 @@ import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
 public class Util
 {
-	public Quest createExampleQuest()
+	public static Quest createExampleQuest()
 	{
 		Stage s1 = new Stage("stage1");
 		s1.addAction(new QuestAction(ActionType.ASSIGN_OBJECTIVE, "test obj1"));
