@@ -12,8 +12,8 @@ public class MenuBar extends JMenuBar implements ActionListener
 {
 	private SkyQuestUtility util;
 	private JMenuItem exit;
-	private JMenuItem load;
-	private JMenuItem save;
+	JMenuItem load;
+	JMenuItem save;
 	public MenuBar(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -30,9 +30,11 @@ public class MenuBar extends JMenuBar implements ActionListener
 		add(file);
 		//Listeners
 		exit.addActionListener(this);
+		load.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent arg0) 
 	{
 		if(arg0.getSource() == exit)util.exit();
+		else if(arg0.getSource() == load)util.openFolderDialog();
 	}
 }

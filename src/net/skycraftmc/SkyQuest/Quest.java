@@ -98,4 +98,8 @@ public class Quest
 	{
 		return stages.toArray(new Stage[stages.size()]);
 	}
+	public String toString()
+	{
+		return id;
+	}
 }

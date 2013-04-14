@@ -102,4 +102,8 @@ public class Objective
 	{
 		itemico = itemid;
 	}
+	public String toString()
+	{
+		return id;
+	}
 }

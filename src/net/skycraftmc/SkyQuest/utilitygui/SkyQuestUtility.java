@@ -5,16 +5,31 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
+import javax.swing.filechooser.FileSystemView;
+import javax.swing.filechooser.FileView;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+
+import net.skycraftmc.SkyQuest.FileManager;
+import net.skycraftmc.SkyQuest.QuestManager;
 
 @SuppressWarnings("serial")
 public class SkyQuestUtility extends JFrame implements WindowListener
 {
 	private static final SkyQuestUtility util;
+	QuestManager qm;
+	FileManager fm;
+	MainPanel main;
+	MenuBar menu;
+	File open;
+	QuestPanel quest;
 	static
 	{
 		util = new SkyQuestUtility();
@@ -23,8 +38,14 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	{
 		util.init();
 	}
+	public SkyQuestUtility()
+	{
+		super("SkyQuest Utility");
+	}
 	private void init()
 	{
+		qm = new QuestManager();
+		fm = new FileManager();
 		try {
 			UIManager.setLookAndFeel(NimbusLookAndFeel.class.getName());
 		} catch (Exception e) {
@@ -38,8 +59,13 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		setLayout(new BorderLayout());
 		//Add components
 		JTabbedPane tabs = new JTabbedPane();
+		main = new MainPanel(this);
+		tabs.addTab("Home", main);
+		quest = new QuestPanel(this);
+		tabs.addTab("Quests", quest);
 		add("Center", tabs);
-		setJMenuBar(new MenuBar(this));
+		menu = new MenuBar(this);
+		setJMenuBar(menu);
 		//Listeners
 		addWindowListener(this);
 		//Show
@@ -64,5 +90,56 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	public void windowIconified(WindowEvent arg0) {
 	}
 	public void windowOpened(WindowEvent arg0) {
+	}
+	public void openFolderDialog()
+	{
+		JFileChooser fc = new JFileChooser();
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		int sel = fc.showOpenDialog(this);
+		if(sel == JFileChooser.CANCEL_OPTION)return;
+		else if(sel == JFileChooser.APPROVE_OPTION)
+		{
+			File f = fc.getSelectedFile();
+			if(!new File(f, "Quests").exists() || !new File(f, "Players").exists())
+			{
+				JOptionPane.showMessageDialog(this, "This folder is not a valid SkyQuest plugin folder",
+					"SkyQuest Utility", JOptionPane.WARNING_MESSAGE);
+				return;
+			}
+			fm.loadData(f, qm);
+			open = f;
+			menu.save.setEnabled(true);
+			main.status.setText("Folder loaded: " + f.getAbsolutePath());
+			main.save.setEnabled(true);
+			quest.list.refreshList();
+		}
+	}
+	public void saveFolderDialog()
+	{
+		if(!open.exists())
+		{
+			JFileChooser fc = new JFileChooser();
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			int sel = fc.showSaveDialog(this);
+			if(sel == JFileChooser.CANCEL_OPTION)return;
+			else if(sel == JFileChooser.APPROVE_OPTION)
+			{
+				open = fc.getSelectedFile();
+			}
+		}
+		open.delete();
+		open.mkdir();
+		try 
+		{
+			fm.saveData(open, qm);
+			JOptionPane.showMessageDialog(this, "Data saved to " + open.getAbsolutePath() + "!",
+				"SkyQuest Utility", JOptionPane.INFORMATION_MESSAGE);
+		}
+		catch (IOException e) 
+		{
+			JOptionPane.showMessageDialog(this, "An error has occurred: " + e.getMessage(), 
+				"SkyQuest Utility", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 }
