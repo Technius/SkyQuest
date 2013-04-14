@@ -30,11 +30,16 @@ public class SkyQuestPlugin extends JavaPlugin
 				qm.addQuestLog(log);
 			}
 		}
-		fm.loadData(getDataFolder(), qm);
-		int ql = qm.getQuests().length;
-		getLogger().info("Loaded " + ql + " quest" + (ql != 1 ? "s" : ""));
-		int pl = qm.getQuestLogs().length;
-		getLogger().info("Loaded " + pl + " player" + (pl != 1 ? "s" : ""));
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable(){
+			public void run()
+			{
+				fm.loadData(getDataFolder(), qm);
+				int ql = qm.getQuests().length;
+				getLogger().info("Loaded " + ql + " quest" + (ql != 1 ? "s" : ""));
+				int pl = qm.getQuestLogs().length;
+				getLogger().info("Loaded " + pl + " player" + (pl != 1 ? "s" : ""));
+			}
+		});
 	}
 	public void onDisable()
 	{
