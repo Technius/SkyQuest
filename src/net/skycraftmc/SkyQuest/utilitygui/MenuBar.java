@@ -31,10 +31,12 @@ public class MenuBar extends JMenuBar implements ActionListener
 		//Listeners
 		exit.addActionListener(this);
 		load.addActionListener(this);
+		save.addActionListener(this);
 	}
 	public void actionPerformed(ActionEvent arg0) 
 	{
 		if(arg0.getSource() == exit)util.exit();
 		else if(arg0.getSource() == load)util.openFolderDialog();
+		else if(arg0.getSource() == save)util.saveFolderDialog();
 	}
 }

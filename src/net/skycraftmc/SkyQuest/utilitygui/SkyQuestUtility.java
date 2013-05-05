@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
@@ -8,13 +9,12 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
-import javax.swing.filechooser.FileSystemView;
-import javax.swing.filechooser.FileView;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import net.skycraftmc.SkyQuest.FileManager;
@@ -30,6 +30,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	MenuBar menu;
 	File open;
 	QuestPanel quest;
+	JFileChooser fc;
 	static
 	{
 		util = new SkyQuestUtility();
@@ -53,7 +54,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		}
 		//Take up half of the screen, centered
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((int)d.getWidth()/4, (int)d.getHeight()/4, (int)d.getWidth()/2, (int)d.getHeight()/2);
+		setBounds((int)d.getWidth()/6, (int)d.getHeight()/6, (int)d.getWidth()*2/3, (int)d.getHeight()*2/3);
 		//Set up stuff
 		setTitle("SkyQuest Utility");
 		setLayout(new BorderLayout());
@@ -69,7 +70,26 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		//Listeners
 		addWindowListener(this);
 		//Show
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			fc = new JFileChooser();
+			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fc.updateUI();
+			UIManager.setLookAndFeel(NimbusLookAndFeel.class.getName());
+			refreshUI(fc, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		setVisible(true);
+	}
+	private void refreshUI(JComponent c, boolean ip)
+	{
+		if(ip)c.updateUI();
+		for(int i = 0; i < c.getComponentCount(); i ++)
+		{
+			Component c2 = c.getComponent(i);
+			if(c2 instanceof JComponent)refreshUI((JComponent)c2, true);
+		}
 	}
 	public void exit()
 	{
@@ -93,8 +113,6 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	}
 	public void openFolderDialog()
 	{
-		JFileChooser fc = new JFileChooser();
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		int sel = fc.showOpenDialog(this);
 		if(sel == JFileChooser.CANCEL_OPTION)return;
 		else if(sel == JFileChooser.APPROVE_OPTION)
@@ -118,8 +136,6 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	{
 		if(!open.exists())
 		{
-			JFileChooser fc = new JFileChooser();
-			fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 			int sel = fc.showSaveDialog(this);
 			if(sel == JFileChooser.CANCEL_OPTION)return;
 			else if(sel == JFileChooser.APPROVE_OPTION)

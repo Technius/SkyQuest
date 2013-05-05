@@ -289,8 +289,7 @@ public class FileManager
 		{
 			try
 			{
-				File f = new File(file, q.getID() + ".dat");
-				saveQuest(f, q);
+				saveQuest(quests, q);
 			}
 			catch(IOException ioe)
 			{
