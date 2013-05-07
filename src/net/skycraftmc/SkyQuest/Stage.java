@@ -46,4 +46,8 @@ public class Stage
 	{
 		return actions.toArray(new QuestAction[actions.size()]);
 	}
+	public String toString()
+	{
+		return id;
+	}
 }

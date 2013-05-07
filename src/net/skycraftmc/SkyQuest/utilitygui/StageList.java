@@ -3,24 +3,25 @@ package net.skycraftmc.SkyQuest.utilitygui;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 
-import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.Quest;
+import net.skycraftmc.SkyQuest.Stage;
 
 @SuppressWarnings("serial")
-public class ObjectiveList extends JList<Objective>
+public class StageList extends JList<Stage>
 {
-	DefaultListModel<Objective> model;
-	public ObjectiveList()
+	DefaultListModel<Stage> model;
+	public StageList()
 	{
-		model = new DefaultListModel<Objective>();
+		model = new DefaultListModel<Stage>();
 		setModel(model);
 	}
 	public void refreshList(Quest q)
 	{
 		model.clear();
-		for(Objective o:q.getObjectives())
+		for(Stage s:q.getStages())
 		{
-			model.addElement(o);
+			model.addElement(s);
 		}
 	}
 }
+

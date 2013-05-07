@@ -44,7 +44,8 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		save.setEnabled(false);
 		cancel.addActionListener(this);
 		cancel.setEnabled(false);
-		setBorder(new LineBorder(Color.black));
+		LineBorder border = new LineBorder(Color.gray);
+		setBorder(border);
 	}
 	public void loadData(Objective o)
 	{

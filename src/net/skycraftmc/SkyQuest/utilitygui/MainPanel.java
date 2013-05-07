@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,7 +25,12 @@ public class MainPanel extends JPanel implements ActionListener
 		save.setEnabled(false);
 		load = new JButton("Load");
 		setLayout(new BorderLayout());
-		add("Center", status);
+		JPanel sp = new JPanel();
+		sp.setLayout(new BoxLayout(sp, BoxLayout.X_AXIS));
+		sp.add(Box.createHorizontalGlue());
+		sp.add(status);
+		sp.add(Box.createHorizontalGlue());
+		add("Center", sp);
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.Y_AXIS));
 		buttons.add(load);

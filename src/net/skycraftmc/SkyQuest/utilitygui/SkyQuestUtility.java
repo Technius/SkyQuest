@@ -3,12 +3,14 @@ package net.skycraftmc.SkyQuest.utilitygui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -47,10 +49,22 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	{
 		qm = new QuestManager();
 		fm = new FileManager();
+		//Set LookAndFeel to Nimbus
 		try {
 			UIManager.setLookAndFeel(NimbusLookAndFeel.class.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		//Load icon image
+		try
+		{
+			Image icon = ImageIO.read(getClass().getClassLoader().getResource("res/icon.png"));
+			if(icon != null)setIconImage(icon);
+		}
+		catch(IOException ioe)
+		{
+			System.out.println("Failed to load icon");
+			ioe.printStackTrace();
 		}
 		//Take up half of the screen, centered
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -69,7 +83,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		setJMenuBar(menu);
 		//Listeners
 		addWindowListener(this);
-		//Show
+		//Workaround for getting System JFileChooser in Nimbus
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			fc = new JFileChooser();
@@ -80,6 +94,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//Show
 		setVisible(true);
 	}
 	private void refreshUI(JComponent c, boolean ip)

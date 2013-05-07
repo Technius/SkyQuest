@@ -33,4 +33,8 @@ public class QuestAction
 			throw new UnsupportedOperationException(type.getName() + " requires a player");
 		type.apply(action);
 	}
+	public String toString()
+	{
+		return type.getName() + ": " + action;
+	}
 }
