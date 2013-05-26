@@ -1,5 +1,8 @@
 package net.skycraftmc.SkyQuest.action;
 
+import net.skycraftmc.SkyQuest.utilitygui.ActionEditor;
+import net.skycraftmc.SkyQuest.utilitygui.BasicActionEditor;
+
 
 public abstract class ActionType 
 {
@@ -21,4 +24,17 @@ public abstract class ActionType
 	public abstract boolean isValid(String action);
 	public abstract String getName();
 	public abstract boolean requiresPlayer();
+	/**
+	 * Creates a new {@link BasicActionEditor} that is used for
+	 * editing and creating actions of this type.
+	 * @return
+	 */
+	public ActionEditor createEditorPanel()
+	{
+		return new BasicActionEditor(this);
+	}
+	public String toString()
+	{
+		return getName();
+	}
 }

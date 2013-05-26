@@ -2,6 +2,7 @@ package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -20,13 +21,14 @@ public class QuestPanel extends JPanel
 	StageList slist;
 	StagePanel sp;
 	ObjectivePanel op;
+	JTabbedPane tabs;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		JPanel qp = new JPanel();
 		list = new QuestList(this);
-		this.sp = new StagePanel();
+		this.sp = new StagePanel(util);
 		op = new ObjectivePanel();
 		olist = new ObjectiveList();
 		slist = new StageList();
@@ -36,7 +38,7 @@ public class QuestPanel extends JPanel
 		qs.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		qs.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		qp.add("Center", qs);
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 		JPanel op = new JPanel();
 		op.setLayout(new BorderLayout());
 		JScrollPane os = new JScrollPane(olist);

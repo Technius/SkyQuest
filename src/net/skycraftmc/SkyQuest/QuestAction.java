@@ -21,6 +21,12 @@ public class QuestAction
 	{
 		return action;
 	}
+	public void setAction(String action)
+	{
+		if(!type.isValid(action))
+			throw new IllegalArgumentException("action is not valid for type " + type.getName());
+		this.action = action;
+	}
 	public void apply(String player)
 	{
 		if(player == null && type.requiresPlayer())

@@ -2,6 +2,7 @@ package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import net.skycraftmc.SkyQuest.action.ActionType;
@@ -28,8 +29,8 @@ public class QuestManager
 	}
 	private ArrayList<Quest>quests = new ArrayList<Quest>();
 	private ArrayList<PlayerQuestLog>qlogs = new ArrayList<PlayerQuestLog>();
-	private HashMap<String, ObjectiveType>regisObjType = new HashMap<String, ObjectiveType>();
-	private HashMap<String, ActionType>regisActType = new HashMap<String, ActionType>();
+	private LinkedHashMap<String, ObjectiveType>regisObjType = new LinkedHashMap<String, ObjectiveType>();
+	private LinkedHashMap<String, ActionType>regisActType = new LinkedHashMap<String, ActionType>();
 	public Quest getQuest(String id)
 	{
 		for(Quest q:quests)
@@ -109,5 +110,14 @@ public class QuestManager
 	public PlayerQuestLog[] getQuestLogs()
 	{
 		return qlogs.toArray(new PlayerQuestLog[qlogs.size()]);
+	}
+	public void clearData()
+	{
+		quests.clear();
+		qlogs.clear();
+	}
+	public ActionType[] getRegisteredActionTypes()
+	{
+		return regisActType.values().toArray(new ActionType[regisActType.size()]);
 	}
 }

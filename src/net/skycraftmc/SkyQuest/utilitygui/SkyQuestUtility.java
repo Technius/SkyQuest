@@ -96,6 +96,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		}
 		//Show
 		setVisible(true);
+		quest.tabs.setPreferredSize(new Dimension(getWidth()/3, quest.tabs.getSize().height));
 	}
 	private void refreshUI(JComponent c, boolean ip)
 	{
@@ -139,6 +140,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 					"SkyQuest Utility", JOptionPane.WARNING_MESSAGE);
 				return;
 			}
+			QuestManager.getInstance().clearData();
 			fm.loadData(f, qm);
 			open = f;
 			menu.save.setEnabled(true);

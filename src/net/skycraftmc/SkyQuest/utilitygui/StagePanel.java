@@ -22,8 +22,12 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 	DefaultListModel<QuestAction>model;
 	JList<QuestAction>list;
 	JButton edit;
-	public StagePanel()
+	SkyQuestUtility util;
+	ActionDialog ad;
+	public StagePanel(SkyQuestUtility util)
 	{
+		this.util = util;
+		ad = new ActionDialog(util, this);
 		model = new DefaultListModel<QuestAction>();
 		list = new JList<QuestAction>(model);
 		edit = new JButton("Edit");
@@ -33,7 +37,7 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		add("Center", list);
+		add("Center", scroll);
 		add("South", edit);
 		edit.addActionListener(this);
 		list.addListSelectionListener(this);
@@ -48,7 +52,7 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		int index = list.getSelectedIndex();
 		if(index != -1)
 		{
-			//TODO Open edit window
+			ad.loadAndShow(list.getSelectedValue(), list.getSelectedValue().getType());
 		}
 	}
 	public void valueChanged(ListSelectionEvent arg0)
