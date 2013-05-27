@@ -1,6 +1,8 @@
 package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +28,7 @@ public class ActionDialog extends JDialog implements ActionListener
 	DefaultListModel<ActionType>amodel;
 	SkyQuestUtility util;
 	QuestAction loaded;
+	ActionType loadedtype;
 	ActionEditor ae;
 	JComponent parent;
 	public ActionDialog(SkyQuestUtility util, JComponent parent)
@@ -66,6 +69,7 @@ public class ActionDialog extends JDialog implements ActionListener
 			save.setText("Create");
 			atypes.setEnabled(true);
 			setTitle("Create New Action");
+			loadedtype = type;
 		}
 		else
 		{
@@ -73,14 +77,16 @@ public class ActionDialog extends JDialog implements ActionListener
 			ae.loadFrom(qa);
 			atypes.setEnabled(false);
 			setTitle("Edit Action - " + qa.getType().getName());
+			loadedtype = qa.getType();
 		}
 		add("Center", ae);
-		setBounds(util.getWidth()/4, util.getHeight()/4, util.getWidth()/2, util.getHeight()/2);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds((int)d.getWidth()/4, (int)d.getHeight()/4, (int)d.getWidth()/2, (int)d.getHeight()/2);
 		setVisible(true);
 	}
 	public QuestAction create()
 	{
-		if(loaded == null)return new QuestAction(ae.type, ae.createData());
+		if(loaded == null)return new QuestAction(loadedtype, ae.createData());
 		return null;
 	}
 	public void edit()
@@ -98,7 +104,7 @@ public class ActionDialog extends JDialog implements ActionListener
 		{
 			if(parent == util.quest.sp)
 			{
-				if(loaded == null)util.quest.sp.model.addElement(create());
+				if(loaded == null)util.quest.slist.getSelectedValue().addAction(create());
 				else edit();
 				util.quest.sp.loadData(util.quest.slist.getSelectedValue());
 				setVisible(false);
@@ -111,5 +117,6 @@ public class ActionDialog extends JDialog implements ActionListener
 		remove(ae);
 		ae = null;
 		loaded = null;
+		loadedtype = null;
 	}
 }

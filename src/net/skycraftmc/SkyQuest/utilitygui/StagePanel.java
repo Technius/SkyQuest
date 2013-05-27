@@ -26,11 +26,13 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 	JButton create;
 	SkyQuestUtility util;
 	ActionDialog ad;
+	CreateActionDialog cad;
 	Stage loaded;
 	public StagePanel(SkyQuestUtility util)
 	{
 		this.util = util;
 		ad = new ActionDialog(util, this);
+		cad = new CreateActionDialog(util, ad);
 		model = new DefaultListModel<QuestAction>();
 		list = new JList<QuestAction>(model);
 		edit = new JButton("Edit");
@@ -51,6 +53,7 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		add("South", buttons);
 		edit.addActionListener(this);
 		delete.addActionListener(this);
+		create.addActionListener(this);
 		list.addListSelectionListener(this);
 	}
 	public void loadData(Stage s)
@@ -62,6 +65,11 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 	public void actionPerformed(ActionEvent arg0) 
 	{
 		int index = list.getSelectedIndex();
+		if(arg0.getSource() == create && loaded != null)
+		{
+			cad.setVisible(true);
+			return;
+		}
 		if(index != -1)
 		{
 			if(arg0.getSource() == edit)
