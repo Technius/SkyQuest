@@ -77,7 +77,10 @@ public class FileManager
 				if(tb instanceof TagCompound)
 				{
 					Stage a = loadStage((TagCompound)tb);
-					if(a != null)q.addStage(a);
+					if(a != null)
+					{
+						if(!a.getID().equals(s.getID()))q.addStage(a);
+					}
 				}
 			}
 		}
@@ -260,7 +263,7 @@ public class FileManager
 			}
 			catch(EOFException eofe)
 			{
-				
+				eofe.printStackTrace();
 			}
 			catch(IOException ioe)
 			{
