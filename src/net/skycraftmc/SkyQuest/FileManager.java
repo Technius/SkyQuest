@@ -42,6 +42,7 @@ public class FileManager
 		for(String s:q.getDescription())desc.add(new TagString("", s));
 		tag.setTag("description", desc);
 		tag.setTag("iconid", new TagInt("iconid", q.getItemIconId()));
+		tag.setTag("firstassigned", new TagByte("firstassigned", (byte)(q.isFirstAssigned() ? 1 : 0)));
 		File f = new File(file, q.getID() + ".dat");
 		DataOutputStream dos = new DataOutputStream(new FileOutputStream(f));
 		tag.saveTag(dos);
@@ -105,6 +106,12 @@ public class FileManager
 			}
 		}
 		q.setDescription(desc);
+		TagBase tbfirstassigned = tag.getTag("firstassigned");
+		if(tbfirstassigned instanceof TagByte)
+		{
+			TagByte tfa = (TagByte)tbfirstassigned;
+			q.setFirstAssigned(tfa.data == 1 ? true : false);
+		}
 		return q;
 	}
 	public void savePlayerData(File f, PlayerQuestLog log)throws IOException

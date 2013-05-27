@@ -11,6 +11,7 @@ public class Quest
 	private ArrayList<String>description = new ArrayList<String>();
 	private Stage firststage;
 	private int itemico = 386;
+	private boolean firstassigned = false;
 	public Quest(String id, String name, Stage firststage)
 	{
 		this.name = name;
@@ -101,5 +102,13 @@ public class Quest
 	public String toString()
 	{
 		return id;
+	}
+	public boolean isFirstAssigned()
+	{
+		return firstassigned;
+	}
+	public void setFirstAssigned(boolean value)
+	{
+		firstassigned = value;
 	}
 }

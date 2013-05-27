@@ -22,8 +22,11 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 	DefaultListModel<QuestAction>model;
 	JList<QuestAction>list;
 	JButton edit;
+	JButton delete;
+	JButton create;
 	SkyQuestUtility util;
 	ActionDialog ad;
+	Stage loaded;
 	public StagePanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -31,19 +34,28 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		model = new DefaultListModel<QuestAction>();
 		list = new JList<QuestAction>(model);
 		edit = new JButton("Edit");
+		delete = new JButton("Delete");
+		create = new JButton("Create");
 		edit.setEnabled(false);
+		delete.setEnabled(false);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setLayout(new BorderLayout());
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		add("Center", scroll);
-		add("South", edit);
+		JPanel buttons = new JPanel();
+		buttons.add(edit);
+		buttons.add(create);
+		buttons.add(delete);
+		add("South", buttons);
 		edit.addActionListener(this);
+		delete.addActionListener(this);
 		list.addListSelectionListener(this);
 	}
 	public void loadData(Stage s)
 	{
+		loaded = s;
 		model.clear();
 		for(QuestAction a:s.getActions())model.addElement(a);
 	}
@@ -52,11 +64,23 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		int index = list.getSelectedIndex();
 		if(index != -1)
 		{
-			ad.loadAndShow(list.getSelectedValue(), list.getSelectedValue().getType());
+			if(arg0.getSource() == edit)
+			{
+				ad.loadAndShow(list.getSelectedValue(), list.getSelectedValue().getType());
+			}
+			else if(arg0.getSource() == delete)
+			{
+				if(loaded != null)
+				{
+					loaded.removeAction(index);
+					loadData(loaded);
+				}
+			}
 		}
 	}
 	public void valueChanged(ListSelectionEvent arg0)
 	{
 		edit.setEnabled(true);
+		delete.setEnabled(true);
 	}
 }
