@@ -38,6 +38,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	File savedir;
 	File conffile;
 	File lastfile;
+	JTabbedPane tabs;
 	static
 	{
 		util = new SkyQuestUtility();
@@ -81,11 +82,12 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		setTitle("SkyQuest Utility");
 		setLayout(new BorderLayout());
 		//Add components
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 		main = new MainPanel(this);
 		tabs.addTab("Home", main);
 		quest = new QuestPanel(this);
 		tabs.addTab("Quests", quest);
+		tabs.setEnabledAt(1, false);
 		add("Center", tabs);
 		menu = new MenuBar(this);
 		setJMenuBar(menu);
@@ -169,6 +171,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 			}
 			QuestManager.getInstance().clearData();
 			fm.loadData(f, qm);
+			tabs.setEnabledAt(1, true);
 			open = f;
 			menu.save.setEnabled(true);
 			main.status.setText("Folder loaded: " + f.getAbsolutePath());

@@ -20,7 +20,7 @@ public class MainPanel extends JPanel implements ActionListener
 	public MainPanel(SkyQuestUtility util)
 	{
 		this.util = util;
-		status = new JLabel("Load the SkyQuest plugin folder to begin!");
+		status = new JLabel("Select and load the SkyQuest plugin folder to begin!");
 		save = new JButton("Save");
 		save.setEnabled(false);
 		load = new JButton("Load");
