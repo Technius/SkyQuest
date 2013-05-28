@@ -8,7 +8,7 @@ public class Objective
 {
 	private String name;
 	private String id;
-	private ArrayList<QuestAction>rewards = new ArrayList<QuestAction>();
+	private Stage rewards = new Stage("");
 	private ObjectiveType type;
 	private String target;
 	private boolean optional = false;
@@ -74,25 +74,25 @@ public class Objective
 	}
 	public QuestAction[] getRewards()
 	{
-		return rewards.toArray(new QuestAction[rewards.size()]);
+		return rewards.getActions();
 	}
 	public void addReward(QuestAction reward)
 	{
 		if(reward == null)
 			throw new IllegalArgumentException("reward is null");
-		rewards.add(reward);
+		rewards.addAction(reward);
 	}
 	public void addReward(QuestAction reward, int index)
 	{
 		if(index >= rewards.size() || index < 0)
 			throw new ArrayIndexOutOfBoundsException("index is out of bounds");
-		rewards.add(index, reward);
+		rewards.addAction(reward, index);
 	}
 	public void removeReward(int index)
 	{
 		if(index >= rewards.size() || index < 0)
 			throw new ArrayIndexOutOfBoundsException("index is out of bounds");
-		rewards.remove(index);
+		rewards.removeAction(index);
 	}
 	public int getItemIconId()
 	{
@@ -105,5 +105,9 @@ public class Objective
 	public String toString()
 	{
 		return id;
+	}
+	public Stage getRewardsAsStage()
+	{
+		return rewards;
 	}
 }

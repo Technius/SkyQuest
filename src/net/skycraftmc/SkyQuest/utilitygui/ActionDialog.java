@@ -42,7 +42,6 @@ public class ActionDialog extends JDialog implements ActionListener
 		atypes = new JList<ActionType>(amodel);
 		for(ActionType a:QuestManager.getInstance().getRegisteredActionTypes())
 			amodel.addElement(a);
-		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		setLayout(new BorderLayout());
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
@@ -99,6 +98,7 @@ public class ActionDialog extends JDialog implements ActionListener
 		if(arg0.getSource() == cancel)
 		{
 			setVisible(false);
+			clear();
 		}
 		else if(arg0.getSource() == save)
 		{

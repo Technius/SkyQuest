@@ -21,6 +21,7 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import net.skycraftmc.SkyQuest.FileManager;
 import net.skycraftmc.SkyQuest.QuestManager;
+import net.skycraftmc.SkyQuest.util.StringConfig;
 
 @SuppressWarnings("serial")
 public class SkyQuestUtility extends JFrame implements WindowListener
@@ -33,6 +34,9 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	File open;
 	QuestPanel quest;
 	JFileChooser fc;
+	StringConfig conf;
+	File savedir;
+	File conffile;
 	static
 	{
 		util = new SkyQuestUtility();
@@ -47,8 +51,11 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	}
 	private void init()
 	{
+		savedir = getSaveDir();
+		conffile = new File(savedir, "config.txt");
 		qm = new QuestManager();
 		fm = new FileManager();
+		conf = new StringConfig();
 		//Set LookAndFeel to Nimbus
 		try {
 			UIManager.setLookAndFeel(NimbusLookAndFeel.class.getName());
@@ -94,9 +101,20 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		//Load settings
+		conf.setFile(conffile);
+		try
+		{
+			loadSettings();
+		}
+		catch(IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
+
+		quest.tabs.setPreferredSize(new Dimension(getWidth()/3, quest.tabs.getSize().height));
 		//Show
 		setVisible(true);
-		quest.tabs.setPreferredSize(new Dimension(getWidth()/3, quest.tabs.getSize().height));
 	}
 	private void refreshUI(JComponent c, boolean ip)
 	{
@@ -109,6 +127,14 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	}
 	public void exit()
 	{
+		try
+		{
+			saveSettings();
+		}
+		catch(IOException ioe)
+		{
+			ioe.printStackTrace();
+		}
 		System.exit(0);
 	}
 	public void windowActivated(WindowEvent arg0) {
@@ -174,5 +200,35 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 				"SkyQuest Utility", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+	}
+	public void saveSettings() throws IOException
+	{
+		if(!savedir.exists())savedir.mkdir();
+		conf.start();
+		if(fc.getSelectedFile() != null)
+			conf.writeKey("lastfile", fc.getSelectedFile().getAbsolutePath());
+		conf.close();
+	}
+	public void loadSettings() throws IOException
+	{
+		if(conffile.exists())
+		{
+			conf.load();
+			if(conf.hasKey("lastfile"))
+				fc.setSelectedFile(new File(conf.getString("lastfile", "")));
+		}
+	}
+	private File getSaveDir()
+	{
+		String osname = System.getProperty("os.name");
+		File ufolder = new File(System.getProperty("user.home"));
+		File dfolder;
+		String f = File.separator + ".SkyLink";
+		if(osname.equals("Windows 7") || osname.equalsIgnoreCase("Windows Vista"))
+			dfolder = new File(ufolder, "AppData" + File.separator + "Roaming" + f);
+		else if(osname.contains("Windows"))
+			dfolder = new File(ufolder, "Application Data" + f);
+		else dfolder = new File(ufolder, f);
+		return dfolder;
 	}
 }

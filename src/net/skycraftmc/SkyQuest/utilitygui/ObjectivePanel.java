@@ -2,12 +2,14 @@ package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -22,9 +24,11 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	private Objective sel;
 	private JButton save;
 	private JButton cancel;
+	private JCheckBox optional;
 	public ObjectivePanel()
 	{
 		name = new JTextField();
+		optional = new JCheckBox("Optional", false);
 		save = new JButton("Save changes");
 		cancel = new JButton("Cancel");
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -34,6 +38,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		np.add("Center", name);
 		np.add("West", new JLabel("Name"));
 		add(np);
+		add(optional);
 		JPanel actionp = new JPanel();
 		actionp.setLayout(new BoxLayout(actionp, BoxLayout.X_AXIS));
 		actionp.add(save);
@@ -44,8 +49,6 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		save.setEnabled(false);
 		cancel.addActionListener(this);
 		cancel.setEnabled(false);
-		LineBorder border = new LineBorder(Color.gray);
-		setBorder(border);
 	}
 	public void loadData(Objective o)
 	{
@@ -58,6 +61,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	public void saveData(Objective o)
 	{
 		o.setName(name.getText());
+		o.setOptional(optional.isSelected());
 	}
 	public void saveData()
 	{

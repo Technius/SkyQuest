@@ -1,10 +1,16 @@
 package net.skycraftmc.SkyQuest.action;
 
+import java.awt.event.KeyAdapter;
+
+import javax.swing.JTextField;
+
 import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.PlayerQuestLog;
 import net.skycraftmc.SkyQuest.Quest;
+import net.skycraftmc.SkyQuest.QuestAction;
 import net.skycraftmc.SkyQuest.QuestData;
 import net.skycraftmc.SkyQuest.SkyQuestPlugin;
+import net.skycraftmc.SkyQuest.utilitygui.ActionEditor;
 
 public class AssignObjectiveAction extends ActionType
 {
@@ -41,5 +47,31 @@ public class AssignObjectiveAction extends ActionType
 	{
 		return true;
 	}
-	
+	@Override
+	public ActionEditor createEditorPanel()
+	{
+		return new AssignObjectiveEditorPanel();
+	}
+	private class AssignObjectiveEditorPanel extends ActionEditor
+	{
+		private JTextField qidtf;
+		private JTextField oidtf;
+		private AssignObjectiveEditorPanel()
+		{
+			qidtf = new JTextField();
+			oidtf = new JTextField();
+		}
+		public String createData() 
+		{
+			return null;
+		}
+		public void loadFrom(QuestAction action)
+		{
+			
+		}
+	}
+	private class EmptyTextListener extends KeyAdapter
+	{
+		
+	}
 }

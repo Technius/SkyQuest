@@ -63,7 +63,10 @@ public class QuestPanel extends JPanel
 				cards.next(panels);
 			}
 		});
-		panels.add(this.op, "Objectives");
+		JScrollPane ops = new JScrollPane(this.op);
+		ops.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		ops.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		panels.add(ops, "Objectives");
 		panels.add(this.sp, "Stages");
 		add(panels);
 		olist.addListSelectionListener(list);

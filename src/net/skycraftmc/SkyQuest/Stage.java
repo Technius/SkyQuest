@@ -50,4 +50,8 @@ public class Stage
 	{
 		return id;
 	}
+	public int size() 
+	{
+		return actions.size();
+	}
 }

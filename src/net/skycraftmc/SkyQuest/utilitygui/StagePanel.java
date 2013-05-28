@@ -24,6 +24,8 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 	JButton edit;
 	JButton delete;
 	JButton create;
+	JButton moveup;
+	JButton movedown;
 	SkyQuestUtility util;
 	ActionDialog ad;
 	CreateActionDialog cad;
@@ -38,8 +40,12 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		edit = new JButton("Edit");
 		delete = new JButton("Delete");
 		create = new JButton("Create");
+		moveup = new JButton("Move Up");
+		movedown = new JButton("Move Down");
 		edit.setEnabled(false);
 		delete.setEnabled(false);
+		moveup.setEnabled(false);
+		movedown.setEnabled(false);
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setLayout(new BorderLayout());
 		JScrollPane scroll = new JScrollPane(list);
@@ -50,10 +56,14 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 		buttons.add(edit);
 		buttons.add(create);
 		buttons.add(delete);
+		buttons.add(moveup);
+		buttons.add(movedown);
 		add("South", buttons);
 		edit.addActionListener(this);
 		delete.addActionListener(this);
 		create.addActionListener(this);
+		moveup.addActionListener(this);
+		movedown.addActionListener(this);
 		list.addListSelectionListener(this);
 	}
 	public void loadData(Stage s)
@@ -84,11 +94,43 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 					loadData(loaded);
 				}
 			}
+			else if(arg0.getSource() == moveup && loaded != null)
+			{
+				if(index != 0)
+				{
+					loaded.removeAction(index);
+					loaded.addAction(list.getSelectedValue(), index - 1);
+					loadData(loaded);
+					list.setSelectedIndex(index - 1);
+				}
+			}
+			else if(arg0.getSource() == movedown && loaded != null)
+			{
+				if(index != model.size() - 1)
+				{
+					loaded.removeAction(index);
+					int ni;
+					if(index == loaded.getActions().length - 1)
+					{
+						loaded.addAction(list.getSelectedValue());
+						ni = loaded.getActions().length - 1;
+					}
+					else
+					{
+						ni = index + 1;
+						loaded.addAction(list.getSelectedValue(), ni);
+					}
+					loadData(loaded);
+					list.setSelectedIndex(ni);
+				}
+			}
 		}
 	}
 	public void valueChanged(ListSelectionEvent arg0)
 	{
 		edit.setEnabled(true);
 		delete.setEnabled(true);
+		moveup.setEnabled(list.getSelectedIndex() != 0);
+		movedown.setEnabled(list.getSelectedIndex() != model.size() - 1);
 	}
 }
