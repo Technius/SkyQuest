@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -15,6 +16,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class SkyQuestListener implements Listener
 {
@@ -80,17 +83,32 @@ public class SkyQuestListener implements Listener
 			qm.addQuestLog(log);
 			
 			//Testing
+			ItemStack i = new ItemStack(Material.WRITTEN_BOOK);
+			BookMeta im = (BookMeta) i.getItemMeta();
+			im.setTitle(bookTitle);
+			im.setAuthor(bookAuthor);
+			i.setItemMeta(im);
+			event.getPlayer().getInventory().addItem(i);
 			log.assign(qm.getQuest("test"));
 		}
 	}
+	private final String bookTitle = ChatColor.GOLD + "Quest Log";
+	private final String bookAuthor = ChatColor.AQUA + "SkyQuest";
 	@EventHandler
 	public void interact(PlayerInteractEvent event)
 	{
 		if(event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK)return;
 		ItemStack hand = event.getPlayer().getItemInHand();
 		if(hand == null)return;
-		if(hand.getType() != Material.ENCHANTED_BOOK)return;
-		//TODO: Finish ItemMeta check
+		if(hand.getType() != Material.WRITTEN_BOOK)return;
+		if(!hand.hasItemMeta())return;
+		ItemMeta im = hand.getItemMeta();
+		if(!(im instanceof BookMeta))return;
+		BookMeta bm = (BookMeta)im;
+		if(!bm.hasAuthor() || !bm.hasTitle())return;
+		if(!bm.getTitle().equals(bookTitle))return;
+		if(!bm.getAuthor().equals(bookAuthor))return;
+		event.setUseItemInHand(Result.DENY);
 		plugin.getQuestLogManager().openQuestLog(event.getPlayer());
 	}
 }
