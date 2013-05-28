@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
-import net.minecraft.server.v1_5_R2.NBTBase;
+import net.minecraft.server.v1_5_R3.NBTBase;
 import net.skycraftmc.SkyQuest.util.nbt.TagBase;
 
 public class BukkitUtil
