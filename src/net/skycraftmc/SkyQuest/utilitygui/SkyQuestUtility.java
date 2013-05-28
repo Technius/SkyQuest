@@ -37,6 +37,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	StringConfig conf;
 	File savedir;
 	File conffile;
+	File lastfile;
 	static
 	{
 		util = new SkyQuestUtility();
@@ -52,7 +53,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	private void init()
 	{
 		savedir = getSaveDir();
-		conffile = new File(savedir, "config.txt");
+		conffile = new File(savedir, "data.txt");
 		qm = new QuestManager();
 		fm = new FileManager();
 		conf = new StringConfig();
@@ -172,6 +173,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 			menu.save.setEnabled(true);
 			main.status.setText("Folder loaded: " + f.getAbsolutePath());
 			main.save.setEnabled(true);
+			lastfile = fc.getSelectedFile();
 			quest.list.refreshList();
 		}
 	}
@@ -205,8 +207,8 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	{
 		if(!savedir.exists())savedir.mkdir();
 		conf.start();
-		if(fc.getSelectedFile() != null)
-			conf.writeKey("lastfile", fc.getSelectedFile().getAbsolutePath());
+		if(lastfile != null)
+			conf.writeKey("lastfile", lastfile.getAbsolutePath());
 		conf.close();
 	}
 	public void loadSettings() throws IOException
@@ -215,7 +217,10 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		{
 			conf.load();
 			if(conf.hasKey("lastfile"))
-				fc.setSelectedFile(new File(conf.getString("lastfile", "")));
+			{
+				lastfile = new File(conf.getString("lastfile", ""));
+				fc.setSelectedFile(lastfile);
+			}
 		}
 	}
 	private File getSaveDir()
@@ -223,7 +228,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		String osname = System.getProperty("os.name");
 		File ufolder = new File(System.getProperty("user.home"));
 		File dfolder;
-		String f = File.separator + ".SkyLink";
+		String f = File.separator + ".SkyQuest";
 		if(osname.equals("Windows 7") || osname.equalsIgnoreCase("Windows Vista"))
 			dfolder = new File(ufolder, "AppData" + File.separator + "Roaming" + f);
 		else if(osname.contains("Windows"))

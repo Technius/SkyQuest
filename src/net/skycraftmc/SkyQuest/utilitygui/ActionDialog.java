@@ -110,6 +110,14 @@ public class ActionDialog extends JDialog implements ActionListener
 				setVisible(false);
 				clear();
 			}
+			else if(parent == util.quest.op.rewards)
+			{
+				if(loaded == null)util.quest.op.rwcp.addAction(create());
+				else edit();
+				util.quest.op.rewards.loadData(util.quest.op.rewards.loaded);
+				setVisible(false);
+				clear();
+			}			
 		}
 	}
 	public void clear()

@@ -50,7 +50,7 @@ public class StringConfig
 	{
 		if(pw == null)return;
 		if(!map.containsKey(k))pw.println(k + ":" + def);
-		else pw.println(def + ":" + map.get(k));
+		else pw.println(k + ":" + map.get(k));
 	}
 	public void write(String s)
 	{

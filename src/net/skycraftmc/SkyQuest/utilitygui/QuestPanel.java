@@ -2,7 +2,6 @@ package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -29,7 +28,7 @@ public class QuestPanel extends JPanel
 		JPanel qp = new JPanel();
 		list = new QuestList(this);
 		this.sp = new StagePanel(util);
-		op = new ObjectivePanel();
+		op = new ObjectivePanel(util);
 		olist = new ObjectiveList();
 		slist = new StageList();
 		qp.setLayout(new BorderLayout());

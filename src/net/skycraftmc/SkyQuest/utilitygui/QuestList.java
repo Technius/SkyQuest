@@ -47,8 +47,7 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 		}
 		else if(arg0.getSource() == qp.olist)
 		{
-			Objective o = qp.olist.model.getElementAt(index);
-			qp.op.loadData(o);
+			qp.op.loadData(qp.olist.getSelectedValue());
 		}
 		else if(arg0.getSource() == qp.slist)
 		{

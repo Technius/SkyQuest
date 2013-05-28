@@ -1,8 +1,14 @@
 package net.skycraftmc.SkyQuest.action;
 
-import java.awt.event.KeyAdapter;
+import java.awt.BorderLayout;
 
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.PlayerQuestLog;
@@ -56,22 +62,58 @@ public class AssignObjectiveAction extends ActionType
 	{
 		private JTextField qidtf;
 		private JTextField oidtf;
-		private AssignObjectiveEditorPanel()
+		@Override
+		public void init()
 		{
 			qidtf = new JTextField();
 			oidtf = new JTextField();
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			JPanel p1 = new JPanel();
+			JPanel p2 = new JPanel();
+			p1.setLayout(new BorderLayout());
+			p2.setLayout(new BorderLayout());
+			p1.add("North", new JLabel("Quest ID"));
+			p1.add("Center", qidtf);
+			p2.add("North", new JLabel("Objective ID"));
+			p2.add("Center", oidtf);
+			add(p1);
+			add(p2);
+			EmptyTextListener etl = new EmptyTextListener(getFinishButton(), getCancelButton());
+			qidtf.getDocument().addDocumentListener(etl);
+			oidtf.getDocument().addDocumentListener(etl);
 		}
 		public String createData() 
 		{
-			return null;
+			return qidtf.getText() + " " + oidtf.getText();
 		}
 		public void loadFrom(QuestAction action)
 		{
-			
+			String[] t = action.getAction().split(" ", 2);
+			qidtf.setText(t[0]);
+			oidtf.setText(t[1]);
 		}
 	}
-	private class EmptyTextListener extends KeyAdapter
+	private class EmptyTextListener implements DocumentListener
 	{
-		
+		private JComponent[] c;
+		public EmptyTextListener(JComponent... components)
+		{
+			c = components;
+		}
+		public void changedUpdate(DocumentEvent e) {
+			update(e);
+		}
+		public void insertUpdate(DocumentEvent e) {
+			update(e);
+		}
+
+		public void removeUpdate(DocumentEvent e) {
+			update(e);
+		}
+		private void update(DocumentEvent e)
+		{
+			boolean a = e.getDocument().getLength() > 0;
+			for(JComponent c:this.c)c.setEnabled(a);
+		}
 	}
 }
