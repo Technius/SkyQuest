@@ -63,6 +63,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		name.setText(o.getName());
 		save.setEnabled(true);
 		cancel.setEnabled(true);
+		optional.setSelected(o.isOptional());
 		rwcp = new Stage("");
 		for(QuestAction qa: o.getRewardsAsStage().getActions())
 			rwcp.addAction(new QuestAction(qa.getType(), qa.getAction()));
