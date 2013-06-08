@@ -29,4 +29,8 @@ public class ConsoleCommandAction extends ActionType
 		return false;
 	}
 	
+	public String getDescription()
+	{
+		return "Makes the console execute a command.";
+	}
 }

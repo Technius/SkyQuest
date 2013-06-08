@@ -116,4 +116,8 @@ public class AssignObjectiveAction extends ActionType
 			for(JComponent c:this.c)c.setEnabled(a);
 		}
 	}
+	public String getDescription()
+	{
+		return "Assigns an objective to the player.";
+	}
 }

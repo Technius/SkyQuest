@@ -33,4 +33,8 @@ public class MessageAction extends ActionType
 		return true;
 	}
 	
+	public String getDescription()
+	{
+		return "Sends a message to the player.";
+	}
 }

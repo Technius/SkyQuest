@@ -32,4 +32,8 @@ public class CommandAction extends ActionType
 		return true;
 	}
 	
+	public String getDescription()
+	{
+		return "Makes the player execute a command";
+	}
 }

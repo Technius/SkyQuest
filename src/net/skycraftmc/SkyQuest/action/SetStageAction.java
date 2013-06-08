@@ -40,4 +40,8 @@ public class SetStageAction extends ActionType
 		return true;
 	}
 	
+	public String getDescription()
+	{
+		return "Sets the stage of a quest.";
+	}
 }

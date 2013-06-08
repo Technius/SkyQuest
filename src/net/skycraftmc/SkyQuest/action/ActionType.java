@@ -21,13 +21,26 @@ public abstract class ActionType
 	{
 		apply(null, action);
 	}
+	/**
+	 * Returns whether or not the provided action data is valid for this ActionType.
+	 * @param action The data provided for this ActionType.
+	 * @return Whether or not the data is valid.
+	 */
 	public abstract boolean isValid(String action);
+	/**
+	 * @return The name of this ActionType
+	 */
 	public abstract String getName();
+	/**
+	 * @return If this action requires a player
+	 */
 	public abstract boolean requiresPlayer();
 	/**
-	 * Creates a new {@link BasicActionEditor} that is used for
-	 * editing and creating actions of this type.
-	 * @return
+	 * Creates a new {@link ActionEditor} that is used for
+	 * editing and creating actions of this type.  By default,
+	 * this method returns an {@link ActionEditor} of type
+	 * {@link BasicActionEditor}
+	 * @return A new {@link ActionEditor}
 	 */
 	public ActionEditor createEditorPanel()
 	{
@@ -36,5 +49,12 @@ public abstract class ActionType
 	public String toString()
 	{
 		return getName();
+	}
+	/**
+	 * @return Text describing this ActionType
+	 */
+	public String getDescription()
+	{
+		return "No description.";
 	}
 }
