@@ -89,7 +89,11 @@ public class SkyQuestListener implements Listener
 			im.setAuthor(bookAuthor);
 			i.setItemMeta(im);
 			event.getPlayer().getInventory().addItem(i);
-			log.assign(qm.getQuest("test"));
+			//End Testing
+			for(Quest q:qm.getQuests())
+			{
+				if(q.isFirstAssigned())log.assign(q);
+			}
 		}
 	}
 	private final String bookTitle = ChatColor.GOLD + "Quest Log";
