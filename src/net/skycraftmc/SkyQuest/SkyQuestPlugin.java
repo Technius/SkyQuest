@@ -3,7 +3,11 @@ package net.skycraftmc.SkyQuest;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SkyQuestPlugin extends JavaPlugin
@@ -12,6 +16,9 @@ public class SkyQuestPlugin extends JavaPlugin
 	private FileManager fm;
 	private QuestLogManager qlm;
 	private static SkyQuestPlugin inst;
+	private ItemStack questlog;
+	final String bookTitle = ChatColor.GOLD + "Quest Log";
+	final String bookAuthor = ChatColor.AQUA + "SkyQuest";
 	public void onEnable()
 	{
 		inst = this;
@@ -40,6 +47,12 @@ public class SkyQuestPlugin extends JavaPlugin
 				getLogger().info("Loaded " + pl + " player" + (pl != 1 ? "s" : ""));
 			}
 		});
+		questlog = new ItemStack(Material.WRITTEN_BOOK);
+		BookMeta im = (BookMeta) questlog.getItemMeta();
+		im.setTitle(bookTitle);
+		im.setAuthor(bookAuthor);
+		questlog.setItemMeta(im);
+				
 	}
 	public void onDisable()
 	{
@@ -63,5 +76,9 @@ public class SkyQuestPlugin extends JavaPlugin
 	public static SkyQuestPlugin getPlugin()
 	{
 		return inst;
+	}
+	public ItemStack createQuestLogItem()
+	{
+		return questlog.clone();
 	}
 }

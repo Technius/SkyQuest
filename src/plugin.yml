@@ -4,5 +4,5 @@ main: net.skycraftmc.SkyQuest.SkyQuestPlugin
 commands:
     quest:
         description: Quest menu
-        usage: /quest <action> <arguments>
+        usage: /quest <arguments>
         

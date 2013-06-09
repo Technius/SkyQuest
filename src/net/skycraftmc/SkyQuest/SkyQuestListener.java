@@ -83,12 +83,7 @@ public class SkyQuestListener implements Listener
 			qm.addQuestLog(log);
 			
 			//Testing
-			ItemStack i = new ItemStack(Material.WRITTEN_BOOK);
-			BookMeta im = (BookMeta) i.getItemMeta();
-			im.setTitle(bookTitle);
-			im.setAuthor(bookAuthor);
-			i.setItemMeta(im);
-			event.getPlayer().getInventory().addItem(i);
+			event.getPlayer().getInventory().addItem(plugin.createQuestLogItem());
 			//End Testing
 			for(Quest q:qm.getQuests())
 			{
@@ -96,8 +91,8 @@ public class SkyQuestListener implements Listener
 			}
 		}
 	}
-	private final String bookTitle = ChatColor.GOLD + "Quest Log";
-	private final String bookAuthor = ChatColor.AQUA + "SkyQuest";
+	private final String bookTitle = plugin.bookTitle;
+	private final String bookAuthor = plugin.bookAuthor;
 	@EventHandler
 	public void interact(PlayerInteractEvent event)
 	{
@@ -115,4 +110,5 @@ public class SkyQuestListener implements Listener
 		event.setUseItemInHand(Result.DENY);
 		plugin.getQuestLogManager().openQuestLog(event.getPlayer());
 	}
+	
 }
