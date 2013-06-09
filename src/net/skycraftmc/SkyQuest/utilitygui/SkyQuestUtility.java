@@ -39,6 +39,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	File conffile;
 	File lastfile;
 	JTabbedPane tabs;
+	boolean changed = false;
 	static
 	{
 		util = new SkyQuestUtility();
@@ -130,6 +131,12 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 	}
 	public void exit()
 	{
+		if(changed)
+		{
+			int i = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit without saving?", 
+				"SkyQuest Utility - Confirm", JOptionPane.YES_NO_OPTION);
+			if(i == JOptionPane.NO_OPTION)return;
+		}
 		try
 		{
 			saveSettings();
@@ -178,6 +185,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 			main.save.setEnabled(true);
 			lastfile = fc.getSelectedFile();
 			quest.list.refreshList();
+			setTitle("SkyQuest Utility - " + f.getPath());
 		}
 	}
 	public void saveFolderDialog()
@@ -205,6 +213,8 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 				"SkyQuest Utility", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
+		changed = false;
+		setTitle("SkyQuest Utility - " + open.getPath());
 	}
 	public void saveSettings() throws IOException
 	{
@@ -238,5 +248,13 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 			dfolder = new File(ufolder, "Application Data" + f);
 		else dfolder = new File(ufolder, f);
 		return dfolder;
+	}
+	public void markFileChanged()
+	{
+		if(!changed)
+		{
+			changed = true;
+			setTitle(getTitle() + "*");
+		}
 	}
 }

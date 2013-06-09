@@ -117,7 +117,8 @@ public class ActionDialog extends JDialog implements ActionListener
 				util.quest.op.rewards.loadData(util.quest.op.rewards.loaded);
 				setVisible(false);
 				clear();
-			}			
+			}
+			util.markFileChanged();
 		}
 	}
 	public void clear()

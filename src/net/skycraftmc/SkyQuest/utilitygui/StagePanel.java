@@ -92,6 +92,7 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 				{
 					loaded.removeAction(index);
 					loadData(loaded);
+					util.markFileChanged();
 				}
 			}
 			else if(arg0.getSource() == moveup && loaded != null)
@@ -102,6 +103,7 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 					loaded.addAction(list.getSelectedValue(), index - 1);
 					loadData(loaded);
 					list.setSelectedIndex(index - 1);
+					util.markFileChanged();
 				}
 			}
 			else if(arg0.getSource() == movedown && loaded != null)
@@ -122,6 +124,7 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 					}
 					loadData(loaded);
 					list.setSelectedIndex(ni);
+					util.markFileChanged();
 				}
 			}
 		}

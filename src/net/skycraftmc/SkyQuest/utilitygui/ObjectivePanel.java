@@ -77,6 +77,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		for(int i = rw.size() - 1; i > -1; i --)rw.removeAction(i);
 		for(QuestAction qa:rwcp.getActions())o.addReward(qa);
 		loadData(o);
+		util.markFileChanged();
 	}
 	public void saveData()
 	{

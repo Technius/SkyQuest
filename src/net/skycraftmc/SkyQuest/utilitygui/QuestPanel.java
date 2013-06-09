@@ -2,8 +2,11 @@ package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -12,7 +15,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
-public class QuestPanel extends JPanel
+public class QuestPanel extends JPanel implements ActionListener
 {
 	SkyQuestUtility util;
 	QuestList list;
@@ -21,6 +24,8 @@ public class QuestPanel extends JPanel
 	StagePanel sp;
 	ObjectivePanel op;
 	JTabbedPane tabs;
+	JButton obdelete;
+	JButton obcreate;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -62,7 +67,16 @@ public class QuestPanel extends JPanel
 				cards.next(panels);
 			}
 		});
-		JScrollPane ops = new JScrollPane(this.op);
+		JPanel opp = new JPanel();
+		opp.setLayout(new BorderLayout());
+		opp.add("Center", this.op);
+		JPanel ob = new JPanel();
+		obdelete = new JButton("Delete");
+		obcreate = new JButton("Create");
+		ob.add(obdelete);
+		ob.add(obcreate);
+		opp.add("South", ob);
+		JScrollPane ops = new JScrollPane(opp);
 		ops.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		ops.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		panels.add(ops, "Objectives");
@@ -70,5 +84,19 @@ public class QuestPanel extends JPanel
 		add(panels);
 		olist.addListSelectionListener(list);
 		slist.addListSelectionListener(list);
+		obdelete.addActionListener(this);
+	}
+	
+	public void actionPerformed(ActionEvent e)
+	{
+		if(e.getSource() == obdelete)
+		{
+			if(olist.getSelectedIndex() != -1)
+			{
+				list.getSelectedValue().removeObjective(olist.getSelectedValue().getID());
+				olist.refreshList(list.getSelectedValue());
+				util.markFileChanged();
+			}
+		}
 	}
 }
