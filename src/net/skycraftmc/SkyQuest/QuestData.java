@@ -146,4 +146,32 @@ public class QuestData
 	{
 		return stage;
 	}
+	/**
+	 * Returns all unassigned objectives of the quest.
+	 * @return The unassigned {@link Objective}s of the quest.
+	 */
+	public Objective[] getUnassignedObjectives()
+	{
+		ArrayList<Objective>obs = new ArrayList<Objective>();
+		for(Objective o:q.getObjectives())
+		{
+			if(!objprog.containsKey(o.getID()))obs.add(o);
+		}
+		return obs.toArray(new Objective[obs.size()]);
+	}
+	/**
+	 * Returns all assigned objectives of the quest.  This should be used in
+	 * events that handle quest progress instead of looping through the objectives
+	 * of a quest.
+	 * @return The assigned {@link Objective}s of the quest.
+	 */
+	public Objective[] getAssignedObjectives()
+	{
+		ArrayList<Objective>obs = new ArrayList<Objective>();
+		for(Objective o:q.getObjectives())
+		{
+			if(objprog.containsKey(o.getID()))obs.add(o);
+		}
+		return obs.toArray(new Objective[obs.size()]);
+	}
 }

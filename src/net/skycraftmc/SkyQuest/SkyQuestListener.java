@@ -42,10 +42,9 @@ public class SkyQuestListener implements Listener
 		for(Quest q:log.getAssigned())
 		{
 			QuestData qd = log.getProgress(q);
-			for(Objective o:q.getObjectives())
+			for(Objective o:qd.getAssignedObjectives())
 			{
 				if(o.getType() != ObjectiveType.KILL)continue;
-				if(!qd.isAssigned(o.getID()))continue;
 				String prog = qd.getProgress(o.getID());
 				String targ = o.getTarget();
 				if(!ObjectiveType.KILL.isSimilarType(targ, prog))continue;
@@ -65,10 +64,9 @@ public class SkyQuestListener implements Listener
 		for(Quest q:log.getAssigned())
 		{
 			QuestData qd = log.getProgress(q);
-			for(Objective o:q.getObjectives())
+			for(Objective o:qd.getAssignedObjectives())
 			{
 				if(o.getType() != ObjectiveType.TRAVEL)continue;
-				if(!qd.isAssigned(o.getID()))continue;
 				String targ = o.getTarget();
 				Location loc = player.getLocation();
 				qd.setProgress(o.getID(), ObjectiveType.TRAVEL.getRadius(targ) + " " +
