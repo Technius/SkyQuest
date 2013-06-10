@@ -26,6 +26,8 @@ public class QuestPanel extends JPanel implements ActionListener
 	JTabbedPane tabs;
 	JButton obdelete;
 	JButton obcreate;
+	JButton prop;
+	QuestPropertyDialog qpd;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -36,12 +38,17 @@ public class QuestPanel extends JPanel implements ActionListener
 		op = new ObjectivePanel(util);
 		olist = new ObjectiveList();
 		slist = new StageList();
+		this.qpd = new QuestPropertyDialog(this);
 		qp.setLayout(new BorderLayout());
 		qp.add("North", new JLabel("Quests"));
 		JScrollPane qs = new JScrollPane(list);
 		qs.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		qs.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		qp.add("Center", qs);
+		JPanel qpb = new JPanel();
+		prop = new JButton("Properties");
+		qpb.add(prop);
+		qp.add("South", qpb);
 		tabs = new JTabbedPane();
 		JPanel op = new JPanel();
 		op.setLayout(new BorderLayout());
@@ -75,7 +82,7 @@ public class QuestPanel extends JPanel implements ActionListener
 		obcreate = new JButton("Create");
 		ob.add(obdelete);
 		ob.add(obcreate);
-		opp.add("South", ob);
+		op.add("South", ob);
 		JScrollPane ops = new JScrollPane(opp);
 		ops.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		ops.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -85,6 +92,7 @@ public class QuestPanel extends JPanel implements ActionListener
 		olist.addListSelectionListener(list);
 		slist.addListSelectionListener(list);
 		obdelete.addActionListener(this);
+		prop.addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -96,6 +104,13 @@ public class QuestPanel extends JPanel implements ActionListener
 				list.getSelectedValue().removeObjective(olist.getSelectedValue().getID());
 				olist.refreshList(list.getSelectedValue());
 				util.markFileChanged();
+			}
+		}
+		else if(e.getSource() == prop)
+		{
+			if(list.getSelectedIndex() != -1)
+			{
+				qpd.loadAndShow(list.getSelectedValue());
 			}
 		}
 	}
