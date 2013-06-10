@@ -104,7 +104,11 @@ public class ActionDialog extends JDialog implements ActionListener
 		{
 			if(parent == util.quest.sp)
 			{
-				if(loaded == null)util.quest.slist.getSelectedValue().addAction(create());
+				if(loaded == null)
+				{
+					util.quest.slist.getSelectedValue().addAction(create());
+					util.quest.sp.delete.setEnabled(true);
+				}
 				else edit();
 				util.quest.sp.loadData(util.quest.slist.getSelectedValue());
 				setVisible(false);
@@ -112,7 +116,11 @@ public class ActionDialog extends JDialog implements ActionListener
 			}
 			else if(parent == util.quest.op.rewards)
 			{
-				if(loaded == null)util.quest.op.rwcp.addAction(create());
+				if(loaded == null)
+				{
+					util.quest.op.rwcp.addAction(create());
+					util.quest.op.rewards.delete.setEnabled(true);
+				}
 				else edit();
 				util.quest.op.rewards.loadData(util.quest.op.rewards.loaded);
 				setVisible(false);

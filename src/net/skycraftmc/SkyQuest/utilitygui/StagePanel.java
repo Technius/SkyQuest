@@ -93,6 +93,10 @@ public class StagePanel extends JPanel implements ActionListener, ListSelectionL
 					loaded.removeAction(index);
 					loadData(loaded);
 					util.markFileChanged();
+					int s = model.size();
+					if(s > index)list.setSelectedIndex(index);
+					else if(s > 0)list.setSelectedIndex(s - 1);
+					else delete.setEnabled(false);
 				}
 			}
 			else if(arg0.getSource() == moveup && loaded != null)

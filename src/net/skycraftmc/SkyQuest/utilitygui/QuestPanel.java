@@ -80,8 +80,8 @@ public class QuestPanel extends JPanel implements ActionListener
 		JPanel ob = new JPanel();
 		obdelete = new JButton("Delete");
 		obcreate = new JButton("Create");
-		ob.add(obdelete);
 		ob.add(obcreate);
+		ob.add(obdelete);
 		op.add("South", ob);
 		JScrollPane ops = new JScrollPane(opp);
 		ops.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -99,10 +99,20 @@ public class QuestPanel extends JPanel implements ActionListener
 	{
 		if(e.getSource() == obdelete)
 		{
-			if(olist.getSelectedIndex() != -1)
+			int index = olist.getSelectedIndex();
+			if(index != -1)
 			{
 				list.getSelectedValue().removeObjective(olist.getSelectedValue().getID());
 				olist.refreshList(list.getSelectedValue());
+				int s = olist.model.size();
+				if(s > index)olist.setSelectedIndex(index);
+				else if(s > 0)olist.setSelectedIndex(s - 1);
+				else 
+				{
+					obdelete.setEnabled(false);
+					op.clear();
+				}
+				if(obdelete.isEnabled())op.loadData(olist.getSelectedValue());
 				util.markFileChanged();
 			}
 		}

@@ -83,6 +83,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		if(loaded == null)return;
 		loaded.setFirstAssigned(first.isSelected());
 		loaded.setName(questname.getText());
+		util.markFileChanged();
 	}
 	public void actionPerformed(ActionEvent e) 
 	{

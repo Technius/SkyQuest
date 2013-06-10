@@ -5,6 +5,7 @@ import javax.swing.JList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.Quest;
 import net.skycraftmc.SkyQuest.QuestManager;
 import net.skycraftmc.SkyQuest.Stage;
@@ -46,7 +47,8 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 		}
 		else if(arg0.getSource() == qp.olist)
 		{
-			qp.op.loadData(qp.olist.getSelectedValue());
+			Objective o = qp.olist.getSelectedValue();
+			if(o != null)qp.op.loadData(o);
 		}
 		else if(arg0.getSource() == qp.slist)
 		{
