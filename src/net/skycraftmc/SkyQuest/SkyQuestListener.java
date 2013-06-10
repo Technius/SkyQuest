@@ -23,10 +23,14 @@ public class SkyQuestListener implements Listener
 {
 	SkyQuestPlugin plugin;
 	QuestManager qm;
+	private final String bookTitle;
+	private final String bookAuthor;
 	public SkyQuestListener(SkyQuestPlugin plugin)
 	{
 		this.plugin = plugin;
 		qm = plugin.getQuestManager();
+		bookTitle = plugin.bookTitle;
+		bookAuthor = plugin.bookAuthor;
 	}
 	@EventHandler
 	public void killObj(EntityDeathEvent ev)
@@ -91,8 +95,6 @@ public class SkyQuestListener implements Listener
 			}
 		}
 	}
-	private final String bookTitle = plugin.bookTitle;
-	private final String bookAuthor = plugin.bookAuthor;
 	@EventHandler
 	public void interact(PlayerInteractEvent event)
 	{
