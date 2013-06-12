@@ -14,6 +14,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.skycraftmc.SkyQuest.Quest;
+import net.skycraftmc.SkyQuest.Stage;
+
 @SuppressWarnings("serial")
 public class QuestPanel extends JPanel implements ActionListener
 {
@@ -27,7 +30,10 @@ public class QuestPanel extends JPanel implements ActionListener
 	JButton obdelete;
 	JButton obcreate;
 	JButton prop;
+	JButton sbcreate;
+	JButton sbdelete;
 	QuestPropertyDialog qpd;
+	CreateStageDialog csd;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -37,8 +43,9 @@ public class QuestPanel extends JPanel implements ActionListener
 		this.sp = new StagePanel(util);
 		op = new ObjectivePanel(util);
 		olist = new ObjectiveList();
-		slist = new StageList();
+		slist = new StageList(this);
 		this.qpd = new QuestPropertyDialog(this);
+		csd = new CreateStageDialog(this);
 		qp.setLayout(new BorderLayout());
 		qp.add("North", new JLabel("Quests"));
 		JScrollPane qs = new JScrollPane(list);
@@ -63,6 +70,12 @@ public class QuestPanel extends JPanel implements ActionListener
 		ss.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		ss.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		sp.add("Center", ss);
+		JPanel sb = new JPanel();
+		sbcreate = new JButton("Create");
+		sbdelete = new JButton("Delete");
+		sb.add(sbcreate);
+		sb.add(sbdelete);
+		sp.add("South", sb);
 		tabs.add(sp, "Stages");
 		add(qp);
 		add(tabs);
@@ -90,9 +103,10 @@ public class QuestPanel extends JPanel implements ActionListener
 		panels.add(this.sp, "Stages");
 		add(panels);
 		olist.addListSelectionListener(list);
-		slist.addListSelectionListener(list);
 		obdelete.addActionListener(this);
 		prop.addActionListener(this);
+		sbdelete.addActionListener(this);
+		sbcreate.addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -122,6 +136,24 @@ public class QuestPanel extends JPanel implements ActionListener
 			{
 				qpd.loadAndShow(list.getSelectedValue());
 			}
+		}
+		else if(e.getSource() == sbdelete)
+		{
+			if(slist.getSelectedIndex() != -1)
+			{
+				Quest q = list.getSelectedValue();
+				Stage s = slist.getSelectedValue();
+				if(s != q.getFirstStage())
+				{
+					q.removeStage(s.getID());
+					//slist.refreshList(q);
+					util.markFileChanged();
+				}
+			}
+		}
+		else if(e.getSource() == sbcreate)
+		{
+			csd.display();
 		}
 	}
 }

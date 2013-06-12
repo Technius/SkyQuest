@@ -50,10 +50,5 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 			Objective o = qp.olist.getSelectedValue();
 			if(o != null)qp.op.loadData(o);
 		}
-		else if(arg0.getSource() == qp.slist)
-		{
-			Stage s = qp.slist.model.getElementAt(index);
-			qp.sp.loadData(s);
-		}
 	}
 }
