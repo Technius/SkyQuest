@@ -1,21 +1,25 @@
 package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import net.skycraftmc.SkyQuest.Quest;
 import net.skycraftmc.SkyQuest.Stage;
 
 @SuppressWarnings("serial")
-public class CreateStageDialog extends JDialog implements KeyListener, ActionListener
+public class CreateStageDialog extends JDialog implements DocumentListener, ActionListener
 {
 	QuestPanel qp;
 	SkyQuestUtility util;
@@ -32,6 +36,7 @@ public class CreateStageDialog extends JDialog implements KeyListener, ActionLis
 		ok = new JButton("Create");
 		cancel = new JButton("Cancel");
 		add("Center", name);
+		add("West", new JLabel("Name"));
 		JPanel b = new JPanel();
 		b.add(ok);
 		b.add(cancel);
@@ -39,6 +44,9 @@ public class CreateStageDialog extends JDialog implements KeyListener, ActionLis
 		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		ok.addActionListener(this);
 		cancel.addActionListener(this);
+		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds(d.width/2 - 150, d.height/2 - 60, 300, 120);
+		name.getDocument().addDocumentListener(this);
 	}
 	public void display()
 	{
@@ -50,13 +58,7 @@ public class CreateStageDialog extends JDialog implements KeyListener, ActionLis
 		String s = name.getText();
 		if(s.isEmpty())ok.setEnabled(false);
 		else if(qp.list.getSelectedValue().getStage(s) != null)ok.setEnabled(false);
-		
-	}
-	public void keyPressed(KeyEvent arg0) {}
-	public void keyReleased(KeyEvent arg0) {}
-	public void keyTyped(KeyEvent arg0)
-	{
-		refresh();
+		else ok.setEnabled(true);
 	}
 	public void actionPerformed(ActionEvent e) 
 	{
@@ -67,11 +69,24 @@ public class CreateStageDialog extends JDialog implements KeyListener, ActionLis
 			q.addStage(s);
 			qp.slist.refreshList(q);
 			util.markFileChanged();
+			qp.slist.setSelectedValue(s, true);
 			setVisible(false);
 		}
 		else if(e.getSource() == cancel)
 		{
 			setVisible(false);
 		}
+	}
+	public void changedUpdate(DocumentEvent arg0) 
+	{
+		refresh();
+	}
+	public void insertUpdate(DocumentEvent arg0)
+	{
+		refresh();
+	}
+	public void removeUpdate(DocumentEvent arg0) 
+	{
+		refresh();
 	}
 }

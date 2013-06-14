@@ -58,6 +58,7 @@ public class AssignObjectiveAction extends ActionType
 	{
 		return new AssignObjectiveEditorPanel();
 	}
+	@SuppressWarnings("serial")
 	private class AssignObjectiveEditorPanel extends ActionEditor
 	{
 		private JTextField qidtf;
@@ -116,6 +117,7 @@ public class AssignObjectiveAction extends ActionType
 			for(JComponent c:this.c)c.setEnabled(a);
 		}
 	}
+
 	public String getDescription()
 	{
 		return "Assigns an objective to the player.";

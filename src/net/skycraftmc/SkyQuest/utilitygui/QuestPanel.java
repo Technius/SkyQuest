@@ -32,8 +32,11 @@ public class QuestPanel extends JPanel implements ActionListener
 	JButton prop;
 	JButton sbcreate;
 	JButton sbdelete;
+	JButton create;
+	JButton delete;
 	QuestPropertyDialog qpd;
 	CreateStageDialog csd;
+	CreateQuestDialog cqd;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -46,6 +49,7 @@ public class QuestPanel extends JPanel implements ActionListener
 		slist = new StageList(this);
 		this.qpd = new QuestPropertyDialog(this);
 		csd = new CreateStageDialog(this);
+		cqd = new CreateQuestDialog(this);
 		qp.setLayout(new BorderLayout());
 		qp.add("North", new JLabel("Quests"));
 		JScrollPane qs = new JScrollPane(list);
@@ -54,6 +58,10 @@ public class QuestPanel extends JPanel implements ActionListener
 		qp.add("Center", qs);
 		JPanel qpb = new JPanel();
 		prop = new JButton("Properties");
+		create = new JButton("Create");
+		delete = new JButton("Delete");
+		qpb.add(create);
+		qpb.add(delete);
 		qpb.add(prop);
 		qp.add("South", qpb);
 		tabs = new JTabbedPane();
@@ -107,6 +115,8 @@ public class QuestPanel extends JPanel implements ActionListener
 		prop.addActionListener(this);
 		sbdelete.addActionListener(this);
 		sbcreate.addActionListener(this);
+		create.addActionListener(this);
+		delete.addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -146,7 +156,7 @@ public class QuestPanel extends JPanel implements ActionListener
 				if(s != q.getFirstStage())
 				{
 					q.removeStage(s.getID());
-					//slist.refreshList(q);
+					slist.refreshList(q);
 					util.markFileChanged();
 				}
 			}
@@ -154,6 +164,33 @@ public class QuestPanel extends JPanel implements ActionListener
 		else if(e.getSource() == sbcreate)
 		{
 			csd.display();
+		}
+		else if(e.getSource() == create)
+		{
+			cqd.display();
+		}
+		else if(e.getSource() == delete)
+		{
+			Quest q = list.getSelectedValue();
+			int index = list.getSelectedIndex();
+			if(q != null)
+			{
+				util.qm.removeQuest(q);
+				list.refreshList();
+				util.markFileChanged();
+				int s = list.model.size();
+				if(s > index)list.setSelectedIndex(index);
+				else if(s > 0)list.setSelectedIndex(s - 1);
+				else 
+				{
+					delete.setEnabled(false);
+					op.clear();
+					olist.model.clear();
+					slist.model.clear();
+					sp.model.clear();
+				}
+				if(delete.isEnabled())op.loadData(olist.getSelectedValue());
+			}
 		}
 	}
 }

@@ -41,9 +41,12 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 		if(index < 0)return;
 		if(arg0.getSource() == this)
 		{
-			Quest q = model.getElementAt(index);
-			qp.olist.refreshList(q);
-			qp.slist.refreshList(q);
+			Quest q = getSelectedValue();
+			if(q != null)
+			{
+				qp.olist.refreshList(q);
+				qp.slist.refreshList(q);
+			}
 		}
 		else if(arg0.getSource() == qp.olist)
 		{

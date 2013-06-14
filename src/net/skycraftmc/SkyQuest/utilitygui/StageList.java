@@ -30,10 +30,10 @@ public class StageList extends JList<Stage> implements ListSelectionListener
 	}
 	public void valueChanged(ListSelectionEvent e) 
 	{
-		int i = e.getFirstIndex();
-		if(i != -1)
+		Stage s = getSelectedValue();
+		if(s != null)
 		{
-			qp.sp.loadData(model.elementAt(i));
+			qp.sp.loadData(s);
 			if(getSelectedValue() == qp.list.getSelectedValue().getFirstStage())qp.sbdelete.setEnabled(false);
 			else qp.sbdelete.setEnabled(true);
 		}

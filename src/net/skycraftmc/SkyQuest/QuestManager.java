@@ -119,4 +119,13 @@ public class QuestManager
 	{
 		return regisActType.values().toArray(new ActionType[regisActType.size()]);
 	}
+	public void removeQuest(Quest quest)
+	{
+		quests.remove(quest);
+	}
+	public void removeQuest(String id)
+	{
+		Quest q = getQuest(id);
+		if(q != null)quests.remove(q);
+	}
 }
