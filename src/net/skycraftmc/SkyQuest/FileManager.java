@@ -147,6 +147,7 @@ public class FileManager
 			for(Map.Entry<String, String>l:cqd.objprog.entrySet())
 				progress.setTag(l.getKey(), new TagString(l.getKey(), l.getValue()));
 			qt.setTag("progress", progress);
+			qt.setTag("state", new TagInt("state", cqd.getState().getId()));
 			compl.setTag(q.getID(), qt);
 		}
 		tag.setTag("assigned", assigned);
@@ -217,6 +218,10 @@ public class FileManager
 			if(q == null)continue;
 			TagBase buoa = c.getTag("unassigned");
 			if(!(buoa instanceof TagList))continue;
+			TagBase bcs = c.getTag("state");
+			if(!(bcs instanceof TagInt))continue;
+			CompletionState state = CompletionState.getById(((TagInt)bcs).data);
+			if(state == null || state == CompletionState.IN_PROGRESS)continue;
 			ArrayList<String>unassigned = new ArrayList<String>();
 			TagList uoa = (TagList)buoa;
 			for(TagBase b2:uoa.get())
@@ -239,7 +244,7 @@ public class FileManager
 			TagBase btimes = c.getTag("times");
 			if(btimes instanceof TagInt)times = ((TagInt)btimes).data;
 			if(times < 1)times = 1;
-			CompletedQuestData cqd = new CompletedQuestData(q, unassigned, progress);
+			CompletedQuestData cqd = new CompletedQuestData(q, unassigned, progress, state);
 			pql.completed.put(cqd, times);
 		}
 		return pql;

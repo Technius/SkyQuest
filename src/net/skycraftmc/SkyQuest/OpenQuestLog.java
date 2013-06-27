@@ -33,6 +33,7 @@ public class OpenQuestLog
 	}
 	private void recalculateCompleted()
 	{
+		//TODO Mark failed quests as "failed"
 		CompletedQuestData[] cqd = log.getCompleted();
 		String[] ca = new String[cqd.length];
 		for(int i = 0; i < cqd.length; i ++)ca[i] = cqd[i].getQuest().getID();

@@ -32,12 +32,12 @@ public class PlayerQuestLog
 		}
 		qd.setStage(quest.getFirstStage().getID());
 	}
-	public void complete(Quest quest)
+	public void complete(Quest quest, CompletionState state)
 	{
 		if(!isAssigned(quest))return;
 		QuestData qd = getProgress(quest);
 		assigned.remove(qd);
-		CompletedQuestData cqd = new CompletedQuestData(quest, qd.unassigned, qd.objprog);
+		CompletedQuestData cqd = new CompletedQuestData(quest, qd.unassigned, qd.objprog, state);
 		if(!hasCompleted(quest))completed.put(cqd, 1);
 		else completed.put(cqd, completed.get(getCompletedData(quest)) + 1);
 	}
