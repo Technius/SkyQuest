@@ -85,7 +85,15 @@ public class OpenQuestLog
 				{
 					for(String s:q.getDescription())lore.add(s);
 				}
-				if(viewcomp)lore.add(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed");
+				if(viewcomp)
+				{
+					CompletedQuestData cqd = log.getCompletedData(q);
+					CompletionState state = cqd.getState();
+					if(state == CompletionState.COMPLETE)
+						lore.add(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed");
+					else if(state == CompletionState.FAILED)
+						lore.add(ChatColor.RED + "" + ChatColor.ITALIC + "Failed");
+				}
 				lore.add(ChatColor.YELLOW + "Click for more information!");
 				im.setLore(lore);
 				qstack.setItemMeta(im);
@@ -105,7 +113,7 @@ public class OpenQuestLog
 			ArrayList<Objective>n = new ArrayList<Objective>();
 			for(int i = 0; i < oao.length; i ++)
 			{
-				if(oao[i].isVisible())n.add(oao[i]);
+				if(oao[i].isVisible() && !cqd.unassigned.contains(oao[i].getID()))n.add(oao[i]);
 			}
 			Objective[] oa = n.toArray(new Objective[n.size()]);
 			for(int i = 0; i < oa.length && i < 27; i ++)
