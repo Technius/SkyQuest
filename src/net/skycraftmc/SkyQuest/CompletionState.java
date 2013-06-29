@@ -28,6 +28,20 @@ public enum CompletionState
 		return values()[id];
 	}
 	/**
+	 * @return The CompletionState with this name, or null if not found.
+	 */
+	public static CompletionState getByName(String name)
+	{
+		try
+		{
+			return valueOf(name.toUpperCase());
+		}
+		catch(IllegalArgumentException iae)
+		{
+			return null;
+		}
+	}
+	/**
 	 * @return The ID of this completion state.
 	 */
 	public int getId()
