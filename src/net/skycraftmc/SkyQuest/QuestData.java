@@ -87,11 +87,15 @@ public class QuestData
 	}
 	public boolean isComplete()
 	{
-		return true;
+		return state != CompletionState.IN_PROGRESS;
 	}
 	public void markComplete(CompletionState state)
 	{
-		if(state != CompletionState.IN_PROGRESS)checkCompletion();
+		if(state != CompletionState.IN_PROGRESS)
+		{
+			this.state = state;
+			checkCompletion();
+		}
 	}
 	private void checkCompletion()
 	{

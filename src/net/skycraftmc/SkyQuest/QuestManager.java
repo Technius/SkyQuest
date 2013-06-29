@@ -20,6 +20,7 @@ public class QuestManager
 		registerActionType(ActionType.MESSAGE);
 		registerActionType(ActionType.COMMAND);
 		registerActionType(ActionType.CONSOLE_COMMAND);
+		registerActionType(ActionType.MARK_QUEST_COMPLETION);
 		inst = this;
 	}
 	public static QuestManager getInstance()
