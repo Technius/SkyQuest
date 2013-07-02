@@ -47,6 +47,7 @@ public class SkyQuestPlugin extends JavaPlugin
 				getLogger().info("Loaded " + pl + " player" + (pl != 1 ? "s" : ""));
 			}
 		});
+		getCommand("quest").setExecutor(new SkyQuestCmd(this));
 		questlog = new ItemStack(Material.WRITTEN_BOOK);
 		BookMeta im = (BookMeta) questlog.getItemMeta();
 		im.setTitle(bookTitle);

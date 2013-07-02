@@ -11,6 +11,7 @@ public abstract class ActionType
 	public static final MessageAction MESSAGE = new MessageAction();
 	public static final CommandAction COMMAND = new CommandAction();
 	public static final ConsoleCommandAction CONSOLE_COMMAND = new ConsoleCommandAction();
+	public static final MarkQuestCompletionAction MARK_QUEST_COMPLETION = new MarkQuestCompletionAction();
 	public abstract boolean apply(String player, String action);
 	/**
 	 * Applies this action.

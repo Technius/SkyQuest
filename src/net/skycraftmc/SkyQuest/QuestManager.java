@@ -20,6 +20,7 @@ public class QuestManager
 		registerActionType(ActionType.MESSAGE);
 		registerActionType(ActionType.COMMAND);
 		registerActionType(ActionType.CONSOLE_COMMAND);
+		registerActionType(ActionType.MARK_QUEST_COMPLETION);
 		inst = this;
 	}
 	public static QuestManager getInstance()
@@ -118,5 +119,14 @@ public class QuestManager
 	public ActionType[] getRegisteredActionTypes()
 	{
 		return regisActType.values().toArray(new ActionType[regisActType.size()]);
+	}
+	public void removeQuest(Quest quest)
+	{
+		quests.remove(quest);
+	}
+	public void removeQuest(String id)
+	{
+		Quest q = getQuest(id);
+		if(q != null)quests.remove(q);
 	}
 }

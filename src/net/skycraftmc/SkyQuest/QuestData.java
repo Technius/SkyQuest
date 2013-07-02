@@ -19,6 +19,7 @@ public class QuestData
 	private PlayerQuestLog log;
 	private boolean settingstage = false;
 	private String lateststage;
+	private CompletionState state = CompletionState.IN_PROGRESS;
 	protected QuestData(PlayerQuestLog log, Quest quest)
 	{
 		q = quest;
@@ -72,15 +73,6 @@ public class QuestData
 			}
 		}
 		else objprog.put(oid, progress);
-		if(isComplete())
-		{
-			log.complete(q);
-			if(SkyQuest.isOnServer())
-			{
-				Player p = Bukkit.getServer().getPlayerExact(player);
-				if(p != null)p.sendMessage(ChatColor.GREEN + "Quest completed: " + q.getName());
-			}
-		}
 	}
 	public Quest getQuest()
 	{
@@ -95,24 +87,34 @@ public class QuestData
 	}
 	public boolean isComplete()
 	{
-		if(objprog.size() == 0 && unassigned.size() == 0)return true;
-		for(String s:unassigned)
+		return state != CompletionState.IN_PROGRESS;
+	}
+	public void markComplete(CompletionState state)
+	{
+		if(state != CompletionState.IN_PROGRESS)
 		{
-			Objective o = q.getObjective(s);
-			if(o != null)
+			this.state = state;
+			checkCompletion();
+		}
+	}
+	private void checkCompletion()
+	{
+		if(state == CompletionState.IN_PROGRESS)return;
+		if(isComplete())
+		{
+			log.complete(q, state);
+			if(SkyQuest.isOnServer())
 			{
-				if(!o.isOptional())return false;
+				Player p = Bukkit.getServer().getPlayerExact(player);
+				if(p != null)
+				{
+					if(state == CompletionState.COMPLETE)
+						p.sendMessage(ChatColor.GREEN + "Quest completed: " + q.getName());
+					else if(state == CompletionState.FAILED)
+						p.sendMessage(ChatColor.RED + "Quest failed: " + q.getName());
+				}
 			}
 		}
-		for(String s:objprog.keySet())
-		{
-			Objective o = q.getObjective(s);
-			if(o != null)
-			{
-				if(!o.isOptional())return false;
-			}
-		}
-		return true;
 	}
 	public boolean isAssigned(String oid)
 	{

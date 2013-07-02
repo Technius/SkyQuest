@@ -35,6 +35,7 @@ public class Util
 		q.addObjective(o3);
 		Objective o4 = new Objective("obj4", "Go somewhere random", ObjectiveType.TRAVEL, "20 circle 264 222 world");
 		o4.addReward(new QuestAction(ActionType.MESSAGE, "Great work!  Our holy grounds are pure again!"));
+		o4.addReward(new QuestAction(ActionType.MARK_QUEST_COMPLETION, "test COMPLETE"));
 		q.addObjective(o4);
 		return q;
 	}

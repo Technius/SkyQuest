@@ -13,7 +13,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.event.ListSelectionEvent;
 
 import net.skycraftmc.SkyQuest.QuestManager;
 import net.skycraftmc.SkyQuest.action.ActionType;

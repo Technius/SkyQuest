@@ -14,6 +14,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import net.skycraftmc.SkyQuest.Quest;
+import net.skycraftmc.SkyQuest.Stage;
+
 @SuppressWarnings("serial")
 public class QuestPanel extends JPanel implements ActionListener
 {
@@ -27,7 +30,13 @@ public class QuestPanel extends JPanel implements ActionListener
 	JButton obdelete;
 	JButton obcreate;
 	JButton prop;
+	JButton sbcreate;
+	JButton sbdelete;
+	JButton create;
+	JButton delete;
 	QuestPropertyDialog qpd;
+	CreateStageDialog csd;
+	CreateQuestDialog cqd;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -37,8 +46,10 @@ public class QuestPanel extends JPanel implements ActionListener
 		this.sp = new StagePanel(util);
 		op = new ObjectivePanel(util);
 		olist = new ObjectiveList();
-		slist = new StageList();
+		slist = new StageList(this);
 		this.qpd = new QuestPropertyDialog(this);
+		csd = new CreateStageDialog(this);
+		cqd = new CreateQuestDialog(this);
 		qp.setLayout(new BorderLayout());
 		qp.add("North", new JLabel("Quests"));
 		JScrollPane qs = new JScrollPane(list);
@@ -47,6 +58,10 @@ public class QuestPanel extends JPanel implements ActionListener
 		qp.add("Center", qs);
 		JPanel qpb = new JPanel();
 		prop = new JButton("Properties");
+		create = new JButton("Create");
+		delete = new JButton("Delete");
+		qpb.add(create);
+		qpb.add(delete);
 		qpb.add(prop);
 		qp.add("South", qpb);
 		tabs = new JTabbedPane();
@@ -63,6 +78,12 @@ public class QuestPanel extends JPanel implements ActionListener
 		ss.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 		ss.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		sp.add("Center", ss);
+		JPanel sb = new JPanel();
+		sbcreate = new JButton("Create");
+		sbdelete = new JButton("Delete");
+		sb.add(sbcreate);
+		sb.add(sbdelete);
+		sp.add("South", sb);
 		tabs.add(sp, "Stages");
 		add(qp);
 		add(tabs);
@@ -90,9 +111,12 @@ public class QuestPanel extends JPanel implements ActionListener
 		panels.add(this.sp, "Stages");
 		add(panels);
 		olist.addListSelectionListener(list);
-		slist.addListSelectionListener(list);
 		obdelete.addActionListener(this);
 		prop.addActionListener(this);
+		sbdelete.addActionListener(this);
+		sbcreate.addActionListener(this);
+		create.addActionListener(this);
+		delete.addActionListener(this);
 	}
 	
 	public void actionPerformed(ActionEvent e)
@@ -121,6 +145,51 @@ public class QuestPanel extends JPanel implements ActionListener
 			if(list.getSelectedIndex() != -1)
 			{
 				qpd.loadAndShow(list.getSelectedValue());
+			}
+		}
+		else if(e.getSource() == sbdelete)
+		{
+			if(slist.getSelectedIndex() != -1)
+			{
+				Quest q = list.getSelectedValue();
+				Stage s = slist.getSelectedValue();
+				if(s != q.getFirstStage())
+				{
+					q.removeStage(s.getID());
+					slist.refreshList(q);
+					util.markFileChanged();
+				}
+			}
+		}
+		else if(e.getSource() == sbcreate)
+		{
+			csd.display();
+		}
+		else if(e.getSource() == create)
+		{
+			cqd.display();
+		}
+		else if(e.getSource() == delete)
+		{
+			Quest q = list.getSelectedValue();
+			int index = list.getSelectedIndex();
+			if(q != null)
+			{
+				util.qm.removeQuest(q);
+				list.refreshList();
+				util.markFileChanged();
+				int s = list.model.size();
+				if(s > index)list.setSelectedIndex(index);
+				else if(s > 0)list.setSelectedIndex(s - 1);
+				else 
+				{
+					delete.setEnabled(false);
+					op.clear();
+					olist.model.clear();
+					slist.model.clear();
+					sp.model.clear();
+				}
+				if(delete.isEnabled())op.loadData(olist.getSelectedValue());
 			}
 		}
 	}
