@@ -22,19 +22,22 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	private SkyQuestUtility util;
 	private JTextField name;
 	private Objective sel;
-	private JButton save;
-	private JButton cancel;
+	JButton save;
+	JButton cancel;
 	private JCheckBox optional;
 	StagePanel rewards;
 	Stage rwcp;
+	ObjectiveEditPanel oep;
 	public ObjectivePanel(SkyQuestUtility util)
 	{
 		this.util = util;
+		util.quest.op = this;
 		name = new JTextField();
 		optional = new JCheckBox("Optional", false);
 		save = new JButton("Save changes");
 		cancel = new JButton("Cancel");
 		rewards = new StagePanel(util);
+		oep = new ObjectiveEditPanel(util, this);
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		JPanel np = new JPanel();
 		np.setLayout(new BorderLayout());
@@ -43,6 +46,8 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		np.add("West", new JLabel("Name"));
 		add(np);
 		add(optional);
+		add(new JLabel("Target"));
+		add(oep);
 		add(new JLabel("Rewards"));
 		add(rewards);
 		JPanel actionp = new JPanel();
@@ -68,6 +73,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		for(QuestAction qa: o.getRewardsAsStage().getActions())
 			rwcp.addAction(new QuestAction(qa.getType(), qa.getAction()));
 		rewards.loadData(rwcp);
+		oep.load(o, o.getType());
 	}
 	public void clear()
 	{
@@ -78,11 +84,13 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		cancel.setEnabled(false);
 		optional.setSelected(false);
 		rewards.loadData(new Stage(""));
+		oep.clear();
 	}
 	public void saveData(Objective o)
 	{
 		o.setName(name.getText());
 		o.setOptional(optional.isSelected());
+		o.setTarget(oep.oe.createData());
 		Stage rw = o.getRewardsAsStage();
 		for(int i = rw.size() - 1; i > -1; i --)rw.removeAction(i);
 		for(QuestAction qa:rwcp.getActions())o.addReward(qa);

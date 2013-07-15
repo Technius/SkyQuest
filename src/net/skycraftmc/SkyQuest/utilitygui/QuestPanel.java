@@ -40,6 +40,7 @@ public class QuestPanel extends JPanel implements ActionListener
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
+		util.quest = this;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		JPanel qp = new JPanel();
 		list = new QuestList(this);

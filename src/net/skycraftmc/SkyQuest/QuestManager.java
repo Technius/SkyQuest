@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.swing.ComboBoxModel;
+
 import net.skycraftmc.SkyQuest.action.ActionType;
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
@@ -128,5 +130,9 @@ public class QuestManager
 	{
 		Quest q = getQuest(id);
 		if(q != null)quests.remove(q);
+	}
+	public ObjectiveType[] getRegisteredObjectiveTypes()
+	{
+		return regisObjType.values().toArray(new ObjectiveType[regisObjType.size()]);
 	}
 }
