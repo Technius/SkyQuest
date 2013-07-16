@@ -42,16 +42,17 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 		if(arg0.getSource() == this)
 		{
 			Quest q = getSelectedValue();
-			if(q != null)
-			{
-				qp.olist.refreshList(q);
-				qp.slist.refreshList(q);
-			}
+			if(q != null)update(q);
 		}
 		else if(arg0.getSource() == qp.olist)
 		{
 			Objective o = qp.olist.getSelectedValue();
 			if(o != null)qp.op.loadData(o);
 		}
+	}
+	public void update(Quest q)
+	{
+		qp.olist.refreshList(q);
+		qp.slist.refreshList(q);
 	}
 }

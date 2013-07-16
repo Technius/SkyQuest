@@ -37,6 +37,7 @@ public class QuestPanel extends JPanel implements ActionListener
 	QuestPropertyDialog qpd;
 	CreateStageDialog csd;
 	CreateQuestDialog cqd;
+	CreateObjectiveDialog cod;
 	public QuestPanel(SkyQuestUtility util)
 	{
 		this.util = util;
@@ -51,6 +52,7 @@ public class QuestPanel extends JPanel implements ActionListener
 		this.qpd = new QuestPropertyDialog(this);
 		csd = new CreateStageDialog(this);
 		cqd = new CreateQuestDialog(this);
+		cod = new CreateObjectiveDialog(this);
 		qp.setLayout(new BorderLayout());
 		qp.add("North", new JLabel("Quests"));
 		JScrollPane qs = new JScrollPane(list);
@@ -113,6 +115,7 @@ public class QuestPanel extends JPanel implements ActionListener
 		add(panels);
 		olist.addListSelectionListener(list);
 		obdelete.addActionListener(this);
+		obcreate.addActionListener(this);
 		prop.addActionListener(this);
 		sbdelete.addActionListener(this);
 		sbcreate.addActionListener(this);
@@ -140,6 +143,11 @@ public class QuestPanel extends JPanel implements ActionListener
 				if(obdelete.isEnabled())op.loadData(olist.getSelectedValue());
 				util.markFileChanged();
 			}
+		}
+		else if(e.getSource() == obcreate && list.getSelectedIndex() != -1)
+		{
+			cod.setVisible(true);
+			cod.requestFocus();
 		}
 		else if(e.getSource() == prop)
 		{

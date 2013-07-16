@@ -8,30 +8,38 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import net.skycraftmc.SkyQuest.Quest;
 import net.skycraftmc.SkyQuest.QuestManager;
-import net.skycraftmc.SkyQuest.action.ActionType;
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
 @SuppressWarnings("serial")
-public class CreateObjectiveDialog extends JDialog implements ActionListener, ItemListener
+public class CreateObjectiveDialog extends JDialog implements ActionListener, ItemListener, DocumentListener
 {
 	private SkyQuestUtility util;
-	private JPanel parent;
+	private QuestPanel qp;
 	JTextArea desc;
 	JComboBox<ObjectiveType>list;
 	JButton ok;
 	JButton cancel;
-	public CreateObjectiveDialog(JPanel parent, SkyQuestUtility util)
+	ObjectiveEditDialog oed;
+	JTextField id;
+	JTextField name;
+	public CreateObjectiveDialog(QuestPanel qp)
 	{
-		super(util, "Select objective type", true);
-		this.parent = parent;
-		this.util = util;
+		super(qp.util, "Select objective type", true);
+		this.util = qp.util;
+		this.qp = qp;
 		list = new JComboBox<ObjectiveType>(QuestManager.getInstance().getRegisteredObjectiveTypes());
 		desc = new JTextArea();
 		desc.setEditable(false);
@@ -50,6 +58,21 @@ public class CreateObjectiveDialog extends JDialog implements ActionListener, It
 		p.add(ok);
 		p.add(cancel);
 		add("South", p);
+		id = new JTextField();
+		name = new JTextField();
+		JPanel flds = new JPanel();
+		flds.setLayout(new BoxLayout(flds, BoxLayout.Y_AXIS));
+		JPanel idp = new JPanel();
+		idp.setLayout(new BorderLayout());
+		idp.add("Center", id);
+		idp.add("West", new JLabel("Objective ID"));
+		JPanel namep = new JPanel();
+		namep.setLayout(new BorderLayout());
+		namep.add("Center", name);
+		namep.add("West", new JLabel("Name"));
+		flds.add(idp);
+		flds.add(namep);
+		add("North", flds);
 		ok.addActionListener(this);
 		cancel.addActionListener(this);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -57,19 +80,42 @@ public class CreateObjectiveDialog extends JDialog implements ActionListener, It
 		list.addItemListener(this);
 		if(list.getSelectedIndex() != -1)
 			desc.setText(((ObjectiveType)list.getSelectedItem()).getDescription());
+		oed = new ObjectiveEditDialog(util, this);
+		id.getDocument().addDocumentListener(this);
+		name.getDocument().addDocumentListener(this);
 	}
 	public void itemStateChanged(ItemEvent e)
+	{
+		if(list.getSelectedIndex() == -1)return;
+		desc.setText(((ObjectiveType)list.getSelectedItem()).getDescription());
+	}
+
+	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == cancel)setVisible(false);
 		else if(e.getSource() == ok)
 		{
 			setVisible(false);
+			oed.loadAndShow(null, (ObjectiveType) list.getSelectedItem());
 		}
 	}
-
-	public void actionPerformed(ActionEvent arg0)
+	public void changedUpdate(DocumentEvent arg0)
 	{
-		if(list.getSelectedIndex() == -1)return;
-		desc.setText(((ObjectiveType)list.getSelectedItem()).getDescription());
+		update();
+	}
+	public void insertUpdate(DocumentEvent arg0)
+	{
+		update();
+	}
+	public void removeUpdate(DocumentEvent arg0)
+	{
+		update();
+	}
+	public void update()
+	{
+		if(name.getText().isEmpty())ok.setEnabled(false);
+		else if(id.getText().isEmpty())ok.setEnabled(false);
+		else if(((Quest)qp.list.getSelectedValue()).getObjective(id.getText()) != null)ok.setEnabled(false);
+		else ok.setEnabled(true);
 	}
 }

@@ -15,15 +15,15 @@ import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 @SuppressWarnings("serial")
 public class ObjectiveEditPanel extends JPanel implements ActionListener
 {
-	private Objective loaded;
+	Objective loaded;
 	private JButton save;
 	private JButton cancel;
-	private JComponent parent;
+	private Object parent;
 	private SkyQuestUtility util;
-	private ObjectiveType loadedtype;
+	ObjectiveType loadedtype;
 	private JPanel epanel;
 	ObjectiveEditor oe;
-	public ObjectiveEditPanel(SkyQuestUtility util, JComponent parent)
+	public ObjectiveEditPanel(SkyQuestUtility util, Object parent)
 	{
 		this.util = util;
 		this.parent = parent;
@@ -75,13 +75,19 @@ public class ObjectiveEditPanel extends JPanel implements ActionListener
 	
 	public void actionPerformed(ActionEvent arg0)
 	{
+		if(parent != util.quest.cod.oed)return;
 		if(arg0.getSource() == cancel)
 		{
-			
+			util.quest.cod.oed.setVisible(false);
 		}
 		else if(arg0.getSource() == save)
 		{
-			
+			Objective o = util.quest.cod.oed.create();
+			util.quest.list.getSelectedValue().addObjective(o);
+			util.markFileChanged();
+			util.quest.list.update(util.quest.list.getSelectedValue());
+			util.quest.cod.oed.setVisible(false);
+			clear();
 		}
 	}
 	
