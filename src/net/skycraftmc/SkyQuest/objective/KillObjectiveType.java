@@ -97,4 +97,10 @@ public class KillObjectiveType extends ObjectiveType
 		return 267;
 	}
 	
+	@Override
+	public String getDescription()
+	{
+		return "Requires the player to kill a certain amount of a specified entity";
+	}
+	
 }

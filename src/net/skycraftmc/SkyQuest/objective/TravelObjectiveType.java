@@ -85,4 +85,10 @@ public class TravelObjectiveType extends ObjectiveType
 	{
 		return 345;
 	}
+	
+	@Override
+	public String getDescription()
+	{
+		return "Requires the player to travel to a certain area";
+	}
 }

@@ -15,6 +15,7 @@ import net.skycraftmc.SkyQuest.PlayerQuestLog;
 import net.skycraftmc.SkyQuest.Quest;
 import net.skycraftmc.SkyQuest.QuestAction;
 import net.skycraftmc.SkyQuest.QuestData;
+import net.skycraftmc.SkyQuest.QuestManager;
 import net.skycraftmc.SkyQuest.SkyQuestPlugin;
 import net.skycraftmc.SkyQuest.utilitygui.ActionEditor;
 
@@ -79,11 +80,11 @@ public class AssignObjectiveAction extends ActionType
 			p2.add("Center", oidtf);
 			add(p1);
 			add(p2);
-			EmptyTextListener etl = new EmptyTextListener(getFinishButton(), getCancelButton());
-			qidtf.getDocument().addDocumentListener(etl);
-			oidtf.getDocument().addDocumentListener(etl);
+			FieldListener l = new FieldListener(qidtf, oidtf, getFinishButton());
+			qidtf.getDocument().addDocumentListener(l);
+			oidtf.getDocument().addDocumentListener(l);
 		}
-		public String createData() 
+		public String createData()
 		{
 			return qidtf.getText() + " " + oidtf.getText();
 		}
@@ -94,27 +95,40 @@ public class AssignObjectiveAction extends ActionType
 			oidtf.setText(t[1]);
 		}
 	}
-	private class EmptyTextListener implements DocumentListener
+	
+	private class FieldListener implements DocumentListener
 	{
-		private JComponent[] c;
-		public EmptyTextListener(JComponent... components)
+		private JTextField qidtf;
+		private JTextField oidtf;
+		private JComponent p;
+		private FieldListener(JTextField f, JTextField f2, JComponent p)
 		{
-			c = components;
+			qidtf = f;
+			oidtf = f2;
+			this.p = p;
 		}
-		public void changedUpdate(DocumentEvent e) {
-			update(e);
-		}
-		public void insertUpdate(DocumentEvent e) {
-			update(e);
-		}
-
-		public void removeUpdate(DocumentEvent e) {
-			update(e);
-		}
-		private void update(DocumentEvent e)
+		public void changedUpdate(DocumentEvent arg0)
 		{
-			boolean a = e.getDocument().getLength() > 0;
-			for(JComponent c:this.c)c.setEnabled(a);
+			update(arg0);
+		}
+		public void insertUpdate(DocumentEvent arg0)
+		{
+			update(arg0);
+		}
+		public void removeUpdate(DocumentEvent arg0)
+		{
+			update(arg0);
+		}
+		public void update(DocumentEvent e)
+		{
+			Quest q = QuestManager.getInstance().getQuest(qidtf.getText());
+			if(q == null)
+			{
+				p.setEnabled(false);
+				return;
+			}
+			String s = oidtf.getText();
+			p.setEnabled(q.getObjective(s) != null);
 		}
 	}
 

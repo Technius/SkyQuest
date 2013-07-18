@@ -34,7 +34,7 @@ public enum CompletionState
 	{
 		try
 		{
-			return valueOf(name.toUpperCase());
+			return valueOf(name.toUpperCase().replace(' ', '_'));
 		}
 		catch(IllegalArgumentException iae)
 		{
