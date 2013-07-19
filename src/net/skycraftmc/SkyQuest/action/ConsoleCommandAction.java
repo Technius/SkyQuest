@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import net.skycraftmc.SkyQuest.QuestAction;
+import net.skycraftmc.SkyQuest.util.BukkitUtil;
 import net.skycraftmc.SkyQuest.utilitygui.ActionEditor;
 import net.skycraftmc.SkyQuest.utilitygui.component.EmptyTextListener;
 
@@ -18,7 +19,7 @@ public class ConsoleCommandAction extends ActionType
 	{
 		if(!isValid(action))
 			throw new IllegalArgumentException("action is not valid");
-		Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), action);
+		BukkitUtil.doCommand(Bukkit.getConsoleSender(), action);
 		return true;
 	}
 

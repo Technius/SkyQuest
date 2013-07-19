@@ -7,11 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import net.skycraftmc.SkyQuest.QuestAction;
+import net.skycraftmc.SkyQuest.util.BukkitUtil;
 import net.skycraftmc.SkyQuest.utilitygui.ActionEditor;
 import net.skycraftmc.SkyQuest.utilitygui.component.EmptyTextListener;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class CommandAction extends ActionType
 {
@@ -19,9 +19,9 @@ public class CommandAction extends ActionType
 	{
 		if(!isValid(action))
 			throw new IllegalArgumentException("action is not valid");
-		Player p = Bukkit.getServer().getPlayerExact(player);
+		Object p = Bukkit.getServer().getPlayerExact(player);
 		if(p == null)return false;
-		Bukkit.getServer().dispatchCommand(p, action);
+		BukkitUtil.doCommand(p, action);
 		return true;
 	}
 

@@ -5,9 +5,15 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+import java.lang.reflect.Method;
 
 import net.minecraft.server.v1_6_R2.NBTBase;
 import net.skycraftmc.SkyQuest.util.nbt.TagBase;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+
+import org.bukkit.Server;
 
 public class BukkitUtil
 {
@@ -48,5 +54,31 @@ public class BukkitUtil
 		pos.close();
 		pis.close();
 		return b;
+	}
+	private static Method doCmdMethod;
+	static
+	{
+		try
+		{
+			Class<?> c = Class.forName("org.bukkit.Server");
+			Class<?> c2 = Class.forName("org.bukkit.command.CommandSender");
+			doCmdMethod = c.getDeclaredMethod("dispatchCommand", c2, String.class);
+			doCmdMethod.setAccessible(true);
+		}
+		catch(Exception e)
+		{
+			
+		}
+	}
+	public static boolean doCommand(Object sender, String cmd)
+	{
+		try
+		{
+			return (boolean) doCmdMethod.invoke(Bukkit.getServer(), sender, cmd);
+		}
+		catch(Exception e)
+		{
+			return false;
+		}
 	}
 }
