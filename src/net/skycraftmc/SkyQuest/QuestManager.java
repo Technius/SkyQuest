@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import javax.swing.ComboBoxModel;
-
 import net.skycraftmc.SkyQuest.action.ActionType;
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 

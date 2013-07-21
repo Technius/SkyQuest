@@ -8,7 +8,6 @@ import javax.swing.event.ListSelectionListener;
 import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.Quest;
 import net.skycraftmc.SkyQuest.QuestManager;
-import net.skycraftmc.SkyQuest.Stage;
 
 @SuppressWarnings("serial")
 public class QuestList extends JList<Quest> implements ListSelectionListener

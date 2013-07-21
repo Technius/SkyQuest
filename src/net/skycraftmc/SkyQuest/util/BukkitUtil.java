@@ -11,9 +11,6 @@ import net.minecraft.server.v1_6_R2.NBTBase;
 import net.skycraftmc.SkyQuest.util.nbt.TagBase;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandSender;
-
-import org.bukkit.Server;
 
 public class BukkitUtil
 {

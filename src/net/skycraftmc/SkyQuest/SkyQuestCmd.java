@@ -9,11 +9,9 @@ import org.bukkit.entity.Player;
 public class SkyQuestCmd implements CommandExecutor 
 {
 	private SkyQuestPlugin plugin;
-	private QuestManager qm;
 	public SkyQuestCmd(SkyQuestPlugin plugin)
 	{
 		this.plugin = plugin;
-		qm = plugin.getQuestManager();
 	}
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
 	{
