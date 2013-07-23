@@ -38,7 +38,7 @@ public class FileManager
 		TagCompound objs = new TagCompound("objectives");
 		for(Objective o:q.getObjectives())objs.setTag(o.getID(), saveObjective(o));
 		tag.setTag("objectives", objs);
-		TagList desc = new TagList("description");
+		TagList desc = new TagList("description", TagType.STRING);
 		for(String s:q.getDescription())desc.add(new TagString("", s));
 		tag.setTag("description", desc);
 		tag.setTag("iconid", new TagInt("iconid", q.getItemIconId()));

@@ -41,7 +41,11 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 		if(arg0.getSource() == this)
 		{
 			Quest q = getSelectedValue();
-			if(q != null)update(q);
+			if(q != null)
+			{
+				update(q);
+				if(qp.olist.getSelectedIndex() == -1)qp.op.clear();
+			}
 		}
 		else if(arg0.getSource() == qp.olist)
 		{

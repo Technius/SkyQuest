@@ -83,13 +83,18 @@ public class CreateObjectiveDialog extends JDialog implements ActionListener, It
 		oed = new ObjectiveEditDialog(util, this);
 		id.getDocument().addDocumentListener(this);
 		name.getDocument().addDocumentListener(this);
+		update();
 	}
 	public void itemStateChanged(ItemEvent e)
 	{
 		if(list.getSelectedIndex() == -1)return;
 		desc.setText(((ObjectiveType)list.getSelectedItem()).getDescription());
 	}
-
+	public void setVisible(boolean b)
+	{
+		super.setVisible(b);
+		update();
+	}
 	public void actionPerformed(ActionEvent e)
 	{
 		if(e.getSource() == cancel)setVisible(false);

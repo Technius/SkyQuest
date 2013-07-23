@@ -70,6 +70,7 @@ public class CreateQuestDialog extends JDialog implements DocumentListener, Acti
 		fsname.getDocument().addDocumentListener(this);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(d.width/4, d.height/4, d.width/2, d.height/2);
+		refresh();
 	}
 	
 	public void display()

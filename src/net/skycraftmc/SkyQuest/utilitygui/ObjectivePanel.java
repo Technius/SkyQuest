@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.QuestAction;
@@ -60,6 +61,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		save.setEnabled(false);
 		cancel.addActionListener(this);
 		cancel.setEnabled(false);
+		rewards.create.setEnabled(false);
 	}
 	public void loadData(Objective o)
 	{
@@ -73,6 +75,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		for(QuestAction qa: o.getRewardsAsStage().getActions())
 			rwcp.addAction(new QuestAction(qa.getType(), qa.getAction()));
 		rewards.loadData(rwcp);
+		rewards.create.setEnabled(true);
 		oep.load(o, o.getType());
 	}
 	public void clear()
@@ -84,7 +87,9 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		cancel.setEnabled(false);
 		optional.setSelected(false);
 		rewards.loadData(new Stage(""));
+		rewards.create.setEnabled(false);
 		oep.clear();
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 	public void saveData(Objective o)
 	{

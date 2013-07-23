@@ -86,6 +86,7 @@ public class ObjectiveEditPanel extends JPanel implements ActionListener
 			util.markFileChanged();
 			util.quest.list.update(util.quest.list.getSelectedValue());
 			util.quest.cod.oed.setVisible(false);
+			util.quest.olist.setSelectedValue(o, true);
 			clear();
 		}
 	}
@@ -94,7 +95,10 @@ public class ObjectiveEditPanel extends JPanel implements ActionListener
 	{
 		loaded = null;
 		loadedtype = null;
-		remove(oe);
-		oe = null;
+		if(oe != null)
+		{
+			remove(oe);
+			oe = null;
+		}
 	}
 }

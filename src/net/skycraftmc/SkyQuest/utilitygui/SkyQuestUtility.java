@@ -135,7 +135,7 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		{
 			int i = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit without saving?", 
 				"SkyQuest Utility - Confirm", JOptionPane.YES_NO_OPTION);
-			if(i == JOptionPane.NO_OPTION)return;
+			if(i != JOptionPane.YES_OPTION)return;
 		}
 		try
 		{
