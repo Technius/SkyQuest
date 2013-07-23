@@ -26,6 +26,17 @@ public class SkyQuestPlugin extends JavaPlugin
 		qm = new QuestManager();
 		fm = new FileManager();
 		qlm = new QuestLogManager(this);
+		if(!getDataFolder().exists())
+		{
+			try
+			{
+				fm.saveData(getDataFolder(), qm);
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
 		getServer().getPluginManager().registerEvents(new SkyQuestListener(this), this);
 		getServer().getPluginManager().registerEvents(qlm, this);
 		for(Player p:getServer().getOnlinePlayers())
