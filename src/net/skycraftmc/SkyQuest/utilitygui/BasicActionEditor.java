@@ -1,11 +1,13 @@
 package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
 
 import net.skycraftmc.SkyQuest.QuestAction;
 import net.skycraftmc.SkyQuest.action.ActionType;
@@ -21,6 +23,7 @@ public class BasicActionEditor extends ActionEditor
 {
 	private ActionType type;
 	private JTextField f;
+	private JLabel l;
 	public BasicActionEditor(ActionType type)
 	{
 		this.type = type;
@@ -42,7 +45,18 @@ public class BasicActionEditor extends ActionEditor
 		f = new JTextField();
 		p.add("Center", f);
 		add("Center", p);
-		f.getDocument().addDocumentListener(new ActionValidListener(type, getFinishButton()));
+		l = new JLabel();
+		l.setForeground(Color.RED);
+		add("South", l);
+		f.getDocument().addDocumentListener(new ActionValidListener(type, getFinishButton()){
+			protected boolean update(DocumentEvent e)
+			{
+				boolean a = super.update(e);
+				if(a)l.setText("");
+				else l.setText("This data is invalid.");
+				return a;
+			}
+		});
 	}
 
 	public void loadFrom(QuestAction action)

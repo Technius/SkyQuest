@@ -1,11 +1,13 @@
 package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
 
 import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.QuestAction;
@@ -22,6 +24,7 @@ public class BasicObjectiveEditor extends ObjectiveEditor
 {
 	private ObjectiveType type;
 	private JTextField f;
+	private JLabel l;
 	public BasicObjectiveEditor(ObjectiveType type)
 	{
 		this.type = type;
@@ -43,7 +46,18 @@ public class BasicObjectiveEditor extends ObjectiveEditor
 		f = new JTextField();
 		p.add("Center", f);
 		add("Center", p);
-		f.getDocument().addDocumentListener(new ObjectiveValidListener(type, getFinishButton()));
+		l = new JLabel();
+		l.setForeground(Color.RED);
+		add("South", l);
+		f.getDocument().addDocumentListener(new ObjectiveValidListener(type, getFinishButton()){
+			protected boolean update(DocumentEvent e)
+			{
+				boolean a = super.update(e);
+				if(a)l.setText("");
+				else l.setText("This data is invalid.");
+				return a;
+			}
+		});
 	}
 
 	public void loadFrom(Objective objective)

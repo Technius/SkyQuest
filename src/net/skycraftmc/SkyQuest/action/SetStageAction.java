@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest.action;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
@@ -67,11 +68,13 @@ public class SetStageAction extends ActionType
 	{
 		private JTextField qidtf;
 		private JTextField sidtf;
+		private JLabel label;
 		@Override
 		public void init()
 		{
 			qidtf = new JTextField();
 			sidtf = new JTextField();
+			label = new JLabel();
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			JPanel p1 = new JPanel();
 			JPanel p2 = new JPanel();
@@ -83,7 +86,9 @@ public class SetStageAction extends ActionType
 			p2.add("Center", sidtf);
 			add(p1);
 			add(p2);
-			FieldListener l = new FieldListener(qidtf, sidtf, getFinishButton());
+			add(label);
+			label.setForeground(Color.RED);
+			FieldListener l = new FieldListener(qidtf, sidtf, getFinishButton(), label);
 			qidtf.getDocument().addDocumentListener(l);
 			sidtf.getDocument().addDocumentListener(l);
 		}
@@ -103,11 +108,13 @@ public class SetStageAction extends ActionType
 		private JTextField qidtf;
 		private JTextField sidtf;
 		private JComponent p;
-		private FieldListener(JTextField f, JTextField f2, JComponent p)
+		private JLabel l;
+		private FieldListener(JTextField f, JTextField f2, JComponent p, JLabel l)
 		{
 			qidtf = f;
 			sidtf = f2;
 			this.p = p;
+			this.l = l;
 		}
 		public void changedUpdate(DocumentEvent arg0)
 		{
@@ -126,11 +133,15 @@ public class SetStageAction extends ActionType
 			Quest q = QuestManager.getInstance().getQuest(qidtf.getText());
 			if(q == null)
 			{
+				l.setText("This quest doesn't exist.");
 				p.setEnabled(false);
 				return;
 			}
 			String s = sidtf.getText();
-			p.setEnabled(q.getStage(s) != null);
+			boolean a = q.getStage(s) != null;
+			p.setEnabled(a);
+			if(a)l.setText("");
+			else l.setText("This stage doesn't exist.");
 		}
 	}
 }

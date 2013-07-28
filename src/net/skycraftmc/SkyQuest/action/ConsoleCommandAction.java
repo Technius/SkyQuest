@@ -61,6 +61,7 @@ public class ConsoleCommandAction extends ActionType
 		{
 			tf = new JTextField();
 			setLayout(new BorderLayout());
+			add("North", new JLabel("The player can be specified with &player;"));
 			add("Center", tf);
 			add("West", new JLabel("Command"));
 			tf.getDocument().addDocumentListener(new EmptyTextListener(getFinishButton()));

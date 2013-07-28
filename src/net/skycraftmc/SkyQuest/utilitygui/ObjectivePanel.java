@@ -37,6 +37,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		util.quest.op = this;
 		name = new JTextField();
 		desc = new JTextArea();
+		desc.setEnabled(false);
 		optional = new JCheckBox("Optional", false);
 		save = new JButton("Save changes");
 		cancel = new JButton("Cancel");

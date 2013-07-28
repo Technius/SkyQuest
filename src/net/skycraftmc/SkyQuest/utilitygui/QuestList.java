@@ -55,6 +55,7 @@ public class QuestList extends JList<Quest> implements ListSelectionListener
 	}
 	public void update(Quest q)
 	{
+		qp.sp.model.clear();
 		qp.olist.refreshList(q);
 		qp.slist.refreshList(q);
 	}

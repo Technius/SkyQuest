@@ -27,14 +27,16 @@ public class ActionValidListener implements DocumentListener
 	public void removeUpdate(DocumentEvent e) {
 		update(e);
 	}
-	private void update(DocumentEvent e)
+	protected boolean update(DocumentEvent e)
 	{
 		Document d = e.getDocument();
 		try {
 			boolean a = type.isValid(d.getText(0, d.getLength()));
 			for(JComponent c:this.c)c.setEnabled(a);
+			return a;
 		} catch (BadLocationException e1) {
 			e1.printStackTrace();
 		}
+		return false;
 	}
 }
