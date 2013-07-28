@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
@@ -26,6 +27,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	JButton save;
 	JButton cancel;
 	private JCheckBox optional;
+	private JTextArea desc;
 	StagePanel rewards;
 	Stage rwcp;
 	ObjectiveEditPanel oep;
@@ -34,6 +36,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		this.util = util;
 		util.quest.op = this;
 		name = new JTextField();
+		desc = new JTextArea();
 		optional = new JCheckBox("Optional", false);
 		save = new JButton("Save changes");
 		cancel = new JButton("Cancel");
@@ -47,6 +50,12 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		np.add("West", new JLabel("Name"));
 		add(np);
 		add(optional);
+		JPanel dp = new JPanel();
+		dp.setLayout(new BorderLayout());
+		dp.setEnabled(false);
+		dp.add("Center", desc);
+		dp.add("North", new JLabel("Description"));
+		add(dp);
 		add(new JLabel("Target"));
 		add(oep);
 		add(new JLabel("Rewards"));
@@ -82,6 +91,14 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		rewards.loadData(rwcp);
 		rewards.create.setEnabled(true);
 		oep.load(o, o.getType());
+		StringBuffer sb = new StringBuffer();
+		for(String s:o.getDescription())
+		{
+			if(sb.length() > 0)sb.append("\n");
+			sb.append(s);
+		}
+		desc.setText(sb.toString());
+		desc.setEnabled(true);
 	}
 	public void clear()
 	{
@@ -95,12 +112,15 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		rewards.create.setEnabled(false);
 		oep.clear();
 		SwingUtilities.updateComponentTreeUI(this);
+		desc.setText("");
+		desc.setEnabled(false);
 	}
 	public void saveData(Objective o)
 	{
 		o.setName(name.getText());
 		o.setOptional(optional.isSelected());
 		o.setTarget(oep.oe.createData());
+		if(!desc.getText().trim().isEmpty())o.setDescription(desc.getText().split("\n"));
 		Stage rw = o.getRewardsAsStage();
 		for(int i = rw.size() - 1; i > -1; i --)rw.removeAction(i);
 		for(QuestAction qa:rwcp.getActions())o.addReward(qa);

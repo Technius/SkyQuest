@@ -126,7 +126,13 @@ public class OpenQuestLog
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
 				String ps; 
 				ArrayList<String>lore = new ArrayList<String>();
-				if(o.isOptional())lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Optional");
+				String[] desc = o.getDescription();
+				for(String s:desc)lore.add(s);
+				if(o.isOptional())
+				{
+					if(desc.length > 0)lore.add("");
+					lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Optional");
+				}
 				ChatColor tcol;
 				if(cqd.isComplete(o.getID()))
 				{
@@ -171,8 +177,13 @@ public class OpenQuestLog
 				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
 				boolean complete = qd.isComplete(o.getID());
 				ArrayList<String>lore = new ArrayList<String>();
-				if(o.isOptional())lore.add(ChatColor.GOLD + "" + 
-						ChatColor.ITALIC + "Optional");
+				String[] desc = o.getDescription();
+				for(String s:desc)lore.add(s);
+				if(o.isOptional())
+				{
+					if(desc.length > 0)lore.add("");
+					lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Optional");
+				}
 				if(complete)
 				{
 					String ps = o.getType().getProgressString(o.getTarget(), o.getTarget());

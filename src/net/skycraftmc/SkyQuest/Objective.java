@@ -1,5 +1,7 @@
 package net.skycraftmc.SkyQuest;
 
+import java.util.ArrayList;
+
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
 public class Objective 
@@ -12,6 +14,7 @@ public class Objective
 	private boolean optional = false;
 	private boolean visible = true;
 	private int itemico = -1;
+	private ArrayList<String>description = new ArrayList<String>();
 	public Objective(String id, String name, ObjectiveType type, String target)
 	{
 		if(!type.isValid(target))
@@ -107,5 +110,18 @@ public class Objective
 	public Stage getRewardsAsStage()
 	{
 		return rewards;
+	}
+	public String[] getDescription()
+	{
+		return description.toArray(new String[description.size()]);
+	}
+	public void setDescription(ArrayList<String> s)
+	{
+		description = s;
+	}
+	public void setDescription(String... s)
+	{
+		description.clear();
+		for(String a:s)description.add(a);
 	}
 }

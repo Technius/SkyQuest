@@ -373,6 +373,19 @@ public class FileManager
 					}
 				}
 			}
+			TagBase desc = tag.getTag("description");
+			ArrayList<String> dsc = new ArrayList<String>();
+			if(desc instanceof TagList)
+			{
+				for(TagBase b:((TagList)desc).get())
+				{
+					if(b instanceof TagString)
+					{
+						dsc.add(((TagString) b).data);
+					}
+				}
+			}
+			o.setDescription(dsc);
 			return o;
 		}
 		catch(IllegalArgumentException iae)
@@ -392,6 +405,13 @@ public class FileManager
 		TagList rewards = new TagList("rewards", TagType.COMPOUND);
 		for(QuestAction a:o.getRewards())rewards.add(saveAction(a));
 		c.setTag("rewards", rewards);
+		String[] desc = o.getDescription();
+		if(desc.length > 0)
+		{
+			TagList description = new TagList("description", TagType.STRING);
+			for(String s:desc)description.add(new TagString("", s));
+			c.setTag("description", description);
+		}
 		return c;
 	}
 	private QuestAction loadAction(TagCompound tag)
