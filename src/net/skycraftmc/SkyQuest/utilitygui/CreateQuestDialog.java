@@ -34,7 +34,7 @@ public class CreateQuestDialog extends JDialog implements DocumentListener, Acti
 		this.qp = qp;
 		util = qp.util;
 		name = new JTextField();
-		fsname = new JTextField();
+		fsname = new JTextField("stage1");
 		id = new JTextField();
 		create = new JButton("Create");
 		cancel = new JButton("Cancel");
@@ -84,7 +84,8 @@ public class CreateQuestDialog extends JDialog implements DocumentListener, Acti
 		String n = name.getText();
 		String s = fsname.getText();
 		String i = id.getText();
-		if(i.isEmpty() || n.isEmpty() || s.isEmpty())create.setEnabled(false);
+		if(i.trim().isEmpty() || n.trim().isEmpty() || s.trim().isEmpty())create.setEnabled(false);
+		else if(i.contains(" ") || n.contains(" ") || s.contains(" "))create.setEnabled(false);
 		else if(util.qm.getQuest(i) != null)create.setEnabled(false);
 		else create.setEnabled(true);
 	}
