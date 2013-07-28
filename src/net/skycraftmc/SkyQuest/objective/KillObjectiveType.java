@@ -171,7 +171,6 @@ public class KillObjectiveType extends ObjectiveType
 			try
 			{
 				Integer.parseInt(amt.getText());
-				getFinishButton().setEnabled(true);
 				String s = type.getText();
 				if(s.trim().length() == 0)getFinishButton().setEnabled(false);
 				else if(s.contains(" "))getFinishButton().setEnabled(false);
