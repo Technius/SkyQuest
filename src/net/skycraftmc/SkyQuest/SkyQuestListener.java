@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Result;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -75,7 +76,7 @@ public class SkyQuestListener implements Listener
 			}
 		}
 	}
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void join(PlayerJoinEvent event)
 	{
 		String name = event.getPlayer().getName();
@@ -83,10 +84,6 @@ public class SkyQuestListener implements Listener
 		{
 			PlayerQuestLog log = new PlayerQuestLog(name);
 			qm.addQuestLog(log);
-			
-			//Testing
-			event.getPlayer().getInventory().addItem(plugin.createQuestLogItem());
-			//End Testing
 			for(Quest q:qm.getQuests())
 			{
 				if(q.isFirstAssigned())log.assign(q);
