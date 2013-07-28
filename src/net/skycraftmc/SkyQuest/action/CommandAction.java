@@ -2,6 +2,8 @@ package net.skycraftmc.SkyQuest.action;
 
 
 import java.awt.BorderLayout;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -15,13 +17,15 @@ import org.bukkit.Bukkit;
 
 public class CommandAction extends ActionType
 {
+	private Pattern pat = Pattern.compile("&player;");
 	public boolean apply(String player, String action) 
 	{
 		if(!isValid(action))
 			throw new IllegalArgumentException("action is not valid");
 		Object p = Bukkit.getServer().getPlayerExact(player);
 		if(p == null)return false;
-		BukkitUtil.doCommand(p, action);
+		Matcher m = pat.matcher(action);
+		BukkitUtil.doCommand(p, m.replaceAll(Matcher.quoteReplacement(player)));
 		return true;
 	}
 
