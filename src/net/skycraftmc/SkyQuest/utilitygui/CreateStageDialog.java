@@ -49,8 +49,8 @@ public class CreateStageDialog extends JDialog implements DocumentListener, Acti
 	}
 	public void display()
 	{
-		setVisible(true);
 		refresh();
+		setVisible(true);
 	}
 	private void refresh()
 	{

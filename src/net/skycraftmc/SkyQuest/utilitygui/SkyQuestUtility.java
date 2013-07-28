@@ -115,8 +115,8 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		{
 			ioe.printStackTrace();
 		}
-
 		quest.tabs.setPreferredSize(new Dimension(getWidth()/3, quest.tabs.getSize().height));
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		//Show
 		setVisible(true);
 	}
@@ -135,7 +135,10 @@ public class SkyQuestUtility extends JFrame implements WindowListener
 		{
 			int i = JOptionPane.showConfirmDialog(this, "Are you sure you want to exit without saving?", 
 				"SkyQuest Utility - Confirm", JOptionPane.YES_NO_OPTION);
-			if(i != JOptionPane.YES_OPTION)return;
+			if(i != JOptionPane.YES_OPTION)
+			{
+				return;
+			}
 		}
 		try
 		{

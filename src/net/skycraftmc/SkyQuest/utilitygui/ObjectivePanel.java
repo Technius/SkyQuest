@@ -65,6 +65,11 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	}
 	public void loadData(Objective o)
 	{
+		if(o == null)
+		{
+			clear();
+			return;
+		}
 		sel = o;
 		name.setEnabled(true);
 		name.setText(o.getName());
