@@ -99,6 +99,8 @@ public class ObjectiveEditPanel extends JPanel implements ActionListener
 		{
 			remove(oe);
 			oe = null;
+			invalidate();
+			SwingUtilities.updateComponentTreeUI(this);
 		}
 	}
 }

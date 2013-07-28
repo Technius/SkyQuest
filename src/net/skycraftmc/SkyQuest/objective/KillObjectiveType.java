@@ -1,6 +1,17 @@
 package net.skycraftmc.SkyQuest.objective;
 
+import java.awt.BorderLayout;
+
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.SkyQuest;
+import net.skycraftmc.SkyQuest.utilitygui.ObjectiveEditor;
 
 import org.bukkit.entity.EntityType;
 
@@ -83,7 +94,8 @@ public class KillObjectiveType extends ObjectiveType
 			throw new IllegalArgumentException("progress is not valid");
 		return progress.split(" ", 2)[1];
 	}
-
+	
+	@Override
 	public String getProgressString(String target, String progress) 
 	{
 		int p = getKills(progress);
@@ -103,4 +115,72 @@ public class KillObjectiveType extends ObjectiveType
 		return "Requires the player to kill a certain amount of a specified entity";
 	}
 	
+	@Override
+	public ObjectiveEditor createEditorPanel()
+	{
+		return new KillObjectiveEditor();
+	}
+	
+	@SuppressWarnings("serial")
+	private class KillObjectiveEditor extends ObjectiveEditor implements DocumentListener
+	{
+		private JTextField amt;
+		private JTextField type;
+		public void init()
+		{
+			amt = new JTextField();
+			type = new JTextField();
+			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+			JPanel p = new JPanel();
+			p.setLayout(new BorderLayout());
+			p.add("Center", amt);
+			p.add("West", new JLabel("Amount"));
+			add(p);
+			JPanel p2 = new JPanel();
+			p2.setLayout(new BorderLayout());
+			p2.add("Center", type);
+			p2.add("West", new JLabel("Type"));
+			add(p2);
+			amt.getDocument().addDocumentListener(this);
+			type.getDocument().addDocumentListener(this);
+		}
+		public String createData()
+		{
+			return amt.getText() + " " + type.getText();
+		}
+		public void loadFrom(Objective o)
+		{
+			String[] t = o.getTarget().split(" ", 2);
+			amt.setText(t[0]);
+			type.setText(t[1]);
+		}
+		public void insertUpdate(DocumentEvent e)
+		{
+			update(e);
+		}
+		public void removeUpdate(DocumentEvent e)
+		{
+			update(e);
+		}
+		public void changedUpdate(DocumentEvent e)
+		{
+			update(e);
+		}
+		public void update(DocumentEvent e)
+		{
+			try
+			{
+				Integer.parseInt(amt.getText());
+				getFinishButton().setEnabled(true);
+				String s = type.getText();
+				if(s.trim().length() == 0)getFinishButton().setEnabled(false);
+				else if(s.contains(" "))getFinishButton().setEnabled(false);
+				else getFinishButton().setEnabled(true);
+			}
+			catch(NumberFormatException nfe)
+			{
+				getFinishButton().setEnabled(false);
+			}
+		}
+	}
 }

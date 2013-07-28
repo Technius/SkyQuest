@@ -1,6 +1,7 @@
 package net.skycraftmc.SkyQuest.utilitygui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
+import javax.swing.border.LineBorder;
 
 import net.skycraftmc.SkyQuest.Objective;
 import net.skycraftmc.SkyQuest.QuestAction;
@@ -59,6 +61,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		add(dp);
 		add(new JLabel("Target"));
 		add(oep);
+		oep.setBorder(new LineBorder(Color.GRAY));
 		add(new JLabel("Rewards"));
 		add(rewards);
 		JPanel actionp = new JPanel();
@@ -112,9 +115,10 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		rewards.loadData(new Stage(""));
 		rewards.create.setEnabled(false);
 		oep.clear();
-		SwingUtilities.updateComponentTreeUI(this);
 		desc.setText("");
 		desc.setEnabled(false);
+		invalidate();
+		SwingUtilities.updateComponentTreeUI(this);
 	}
 	public void saveData(Objective o)
 	{
