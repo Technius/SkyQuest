@@ -85,7 +85,7 @@ public class CreateQuestDialog extends JDialog implements DocumentListener, Acti
 		String s = fsname.getText();
 		String i = id.getText();
 		if(i.trim().isEmpty() || n.trim().isEmpty() || s.trim().isEmpty())create.setEnabled(false);
-		else if(i.contains(" ") || n.contains(" ") || s.contains(" "))create.setEnabled(false);
+		else if(i.contains(" ") || s.contains(" "))create.setEnabled(false);
 		else if(util.qm.getQuest(i) != null)create.setEnabled(false);
 		else create.setEnabled(true);
 	}
