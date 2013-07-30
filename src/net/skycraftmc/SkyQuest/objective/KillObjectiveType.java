@@ -146,7 +146,7 @@ public class KillObjectiveType extends ObjectiveType
 		}
 		public String createData()
 		{
-			return amt.getText() + " " + type.getText();
+			return amt.getText() + " " + type.getText().toUpperCase();
 		}
 		public void loadFrom(Objective o)
 		{
