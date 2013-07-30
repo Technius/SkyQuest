@@ -1,5 +1,5 @@
 name: SkyQuest
-version: 0.0.1a-Early-Alpha
+version: 0.0.1
 main: net.skycraftmc.SkyQuest.SkyQuestPlugin
 commands:
     quest:
