@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.skycraftmc.SkyQuest.Quest;
@@ -26,6 +28,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 	JButton save;
 	JButton cancel;
 	JTextField questname;
+	JTextArea desc;
 	public QuestPropertyDialog(QuestPanel qp)
 	{
 		super(qp.util, "SkyQuest - Quest Property", true);
@@ -36,6 +39,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		first = new JCheckBox("Assign on First Join");
 		save = new JButton("Save");
 		cancel = new JButton("Cancel");
+		desc = new JTextArea();
 		questname = new JTextField();
 		questname.addKeyListener(new KeyListener(){
 			public void keyTyped(KeyEvent e) {
@@ -58,6 +62,11 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		qn.add("West", new JLabel("Quest Name"));
 		qn.add("Center", questname);
 		p.add(qn);
+		JPanel dp = new JPanel();
+		dp.setLayout(new BorderLayout());
+		dp.add("West", new JLabel("Description"));
+		dp.add("Center", desc);
+		p.add(dp);
 		p.add(first);
 		JPanel buttons = new JPanel();
 		buttons.add(save);
@@ -76,6 +85,13 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		loaded = q;
 		first.setSelected(q.isFirstAssigned());
 		questname.setText(q.getName());
+		StringBuffer sb = new StringBuffer();
+		for(String s:q.getDescription())
+		{
+			if(sb.length() > 0)sb.append(System.getProperty("line.separator"));
+			sb.append(s);
+		}
+		desc.setText(sb.toString());
 		setVisible(true);
 	}
 	public void saveEdits()
@@ -83,6 +99,9 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		if(loaded == null)return;
 		loaded.setFirstAssigned(first.isSelected());
 		loaded.setName(questname.getText());
+		ArrayList<String>desc = new ArrayList<String>();
+		for(String s:this.desc.getText().split(System.getProperty("line.separator")))desc.add(s);
+		loaded.setDescription(desc);
 		util.markFileChanged();
 	}
 	public void actionPerformed(ActionEvent e) 
