@@ -24,16 +24,19 @@ public class QuestExistsListener implements DocumentListener
 	public void removeUpdate(DocumentEvent e) {
 		update(e);
 	}
-	private void update(DocumentEvent e)
+	protected boolean update(DocumentEvent e)
 	{
 		boolean a;
 		try
 		{
 			a = QuestManager.getInstance().getQuest(e.getDocument().getText(0, e.getDocument().getLength())) != null;
 			for(JComponent c:this.c)c.setEnabled(a);
-		} catch (BadLocationException e1)
+			return a;
+		} 
+		catch (BadLocationException e1)
 		{
 			e1.printStackTrace();
 		}
+		return false;
 	}
 }

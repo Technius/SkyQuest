@@ -17,6 +17,7 @@ public class QuestManager
 		registerObjectiveType(ObjectiveType.TRAVEL);
 		registerActionType(ActionType.ASSIGN_OBJECTIVE);
 		registerActionType(ActionType.SET_STAGE);
+		registerActionType(ActionType.ASSIGN_QUEST);
 		registerActionType(ActionType.MESSAGE);
 		registerActionType(ActionType.COMMAND);
 		registerActionType(ActionType.CONSOLE_COMMAND);
