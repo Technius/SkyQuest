@@ -17,7 +17,7 @@ public class SkyQuestCmd implements CommandExecutor
 	}
 	private final CmdDesc[] help = {
 		new CmdDesc("quest help", "Shows this menu", null),
-		new CmdDesc("quest questlog", "Gives you a questlog", "skyquest.cmd.questlog"),
+		new CmdDesc("quest questlog [player]", "Gives you a questlog", "skyquest.cmd.questlog"),
 		new CmdDesc("quest assign [player] <id>", "Assigns a quest to a player", "skyquest.cmd.assign"),
 		new CmdDesc("quest sassign [player] <id>", "Silently assigns a quest to a player", "skyquest.cmd.assign")
 	};
