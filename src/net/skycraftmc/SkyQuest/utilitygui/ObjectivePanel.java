@@ -29,6 +29,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	JButton save;
 	JButton cancel;
 	private JCheckBox optional;
+	private JCheckBox hidden;
 	private JTextArea desc;
 	StagePanel rewards;
 	Stage rwcp;
@@ -41,6 +42,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		desc = new JTextArea();
 		desc.setEnabled(false);
 		optional = new JCheckBox("Optional", false);
+		hidden = new JCheckBox("Hidden", false);
 		save = new JButton("Save changes");
 		cancel = new JButton("Cancel");
 		rewards = new StagePanel(util);
@@ -53,6 +55,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		np.add("West", new JLabel("Name"));
 		add(np);
 		add(optional);
+		add(hidden);
 		JPanel dp = new JPanel();
 		dp.setLayout(new BorderLayout());
 		dp.setEnabled(false);
@@ -89,6 +92,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		save.setEnabled(true);
 		cancel.setEnabled(true);
 		optional.setSelected(o.isOptional());
+		hidden.setSelected(!o.isVisible());
 		rwcp = new Stage("");
 		for(QuestAction qa: o.getRewardsAsStage().getActions())
 			rwcp.addAction(new QuestAction(qa.getType(), qa.getAction()));
@@ -112,6 +116,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 		save.setEnabled(false);
 		cancel.setEnabled(false);
 		optional.setSelected(false);
+		hidden.setSelected(false);
 		rewards.loadData(new Stage(""));
 		rewards.create.setEnabled(false);
 		oep.clear();
@@ -124,6 +129,7 @@ public class ObjectivePanel extends JPanel implements ActionListener
 	{
 		o.setName(name.getText());
 		o.setOptional(optional.isSelected());
+		o.setVisible(!hidden.isSelected());
 		o.setTarget(oep.oe.createData());
 		if(!desc.getText().trim().isEmpty())o.setDescription(desc.getText().split("\n"));
 		Stage rw = o.getRewardsAsStage();

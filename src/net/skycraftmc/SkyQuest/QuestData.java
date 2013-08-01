@@ -41,7 +41,7 @@ public class QuestData
 			Objective o = q.getObjective(oid);
 			ObjectiveType type = o.getType();
 			objprog.put(oid, type.createProgress(type.getData(o.getTarget())));
-			if(SkyQuest.isOnServer())
+			if(SkyQuest.isOnServer() && o.isVisible())
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
 				if(p != null)p.sendMessage(o.getName() + (o.isOptional() ? " (Optional)" : ""));
