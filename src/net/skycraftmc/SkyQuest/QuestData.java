@@ -44,7 +44,7 @@ public class QuestData
 			if(SkyQuest.isOnServer() && o.isVisible())
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
-				if(p != null)p.sendMessage(o.getName() + (o.isOptional() ? " (Optional)" : ""));
+				if(p != null && o.isVisible())p.sendMessage(o.getName() + (o.isOptional() ? " (Optional)" : ""));
 			}
 		}
 	}
@@ -71,7 +71,7 @@ public class QuestData
 				if(p != null && o.isVisible())p.sendMessage(ChatColor.GREEN + "Objective completed: " + o.getName());
 				for(QuestAction r:o.getRewards())
 				{
-					if(!r.getType().requiresPlayer())r.apply(player);
+					r.apply(player);
 				}
 			}
 		}
