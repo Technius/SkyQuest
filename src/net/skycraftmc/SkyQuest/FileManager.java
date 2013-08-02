@@ -43,6 +43,7 @@ public class FileManager
 		tag.setTag("description", desc);
 		tag.setTag("iconid", new TagInt("iconid", q.getItemIconId()));
 		tag.setTag("firstassigned", new TagByte("firstassigned", (byte)(q.isFirstAssigned() ? 1 : 0)));
+		tag.setTag("visible", new TagByte("visible", (byte)(q.isVisible() ? 1 : 0)));
 		File f = new File(file, q.getID() + ".dat");
 		DataOutputStream dos = new DataOutputStream(new FileOutputStream(f));
 		tag.saveTag(dos);
@@ -114,6 +115,12 @@ public class FileManager
 		{
 			TagByte tfa = (TagByte)tbfirstassigned;
 			q.setFirstAssigned(tfa.data == 1 ? true : false);
+		}
+		TagBase tbvisible = tag.getTag("visible");
+		if(tbvisible instanceof TagByte)
+		{
+			TagByte tv = (TagByte)tbvisible;
+			q.setVisible(tv.data == 1 ? true : false);
 		}
 		return q;
 	}

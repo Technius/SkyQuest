@@ -25,6 +25,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 {
 	SkyQuestUtility util;
 	JCheckBox first;
+	JCheckBox hidden;
 	JButton save;
 	JButton cancel;
 	JTextField questname;
@@ -37,6 +38,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 		util = qp.util;
 		first = new JCheckBox("Assign on First Join");
+		hidden = new JCheckBox("Hidden");
 		save = new JButton("Save");
 		cancel = new JButton("Cancel");
 		desc = new JTextArea();
@@ -68,6 +70,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 		dp.add("Center", desc);
 		p.add(dp);
 		p.add(first);
+		p.add(hidden);
 		JPanel buttons = new JPanel();
 		buttons.add(save);
 		buttons.add(cancel);
@@ -84,6 +87,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 	{
 		loaded = q;
 		first.setSelected(q.isFirstAssigned());
+		hidden.setSelected(!q.isVisible());
 		questname.setText(q.getName());
 		StringBuffer sb = new StringBuffer();
 		for(String s:q.getDescription())
@@ -98,6 +102,7 @@ public class QuestPropertyDialog extends JDialog implements ActionListener
 	{
 		if(loaded == null)return;
 		loaded.setFirstAssigned(first.isSelected());
+		loaded.setVisible(!hidden.isSelected());
 		loaded.setName(questname.getText());
 		ArrayList<String>desc = new ArrayList<String>();
 		for(String s:this.desc.getText().split(System.getProperty("line.separator")))desc.add(s);

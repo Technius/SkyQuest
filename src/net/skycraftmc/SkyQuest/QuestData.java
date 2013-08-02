@@ -109,7 +109,7 @@ public class QuestData
 			if(SkyQuest.isOnServer())
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
-				if(p != null)
+				if(p != null && q.isVisible())
 				{
 					if(state == CompletionState.COMPLETE)
 						p.sendMessage(ChatColor.GREEN + "Quest completed: " + q.getName());

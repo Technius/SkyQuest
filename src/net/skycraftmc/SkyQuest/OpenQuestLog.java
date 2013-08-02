@@ -41,7 +41,7 @@ public class OpenQuestLog
 		for(int i = 0; i < ca.length; i ++)
 		{
 			Quest q = qm.getQuest(ca[i]);
-			if(q != null)c.add(q);
+			if(q != null && q.isVisible())c.add(q);
 		}
 		curcompleted = c.toArray(new Quest[c.size()]);
 	}
@@ -204,7 +204,12 @@ public class OpenQuestLog
 			back.setItemMeta(bim);
 			inv.setItem(27, back);
 		}
-		curassigned = log.getAssigned();
+		ArrayList<Quest>tempassgn = new ArrayList<Quest>();
+		for(Quest q:log.getAssigned())
+		{
+			if(q.isVisible())tempassgn.add(q);
+		}
+		curassigned = tempassgn.toArray(new Quest[tempassgn.size()]);
 	}
 	public int getPage()
 	{

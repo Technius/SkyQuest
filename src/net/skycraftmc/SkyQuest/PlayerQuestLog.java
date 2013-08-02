@@ -28,7 +28,7 @@ public class PlayerQuestLog
 		if(SkyQuest.isOnServer())
 		{
 			Player p = Bukkit.getServer().getPlayerExact(player);
-			if(p != null)p.sendMessage("Started: "  + quest.getName());
+			if(p != null && quest.isVisible())p.sendMessage("Started: "  + quest.getName());
 		}
 		qd.setStage(quest.getFirstStage().getID());
 	}

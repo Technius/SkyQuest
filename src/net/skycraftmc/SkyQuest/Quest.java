@@ -12,6 +12,7 @@ public class Quest
 	private Stage firststage;
 	private int itemico = 386;
 	private boolean firstassigned = false;
+	private boolean visible = true;
 	public Quest(String id, String name, Stage firststage)
 	{
 		this.name = name;
@@ -110,5 +111,13 @@ public class Quest
 	public void setFirstAssigned(boolean value)
 	{
 		firstassigned = value;
+	}
+	public boolean isVisible()
+	{
+		return visible;
+	}
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
 	}
 }
