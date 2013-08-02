@@ -68,8 +68,11 @@ public class QuestData
 			if(SkyQuest.isOnServer())
 			{
 				Player p = Bukkit.getServer().getPlayerExact(player);
-				if(p != null)p.sendMessage(ChatColor.GREEN + "Objective completed: " + o.getName());
-				for(QuestAction r:o.getRewards())r.apply(player);
+				if(p != null && o.isVisible())p.sendMessage(ChatColor.GREEN + "Objective completed: " + o.getName());
+				for(QuestAction r:o.getRewards())
+				{
+					if(!r.getType().requiresPlayer())r.apply(player);
+				}
 			}
 		}
 		else objprog.put(oid, progress);

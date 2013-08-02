@@ -52,7 +52,7 @@ public class SkyQuestListener implements Listener
 				if(!ObjectiveType.KILL.getEntityType(targ).equals(ent.getType().name()))continue;
 				int p = ObjectiveType.KILL.getKills(prog) + 1;
 				int t = ObjectiveType.KILL.getKills(targ);
-				player.sendMessage(ChatColor.GREEN + o.getName() + " (" + p + "/" + t + ")");
+				if(o.isVisible())player.sendMessage(ChatColor.GREEN + o.getName() + " (" + p + "/" + t + ")");
 				qd.setProgress(o.getID(), p + " " + ent.getType().name());
 			}
 		}
