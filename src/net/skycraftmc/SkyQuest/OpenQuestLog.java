@@ -26,7 +26,7 @@ public class OpenQuestLog
 		this.log = log;
 		this.player = player;
 		this.inv = inv;
-		curassigned = log.getAssigned();
+		recalculateAssigned();
 		recalculateCompleted();
 		update();
 		view = player.openInventory(inv);
@@ -44,6 +44,15 @@ public class OpenQuestLog
 			if(q != null && q.isVisible())c.add(q);
 		}
 		curcompleted = c.toArray(new Quest[c.size()]);
+	}
+	private void recalculateAssigned()
+	{
+		ArrayList<Quest>tempassgn = new ArrayList<Quest>();
+		for(Quest q:log.getAssigned())
+		{
+			if(q.isVisible())tempassgn.add(q);
+		}
+		curassigned = tempassgn.toArray(new Quest[tempassgn.size()]);
 	}
 	public Player getPlayer()
 	{
@@ -204,12 +213,7 @@ public class OpenQuestLog
 			back.setItemMeta(bim);
 			inv.setItem(27, back);
 		}
-		ArrayList<Quest>tempassgn = new ArrayList<Quest>();
-		for(Quest q:log.getAssigned())
-		{
-			if(q.isVisible())tempassgn.add(q);
-		}
-		curassigned = tempassgn.toArray(new Quest[tempassgn.size()]);
+		recalculateAssigned();
 	}
 	public int getPage()
 	{
