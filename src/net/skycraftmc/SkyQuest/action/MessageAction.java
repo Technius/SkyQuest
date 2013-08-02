@@ -2,6 +2,8 @@ package net.skycraftmc.SkyQuest.action;
 
 
 import java.awt.BorderLayout;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -16,13 +18,15 @@ import org.bukkit.entity.Player;
 
 public class MessageAction extends ActionType
 {
+	private Pattern pat = Pattern.compile("&player;");
 	public boolean apply(String player, String action) 
 	{
 		if(!isValid(action))
 			throw new IllegalArgumentException("action is not valid");
 		Player p = Bukkit.getServer().getPlayerExact(player);
 		if(p == null)return false;
-		p.sendMessage(ChatColor.translateAlternateColorCodes('&', action));
+		Matcher m = pat.matcher(action);
+		p.sendMessage(ChatColor.translateAlternateColorCodes('&', m.replaceAll(Matcher.quoteReplacement(action))));
 		return true;
 	}
 
@@ -61,6 +65,7 @@ public class MessageAction extends ActionType
 		{
 			tf = new JTextField();
 			setLayout(new BorderLayout());
+			add("North", new JLabel("The player can be specified with &player;"));
 			add("Center", tf);
 			add("West", new JLabel("Message"));
 			tf.getDocument().addDocumentListener(new EmptyTextListener(getFinishButton()));
