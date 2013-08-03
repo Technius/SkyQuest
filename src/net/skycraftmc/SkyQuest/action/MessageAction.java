@@ -26,7 +26,7 @@ public class MessageAction extends ActionType
 		Player p = Bukkit.getServer().getPlayerExact(player);
 		if(p == null)return false;
 		Matcher m = pat.matcher(action);
-		p.sendMessage(ChatColor.translateAlternateColorCodes('&', m.replaceAll(Matcher.quoteReplacement(action))));
+		p.sendMessage(ChatColor.translateAlternateColorCodes('&', m.replaceAll(Matcher.quoteReplacement(player))));
 		return true;
 	}
 
