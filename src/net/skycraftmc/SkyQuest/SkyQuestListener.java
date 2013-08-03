@@ -72,7 +72,7 @@ public class SkyQuestListener implements Listener
 				Location loc = player.getLocation();
 				qd.setProgress(o.getID(), ObjectiveType.TRAVEL.getRadius(targ) + " " +
 					ObjectiveType.TRAVEL.getType(targ) + " " + loc.getX() + " " + loc.getZ() + " "
-					+ loc.getWorld().getName());
+					+ loc.getY() + " " + loc.getWorld().getName());
 			}
 		}
 	}
