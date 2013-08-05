@@ -1,7 +1,6 @@
 package net.skycraftmc.SkyQuest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import net.skycraftmc.SkyQuest.objective.ObjectiveType;
 
@@ -9,19 +8,17 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-public class QuestData
+public class QuestData extends QuestProgress
 {
-	private Quest q;
 	String stage;
-	ArrayList<String> unassigned = new ArrayList<String>();
-	HashMap<String, String> objprog = new HashMap<String, String>();
 	private String player;
 	private PlayerQuestLog log;
 	private boolean settingstage = false;
 	private String lateststage;
-	private CompletionState state = CompletionState.IN_PROGRESS;
 	protected QuestData(PlayerQuestLog log, Quest quest)
 	{
+		super(quest);
+		state = CompletionState.IN_PROGRESS;
 		q = quest;
 		this.log = log;
 		player = log.getPlayer();
@@ -48,13 +45,6 @@ public class QuestData
 			}
 		}
 	}
-	public String getProgress(String oid)
-	{
-		Objective o = q.getObjective(oid);
-		if(o == null)
-			throw new IllegalArgumentException("Quest \"" + q.getName() + "\" has no such objective: " + oid);
-		return objprog.get(oid);
-	}
 	public void setProgress(String oid, String progress)
 	{
 		Objective o = q.getObjective(oid);
@@ -76,21 +66,6 @@ public class QuestData
 			}
 		}
 		else objprog.put(oid, progress);
-	}
-	public Quest getQuest()
-	{
-		return q;
-	}
-	public boolean isComplete(String oid)
-	{
-		Objective o = q.getObjective(oid);
-		if(o == null)
-			throw new IllegalArgumentException("Quest \"" + q.getName() + "\" has no such objective: " + oid);
-		return !objprog.containsKey(o.getID()) && !unassigned.contains(oid);
-	}
-	public boolean isComplete()
-	{
-		return state != CompletionState.IN_PROGRESS;
 	}
 	public void markComplete(CompletionState state)
 	{

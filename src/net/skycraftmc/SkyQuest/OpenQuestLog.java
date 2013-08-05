@@ -156,7 +156,7 @@ public class OpenQuestLog
 				im.setDisplayName(tcol + o.getName() + " " + ps);
 				im.setLore(lore);
 				ostack.setItemMeta(im);
-				inv.setItem(i, ostack);
+				inv.setItem(i, createStack(o, cqd));
 			}
 			ItemStack back = new ItemStack(Material.BOOK_AND_QUILL);
 			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.BOOK_AND_QUILL);
@@ -178,34 +178,7 @@ public class OpenQuestLog
 			for(int i = 0; i < oa.length && i < 27; i ++)
 			{
 				Objective o = oa[i];
-				Material m = Material.getMaterial(o.getItemIconId());
-				if(m == null || m == Material.AIR)m = Material.getMaterial(o.getType().getItemIcon());
-				if(m == null || m == Material.AIR)m = Material.WRITTEN_BOOK;
-				ItemStack ostack = new ItemStack(m);
-				ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
-				boolean complete = qd.isComplete(o.getID());
-				ArrayList<String>lore = new ArrayList<String>();
-				String[] desc = o.getDescription();
-				for(String s:desc)lore.add(s);
-				if(o.isOptional())
-				{
-					if(desc.length > 0)lore.add("");
-					lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Optional");
-				}
-				if(complete)
-				{
-					String ps = o.getType().getProgressString(o.getTarget(), o.getTarget());
-					im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
-					lore.add(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed");
-				}
-				else
-				{
-					String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
-					im.setDisplayName(ChatColor.YELLOW + o.getName() + " " + ps);
-				}
-				im.setLore(lore);
-				ostack.setItemMeta(im);
-				inv.setItem(i, ostack);
+				inv.setItem(i, createStack(o, qd));
 			}
 			ItemStack back = new ItemStack(Material.BOOK_AND_QUILL);
 			ItemMeta bim = player.getServer().getItemFactory().getItemMeta(Material.BOOK_AND_QUILL);
@@ -248,5 +221,36 @@ public class OpenQuestLog
 		selected = null;
 		view = null;
 		inv = null;
+	}
+	private ItemStack createStack(Objective o, QuestProgress qd)
+	{
+		Material m = Material.getMaterial(o.getItemIconId());
+		if(m == null || m == Material.AIR)m = Material.getMaterial(o.getType().getItemIcon());
+		if(m == null || m == Material.AIR)m = Material.WRITTEN_BOOK;
+		ItemStack ostack = new ItemStack(m);
+		ItemMeta im = player.getServer().getItemFactory().getItemMeta(m);
+		boolean complete = qd.isComplete(o.getID());
+		ArrayList<String>lore = new ArrayList<String>();
+		String[] desc = o.getDescription();
+		for(String s:desc)lore.add(s);
+		if(o.isOptional())
+		{
+			if(desc.length > 0)lore.add("");
+			lore.add(ChatColor.GOLD + "" + ChatColor.ITALIC + "Optional");
+		}
+		if(complete)
+		{
+			String ps = o.getType().getProgressString(o.getTarget(), o.getTarget());
+			im.setDisplayName(ChatColor.GREEN + o.getName() + " " + ps);
+			lore.add(ChatColor.YELLOW + "" + ChatColor.ITALIC + "Completed");
+		}
+		else
+		{
+			String ps = o.getType().getProgressString(o.getTarget(), qd.getProgress(o.getID()));
+			im.setDisplayName(ChatColor.YELLOW + o.getName() + " " + ps);
+		}
+		im.setLore(lore);
+		ostack.setItemMeta(im);
+		return ostack;
 	}
 }
