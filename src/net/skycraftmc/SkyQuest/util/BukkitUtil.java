@@ -7,7 +7,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.lang.reflect.Method;
 
-import net.minecraft.server.v1_6_R2.NBTBase;
+import net.minecraft.server.v1_6_R3.NBTBase;
 import net.skycraftmc.SkyQuest.util.nbt.TagBase;
 
 import org.bukkit.Bukkit;
